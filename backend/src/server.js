@@ -127,7 +127,7 @@ app.get('/', (req, res) => {
       verification: '/api/verification',
       metadata: '/api/metadata'
     },
-    documentation: 'https://docs.certiproof-x.com/api',
+    documentation: 'https://github.com/Mickael972/CertiProofX/blob/main/docs/TECHNICAL_DOCUMENTATION.md',
     status: 'operational',
     timestamp: new Date().toISOString()
   });

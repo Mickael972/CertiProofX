@@ -393,6 +393,30 @@ nano frontend/.env   # Contract addresses, API URLs
 nano contracts/.env  # Private keys, API keys
 ```
 
+## 👨‍💻 Author
+
+**CertiProof X** has been created and developed by:
+
+### 🧬 **Kai Zenjiro**
+- **👨‍💻 GitHub**: [@Mickael972](https://github.com/Mickael972) 
+- **📧 Contact**: [certiproofx@protonmail.me](mailto:certiproofx@protonmail.me)
+- **🔗 Web3 Signature Address**: `0x1E274F39A44f1561b3Bb21148B9881075575676D`
+- **🎭 Also known as**: 0xGenesis (previous alias)
+
+### 📍 **Repository Information**
+- **🏠 Main Repository**: [https://github.com/Mickael972/CertiProofX](https://github.com/Mickael972/CertiProofX)
+- **🧬 Creator**: Kai Zenjiro is the original creator and main developer
+- **⚡ Development**: Active development and maintenance
+
+### 💝 **Support the Project**
+If you find this project useful, consider:
+- ⭐ **Starring** the repository
+- 🐛 **Reporting** bugs or issues
+- 💡 **Suggesting** new features
+- 🤝 **Contributing** to the codebase
+
+---
+
 ## 🤝 Contributing
 
 1. Fork the repository

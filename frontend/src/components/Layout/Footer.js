@@ -19,15 +19,15 @@ const Footer = () => {
       { name: t('footer.viewCertificates'), href: '/certificates' },
     ],
     resources: [
-      { name: t('footer.documentation'), href: 'https://docs.certiproof-x.com' },
-      { name: t('footer.apiReference'), href: 'https://docs.certiproof-x.com/api' },
-      { name: t('footer.smartContract'), href: 'https://mumbai.polygonscan.com/address/0x...' },
-      { name: 'GitHub', href: 'https://github.com/0xGenesis/certiproof-x' },
+      { name: t('footer.documentation'), href: 'https://github.com/Mickael972/CertiProofX/blob/main/README.md' },
+      { name: t('footer.apiReference'), href: 'https://github.com/Mickael972/CertiProofX/blob/main/docs/TECHNICAL_DOCUMENTATION.md' },
+      { name: t('footer.smartContract'), href: 'https://github.com/Mickael972/CertiProofX/blob/main/contracts/contracts/CertiProofNFT.sol' },
+      { name: 'GitHub', href: 'https://github.com/Mickael972/CertiProofX' },
     ],
     legal: [
       { name: t('footer.privacyPolicy'), href: '/privacy' },
       { name: t('footer.termsOfService'), href: '/terms' },
-      { name: t('footer.mitLicense'), href: 'https://github.com/0xGenesis/certiproof-x/blob/main/LICENSE' },
+      { name: t('footer.mitLicense'), href: 'https://github.com/Mickael972/CertiProofX/blob/main/LICENSE' },
     ],
   };
 

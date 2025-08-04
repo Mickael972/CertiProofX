@@ -163,8 +163,8 @@ const config = {
     contact: 'certiproofx@protonmail.me',
     wallet: '0x1E274F39A44f1561b3Bb21148B9881075575676D',
     license: 'MIT',
-    repository: 'https://github.com/0xGenesis/certiproof-x',
-    documentation: 'https://docs.certiproof-x.com'
+    repository: 'https://github.com/Mickael972/CertiProofX',
+    documentation: 'https://github.com/Mickael972/CertiProofX/blob/main/README.md'
   }
 };
 
