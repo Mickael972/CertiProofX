@@ -1,0 +1,164 @@
+{
+  "nav": {
+    "home": "Accueil",
+    "upload": "Télécharger",
+    "mint": "Créer NFT",
+    "verify": "Vérifier",
+    "certificates": "Certificats",
+    "about": "À propos",
+    "connectWallet": "Connecter Portefeuille",
+    "disconnect": "Déconnecter"
+  },
+  "home": {
+    "title": "Protocole de Preuve",
+    "subtitle": "Décentralisé",
+    "description": "Certifiez toute preuve numérique en utilisant la blockchain, IPFS et les signatures cryptographiques.",
+    "inspiration": "Inspiré par la révolution Bitcoin de la monnaie, nous révolutionnons la confiance numérique.",
+    "startMinting": "Commencer à Créer des Certificats",
+    "connectToStart": "Connecter le Portefeuille pour Commencer",
+    "verifyCertificate": "Vérifier un Certificat",
+    "trustedBy": "Gratuit • Open source • Sans inscription",
+    "features": {
+      "cryptographicSecurity": {
+        "title": "Sécurité Cryptographique",
+        "description": "Le hachage SHA-256 et l'immutabilité de la blockchain garantissent que vos preuves ne peuvent pas être altérées."
+      },
+      "decentralizedStorage": {
+        "title": "Stockage Décentralisé",
+        "description": "Les fichiers stockés sur IPFS garantissent une disponibilité permanente sans contrôle d'autorité centrale."
+      },
+      "nftCertificates": {
+        "title": "Certificats NFT",
+        "description": "Chaque preuve devient un NFT ERC-721, offrant propriété et transférabilité."
+      },
+      "privacyFirst": {
+        "title": "Confidentialité d'Abord",
+        "description": "Seuls les hachages des documents sont stockés on-chain, gardant les données sensibles privées."
+      },
+      "openSource": {
+        "title": "Open Source",
+        "description": "Entièrement open source sous licence MIT, transparent et dirigé par la communauté."
+      },
+      "instantVerification": {
+        "title": "Vérification Instantanée",
+        "description": "Les codes QR et les liens directs permettent une vérification instantanée des preuves partout."
+      }
+    },
+    "stats": {
+      "certificatesMinted": "Certificats Créés",
+      "documentsVerified": "Documents Vérifiés", 
+      "networksSupported": "Réseaux Supportés",
+      "fileFormats": "Formats de Fichiers"
+    },
+    "steps": {
+      "title": "Comment ça fonctionne",
+      "subtitle": "Trois étapes simples pour certifier vos documents",
+      "step1": {
+        "title": "Télécharger",
+        "description": "Téléchargez votre document sur notre plateforme sécurisée"
+      },
+      "step2": {
+        "title": "Hacher",
+        "description": "Génération automatique d'un hash cryptographique unique"
+      },
+      "step3": {
+        "title": "Partager & Vérifier",
+        "description": "Partagez votre certificat via code QR ou lien. Tout le monde peut vérifier son authenticité instantanément sur la blockchain."
+      }
+    },
+    "cta": {
+      "title": "Prêt à Créer Votre Premier Certificat ?",
+      "subtitle": "Rejoignez l'avenir décentralisé de la confiance numérique. Commencez à créer des certificats inaltérables dès aujourd'hui.",
+      "uploadFirst": "Télécharger Votre Premier Document",
+      "connectWallet": "Connecter le Portefeuille",
+      "learnMore": "En Savoir Plus"
+    },
+    "whyChoose": {
+      "title": "Pourquoi Choisir CertiProof X ?",
+      "subtitle": "Construit sur une technologie blockchain éprouvée avec un accent sur la sécurité, la confidentialité et la facilité d'utilisation."
+    }
+  },
+  "upload": {
+    "title": "Télécharger un Document",
+    "subtitle": "Sélectionnez le fichier que vous souhaitez certifier",
+    "dragAndDrop": "Glissez-déposez vos fichiers ici, ou cliquez pour sélectionner",
+    "supportedFormats": "Formats supportés: PDF, Images, Documents",
+    "maxSize": "Taille maximale: 50MB",
+    "processing": "Traitement en cours...",
+    "success": "Fichier téléchargé avec succès !",
+    "error": "Erreur lors du téléchargement"
+  },
+  "verify": {
+    "title": "Vérifier un Certificat",
+    "subtitle": "Entrez l'ID du token ou scannez le code QR",
+    "tokenId": "ID du Token",
+    "enterTokenId": "Entrez l'ID du token NFT",
+    "scanQR": "Scanner le Code QR",
+    "verify": "Vérifier",
+    "verifying": "Vérification en cours...",
+    "valid": "Certificat Valide",
+    "invalid": "Certificat Invalide",
+    "notFound": "Certificat non trouvé"
+  },
+  "mint": {
+    "title": "Créer un Certificat",
+    "subtitle": "Cette page est en cours de développement. La fonctionnalité de création sera bientôt disponible.",
+    "comingSoon": "Bientôt Disponible",
+    "inDevelopment": "L'interface de création de certificats est en cours de développement."
+  },
+  "certificates": {
+    "title": "Mes Certificats",
+    "subtitle": "Gérez tous vos certificats NFT",
+    "noCertificates": "Aucun certificat trouvé",
+    "loading": "Chargement des certificats..."
+  },
+  "about": {
+    "title": "À Propos de CertiProof X",
+    "subtitle": "Révolutionner la confiance numérique avec la blockchain"
+  },
+  "footer": {
+    "description": "Protocole de Preuve Décentralisé pour certifier les preuves numériques en utilisant la blockchain, IPFS et les signatures cryptographiques.",
+    "product": "Produit",
+    "resources": "Ressources",
+    "legal": "Légal",
+    "uploadDocuments": "Télécharger Documents",
+    "mintCertificates": "Créer Certificats",
+    "verifyProofs": "Vérifier Preuves",
+    "viewCertificates": "Voir Certificats",
+    "documentation": "Documentation",
+    "apiReference": "Référence API",
+    "smartContract": "Smart Contract",
+    "privacyPolicy": "Politique de Confidentialité",
+    "termsOfService": "Conditions d'Utilisation",
+    "mitLicense": "Licence MIT",
+    "allRightsReserved": "Tous droits réservés.",
+    "builtBy": "Créé par",
+    "poweredBy": "Alimenté par"
+  },
+  "common": {
+    "loading": "Chargement...",
+    "error": "Erreur",
+    "success": "Succès",
+    "cancel": "Annuler",
+    "continue": "Continuer",
+    "back": "Retour",
+    "next": "Suivant",
+    "save": "Enregistrer",
+    "delete": "Supprimer",
+    "edit": "Modifier",
+    "view": "Voir",
+    "download": "Télécharger",
+    "copy": "Copier",
+    "copied": "Copié !",
+    "share": "Partager",
+    "language": "Langue"
+  },
+  "errors": {
+    "networkError": "Erreur de réseau",
+    "walletNotConnected": "Portefeuille non connecté",
+    "transactionFailed": "Transaction échouée", 
+    "invalidFile": "Fichier invalide",
+    "fileTooLarge": "Fichier trop volumineux",
+    "unsupportedFormat": "Format non supporté"
+  }
+}

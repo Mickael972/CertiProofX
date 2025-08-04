@@ -1,0 +1,58 @@
+{
+  "name": "certiproof-x-contracts",
+  "version": "1.0.0",
+  "description": "Smart contracts for CertiProof X - Decentralized Proof Protocol",
+  "author": {
+    "name": "Kai Zenjiro (0xGenesis)",
+    "email": "certiproofx@protonmail.me",
+    "wallet": "0x1E274F39A44f1561b3Bb21148B9881075575676D"
+  },
+  "license": "MIT",
+  "scripts": {
+    "compile": "hardhat compile",
+    "test": "hardhat test",
+    "deploy:mumbai": "hardhat run scripts/deploy.js --network mumbai",
+    "deploy:polygon": "hardhat run scripts/deploy.js --network polygon",
+    "verify:mumbai": "hardhat run scripts/verify.js --network mumbai",
+    "verify:polygon": "hardhat run scripts/verify.js --network polygon",
+    "node": "hardhat node",
+    "console": "hardhat console",
+    "clean": "hardhat clean",
+    "coverage": "hardhat coverage",
+    "lint": "solhint 'contracts/**/*.sol'",
+    "lint:fix": "solhint 'contracts/**/*.sol' --fix",
+    "size": "hardhat size-contracts",
+    "gas": "hardhat test --grep 'gas'"
+  },
+  "devDependencies": {
+    "@nomicfoundation/hardhat-chai-matchers": "^2.0.8",
+    "@nomicfoundation/hardhat-network-helpers": "^1.0.12",
+    "@nomicfoundation/hardhat-toolbox": "^5.0.0",
+    "@nomicfoundation/hardhat-ethers": "^3.0.8",
+    "@nomicfoundation/hardhat-verify": "^2.0.11",
+    "@typechain/ethers-v6": "^0.5.1",
+    "@typechain/hardhat": "^9.1.0",
+    "chai": "^4.5.0",
+    "ethers": "^6.13.4",
+    "hardhat": "^2.22.17",
+    "hardhat-contract-sizer": "^2.10.0",
+    "hardhat-gas-reporter": "^1.0.10",
+    "solhint": "^5.0.3",
+    "solidity-coverage": "^0.8.15",
+    "typechain": "^8.3.2"
+  },
+  "dependencies": {
+    "@openzeppelin/contracts": "^5.1.0",
+    "@openzeppelin/contracts-upgradeable": "^5.1.0"
+  },
+  "keywords": [
+    "solidity",
+    "ethereum",
+    "polygon",
+    "smart-contracts",
+    "nft",
+    "erc721",
+    "proof",
+    "certification"
+  ]
+}

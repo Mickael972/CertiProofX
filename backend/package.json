@@ -1,0 +1,88 @@
+{
+  "name": "certiproof-x-backend",
+  "version": "1.0.0",
+  "description": "Backend API for CertiProof X - Decentralized Proof Protocol",
+  "author": {
+    "name": "Kai Zenjiro (0xGenesis)",
+    "email": "certiproofx@protonmail.me",
+    "wallet": "0x1E274F39A44f1561b3Bb21148B9881075575676D"
+  },
+  "license": "MIT",
+  "main": "src/server.js",
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "nodemon src/server.js",
+    "build": "echo 'No build step required for Node.js'",
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "test:coverage": "jest --coverage",
+    "lint": "eslint src/ --ext .js",
+    "lint:fix": "eslint src/ --ext .js --fix",
+    "format": "prettier --write src/**/*.js",
+    "docker:build": "docker build -t certiproof-x-backend .",
+    "docker:run": "docker run -p 3001:3001 certiproof-x-backend"
+  },
+  "dependencies": {
+    "express": "^4.21.1",
+    "cors": "^2.8.5",
+    "helmet": "^8.0.0",
+    "morgan": "^1.10.0",
+    "multer": "^1.4.5-lts.1",
+    "dotenv": "^16.4.5",
+    "qrcode": "^1.5.4",
+    "pdfkit": "^0.15.0",
+    "jimp": "^1.6.0",
+    "axios": "^1.7.7",
+    "web3.storage": "^4.5.5",
+    "ipfs-http-client": "^60.0.1",
+    "express-rate-limit": "^7.4.1",
+    "express-validator": "^7.2.0",
+    "compression": "^1.7.5",
+    "winston": "^3.17.0",
+    "express-winston": "^4.2.0",
+    "uuid": "^10.0.0",
+    "sharp": "^0.33.5",
+    "mime-types": "^2.1.35"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.7",
+    "jest": "^29.7.0",
+    "supertest": "^7.0.0",
+    "eslint": "^9.15.0",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-prettier": "^5.2.1",
+    "prettier": "^3.4.1"
+  },
+  "jest": {
+    "testEnvironment": "node",
+    "collectCoverageFrom": [
+      "src/**/*.js",
+      "!src/server.js"
+    ],
+    "coverageDirectory": "coverage",
+    "coverageReporters": [
+      "text",
+      "lcov",
+      "html"
+    ]
+  },
+  "keywords": [
+    "api",
+    "backend",
+    "ipfs",
+    "pdf",
+    "qrcode",
+    "certification",
+    "web3",
+    "blockchain"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/0xGenesis/certiproof-x.git",
+    "directory": "backend"
+  },
+  "engines": {
+    "node": ">=20.0.0",
+    "npm": ">=10.0.0"
+  }
+}

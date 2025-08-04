@@ -1,0 +1,164 @@
+{
+  "nav": {
+    "home": "Home",
+    "upload": "Upload", 
+    "mint": "Mint",
+    "verify": "Verify",
+    "certificates": "Certificates",
+    "about": "About",
+    "connectWallet": "Connect Wallet",
+    "disconnect": "Disconnect"
+  },
+  "home": {
+    "title": "Decentralized Proof",
+    "subtitle": "Protocol",
+    "description": "Certify any digital proof using blockchain, IPFS and cryptographic signatures.",
+    "inspiration": "Inspired by Bitcoin's revolution of money, we revolutionize digital trust.",
+    "startMinting": "Start Minting Certificates",
+    "connectToStart": "Connect Wallet to Start",
+    "verifyCertificate": "Verify a Certificate",
+    "trustedBy": "Free to use • Open source • No registration required",
+    "features": {
+      "cryptographicSecurity": {
+        "title": "Cryptographic Security",
+        "description": "SHA-256 hashing and blockchain immutability ensure your proofs cannot be tampered with."
+      },
+      "decentralizedStorage": {
+        "title": "Decentralized Storage", 
+        "description": "Files stored on IPFS ensure permanent availability without central authority control."
+      },
+      "nftCertificates": {
+        "title": "NFT Certificates",
+        "description": "Each proof becomes an ERC-721 NFT, providing ownership and transferability."
+      },
+      "privacyFirst": {
+        "title": "Privacy First",
+        "description": "Only document hashes are stored on-chain, keeping sensitive data private."
+      },
+      "openSource": {
+        "title": "Open Source",
+        "description": "Fully open source under MIT license, transparent and community-driven."
+      },
+      "instantVerification": {
+        "title": "Instant Verification",
+        "description": "QR codes and direct links enable instant proof verification anywhere."
+      }
+    },
+    "stats": {
+      "certificatesMinted": "Certificates Minted",
+      "documentsVerified": "Documents Verified",
+      "networksSupported": "Networks Supported", 
+      "fileFormats": "File Formats"
+    },
+    "steps": {
+      "title": "How it works",
+      "subtitle": "Three simple steps to certify your documents",
+      "step1": {
+        "title": "Upload",
+        "description": "Upload your document to our secure platform"
+      },
+      "step2": {
+        "title": "Hash",
+        "description": "Automatic generation of a unique cryptographic hash"
+      },
+      "step3": {
+        "title": "Share & Verify",
+        "description": "Share your certificate via QR code or link. Anyone can verify its authenticity instantly on the blockchain."
+      }
+    },
+    "cta": {
+      "title": "Ready to Create Your First Certificate?",
+      "subtitle": "Join the decentralized future of digital trust. Start minting tamper-proof certificates today.",
+      "uploadFirst": "Upload Your First Document",
+      "connectWallet": "Connect Wallet",
+      "learnMore": "Learn More"
+    },
+    "whyChoose": {
+      "title": "Why Choose CertiProof X?",
+      "subtitle": "Built on proven blockchain technology with a focus on security, privacy, and ease of use."
+    }
+  },
+  "upload": {
+    "title": "Upload Document",
+    "subtitle": "Select the file you want to certify",
+    "dragAndDrop": "Drag & drop your files here, or click to select",
+    "supportedFormats": "Supported formats: PDF, Images, Documents",
+    "maxSize": "Max size: 50MB",
+    "processing": "Processing...",
+    "success": "File uploaded successfully!",
+    "error": "Error uploading file"
+  },
+  "verify": {
+    "title": "Verify Certificate",
+    "subtitle": "Enter token ID or scan QR code",
+    "tokenId": "Token ID",
+    "enterTokenId": "Enter NFT token ID",
+    "scanQR": "Scan QR Code",
+    "verify": "Verify",
+    "verifying": "Verifying...",
+    "valid": "Valid Certificate",
+    "invalid": "Invalid Certificate",
+    "notFound": "Certificate not found"
+  },
+  "mint": {
+    "title": "Mint Certificate",
+    "subtitle": "This page is under development. The minting functionality will be available soon.",
+    "comingSoon": "Coming Soon",
+    "inDevelopment": "The certificate minting interface is being developed."
+  },
+  "certificates": {
+    "title": "My Certificates",
+    "subtitle": "Manage all your NFT certificates",
+    "noCertificates": "No certificates found",
+    "loading": "Loading certificates..."
+  },
+  "about": {
+    "title": "About CertiProof X",
+    "subtitle": "Revolutionizing digital trust with blockchain"
+  },
+  "footer": {
+    "description": "Decentralized Proof Protocol for certifying digital proofs using blockchain, IPFS and cryptographic signatures.",
+    "product": "Product",
+    "resources": "Resources", 
+    "legal": "Legal",
+    "uploadDocuments": "Upload Documents",
+    "mintCertificates": "Mint Certificates",
+    "verifyProofs": "Verify Proofs",
+    "viewCertificates": "View Certificates",
+    "documentation": "Documentation",
+    "apiReference": "API Reference",
+    "smartContract": "Smart Contract",
+    "privacyPolicy": "Privacy Policy",
+    "termsOfService": "Terms of Service",
+    "mitLicense": "MIT License",
+    "allRightsReserved": "All rights reserved.",
+    "builtBy": "Built by",
+    "poweredBy": "Powered by"
+  },
+  "common": {
+    "loading": "Loading...",
+    "error": "Error",
+    "success": "Success",
+    "cancel": "Cancel",
+    "continue": "Continue",
+    "back": "Back",
+    "next": "Next",
+    "save": "Save",
+    "delete": "Delete",
+    "edit": "Edit",
+    "view": "View",
+    "download": "Download",
+    "copy": "Copy",
+    "copied": "Copied!",
+    "share": "Share",
+    "language": "Language"
+  },
+  "errors": {
+    "networkError": "Network error",
+    "walletNotConnected": "Wallet not connected",
+    "transactionFailed": "Transaction failed",
+    "invalidFile": "Invalid file",
+    "fileTooLarge": "File too large",
+    "unsupportedFormat": "Unsupported format"
+  }
+}

@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#1e40af" />
+    <meta
+      name="description"
+      content="CertiProof X - Decentralized Proof Protocol. Open-source Web3 protocol for certifying digital proofs using blockchain, IPFS and cryptographic signatures."
+    />
+    <meta name="keywords" content="blockchain, NFT, IPFS, certification, proof, verification, Web3, Ethereum, Polygon" />
+    <meta name="author" content="Kai Zenjiro (0xGenesis)" />
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://certiproof-x.vercel.app/" />
+    <meta property="og:title" content="CertiProof X - Decentralized Proof Protocol" />
+    <meta property="og:description" content="Open-source Web3 protocol for certifying digital proofs using blockchain, IPFS and cryptographic signatures." />
+    <meta property="og:image" content="%PUBLIC_URL%/og-image.png" />
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image" />
+    <meta property="twitter:url" content="https://certiproof-x.vercel.app/" />
+    <meta property="twitter:title" content="CertiProof X - Decentralized Proof Protocol" />
+    <meta property="twitter:description" content="Open-source Web3 protocol for certifying digital proofs using blockchain, IPFS and cryptographic signatures." />
+    <meta property="twitter:image" content="%PUBLIC_URL%/og-image.png" />
+    
+    <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
+    <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
+    
+    <!-- Preconnect to external domains -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Security headers -->
+    <meta http-equiv="X-Content-Type-Options" content="nosniff">
+    <meta http-equiv="X-Frame-Options" content="DENY">
+    <meta http-equiv="X-XSS-Protection" content="1; mode=block">
+    
+    <title>CertiProof X - Decentralized Proof Protocol</title>
+    
+    <!-- Structured data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "CertiProof X",
+      "description": "Decentralized Proof Protocol for certifying digital proofs using blockchain technology",
+      "url": "https://certiproof-x.vercel.app",
+      "applicationCategory": "BlockchainApplication",
+      "operatingSystem": "Web",
+      "author": {
+        "@type": "Person",
+        "name": "Kai Zenjiro",
+        "email": "certiproofx@protonmail.me"
+      },
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      }
+    }
+    </script>
+  </head>
+  <body class="font-inter antialiased">
+    <noscript>
+      <div style="text-align: center; padding: 20px; background: #fee2e2; color: #991b1b; font-family: sans-serif;">
+        <h2>JavaScript Required</h2>
+        <p>You need to enable JavaScript to run CertiProof X.</p>
+        <p>This application requires JavaScript for Web3 functionality and blockchain interactions.</p>
+      </div>
+    </noscript>
+    
+    <!-- Loading screen -->
+    <div id="loading-screen" style="
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+      color: white;
+      font-family: 'Inter', sans-serif;
+    ">
+      <div style="
+        width: 60px;
+        height: 60px;
+        border: 3px solid rgba(255,255,255,0.3);
+        border-radius: 50%;
+        border-top-color: white;
+        animation: spin 1s ease-in-out infinite;
+        margin-bottom: 20px;
+      "></div>
+      <h2 style="margin: 0; font-size: 24px; font-weight: 600;">CertiProof X</h2>
+      <p style="margin: 10px 0 0 0; opacity: 0.8;">Loading Decentralized Proof Protocol...</p>
+    </div>
+    
+    <style>
+      @keyframes spin {
+        to { transform: rotate(360deg); }
+      }
+      
+      .font-inter {
+        font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Open Sans', 'Helvetica Neue', sans-serif;
+      }
+    </style>
+    
+    <div id="root"></div>
+    
+    <script>
+      // Hide loading screen when React app loads
+      window.addEventListener('load', function() {
+        setTimeout(function() {
+          const loadingScreen = document.getElementById('loading-screen');
+          if (loadingScreen) {
+            loadingScreen.style.opacity = '0';
+            loadingScreen.style.transition = 'opacity 0.5s ease-out';
+            setTimeout(function() {
+              loadingScreen.remove();
+            }, 500);
+          }
+        }, 1000);
+      });
+      
+      // Error handling
+      window.addEventListener('error', function(e) {
+        console.error('Global error:', e.error);
+      });
+      
+      window.addEventListener('unhandledrejection', function(e) {
+        console.error('Unhandled promise rejection:', e.reason);
+      });
+    </script>
+  </body>
+</html>
