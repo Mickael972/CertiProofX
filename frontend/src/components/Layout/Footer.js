@@ -62,21 +62,21 @@ const Footer = () => {
   ];
 
   return (
-    <footer className="bg-white border-t border-gray-200">
+    <footer className="bg-dark-900/95 backdrop-blur-sm" style={{ borderTop: 'none', marginTop: 0 }}>
       <div className="container-custom">
         <div className="py-12">
           {/* Main footer content */}
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
             {/* Brand section */}
             <div className="col-span-1 md:col-span-1">
-              <div className="flex items-center space-x-2 mb-4">
-                <div className="w-8 h-8 bg-gradient-to-br from-primary-500 to-primary-700 rounded-lg flex items-center justify-center">
-                  <span className="text-white font-bold text-sm">C</span>
+              <div className="flex items-center space-x-3 mb-4">
+                <div className="w-10 h-10 bg-gradient-to-br from-primary-500 to-primary-600 rounded-xl flex items-center justify-center shadow-lg shadow-primary-500/25">
+                  <span className="text-white font-bold text-lg font-poppins">C</span>
                 </div>
-                <span className="text-lg font-bold text-gray-900">CertiProof X</span>
+                <span className="text-xl font-bold text-white font-poppins">CertiProof X</span>
               </div>
-              <p className="text-sm text-gray-600 mb-4">
-                {t('footer.description')}
+              <p className="text-sm text-gray-400 mb-4">
+                Protocole de certification décentralisé pour l'authentification de documents sur blockchain
               </p>
               <div className="flex space-x-4">
                 {socialLinks.map((item) => (
@@ -85,7 +85,7 @@ const Footer = () => {
                     href={item.href}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-gray-400 hover:text-gray-500 transition-colors"
+                    className="text-gray-500 hover:text-primary-400 transition-colors"
                   >
                     <span className="sr-only">{item.name}</span>
                     {item.icon}
@@ -96,78 +96,111 @@ const Footer = () => {
 
             {/* Product links */}
             <div>
-              <h3 className="text-sm font-semibold text-gray-900 tracking-wider uppercase mb-4">
-                {t('footer.product')}
+              <h3 className="text-sm font-semibold text-white tracking-wider uppercase mb-4 font-poppins">
+                Fonctionnalités
               </h3>
               <ul className="space-y-3">
-                {footerLinks.product.map((item) => (
-                  <li key={item.name}>
-                    <Link
-                      to={item.href}
-                      className="text-sm text-gray-600 hover:text-gray-900 transition-colors"
-                    >
-                      {item.name}
-                    </Link>
-                  </li>
-                ))}
+                <li>
+                  <Link to="/upload" className="text-sm text-gray-400 hover:text-primary-400 transition-colors">
+                    Créer un certificat
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/verify" className="text-sm text-gray-400 hover:text-primary-400 transition-colors">
+                    Vérifier l'authenticité
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/certificates" className="text-sm text-gray-400 hover:text-primary-400 transition-colors">
+                    Mes certificats
+                  </Link>
+                </li>
               </ul>
             </div>
 
             {/* Resources links */}
             <div>
-              <h3 className="text-sm font-semibold text-gray-900 tracking-wider uppercase mb-4">
-                {t('footer.resources')}
+              <h3 className="text-sm font-semibold text-white tracking-wider uppercase mb-4 font-poppins">
+                Ressources
               </h3>
               <ul className="space-y-3">
-                {footerLinks.resources.map((item) => (
-                  <li key={item.name}>
-                    <a
-                      href={item.href}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-sm text-gray-600 hover:text-gray-900 transition-colors"
-                    >
-                      {item.name}
-                    </a>
-                  </li>
-                ))}
+                <li>
+                  <a
+                    href="https://github.com/0xGenesis/certiproof-x"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-sm text-gray-400 hover:text-primary-400 transition-colors"
+                  >
+                    Code source GitHub
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="https://github.com/0xGenesis/certiproof-x/blob/main/docs/TECHNICAL_DOCUMENTATION.md"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-sm text-gray-400 hover:text-primary-400 transition-colors"
+                  >
+                    Documentation technique
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="https://mumbai.polygonscan.com"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-sm text-gray-400 hover:text-primary-400 transition-colors"
+                  >
+                    Explorer Polygon Mumbai
+                  </a>
+                </li>
               </ul>
             </div>
 
             {/* Legal links */}
             <div>
-              <h3 className="text-sm font-semibold text-gray-900 tracking-wider uppercase mb-4">
-                {t('footer.legal')}
+              <h3 className="text-sm font-semibold text-white tracking-wider uppercase mb-4 font-poppins">
+                Légal
               </h3>
               <ul className="space-y-3">
-                {footerLinks.legal.map((item) => (
-                  <li key={item.name}>
-                    <a
-                      href={item.href}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-sm text-gray-600 hover:text-gray-900 transition-colors"
-                    >
-                      {item.name}
-                    </a>
-                  </li>
-                ))}
+                <li>
+                  <a
+                    href="https://github.com/0xGenesis/certiproof-x/blob/main/LICENSE"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-2 text-sm text-gray-400 hover:text-success-400 transition-colors"
+                  >
+                    <span className="inline-flex items-center gap-1 px-2 py-1 bg-success-500/20 text-success-400 text-xs font-medium rounded border border-success-500/30">
+                      MIT License
+                    </span>
+                  </a>
+                </li>
+                <li>
+                  <span className="text-sm text-gray-400">
+                    Open Source
+                  </span>
+                </li>
+                <li>
+                  <span className="text-sm text-gray-400">
+                    Décentralisé
+                  </span>
+                </li>
               </ul>
             </div>
           </div>
 
           {/* Bottom section */}
-          <div className="mt-8 pt-8 border-t border-gray-200">
+                              <div className="mt-8 pt-8">
             <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
               <div className="flex flex-col md:flex-row items-center space-y-2 md:space-y-0 md:space-x-4">
-                <p className="text-sm text-gray-600">
-                  © {currentYear} CertiProof X. {t('footer.allRightsReserved')}
+                <p className="text-sm text-gray-400">
+                  © {currentYear} CertiProof X. Tous droits réservés.
                 </p>
                 <p className="text-sm text-gray-500">
-                  {t('footer.builtBy')}{' '}
+                  Créé par{' '}
                   <a
                     href="mailto:certiproofx@protonmail.me"
-                    className="text-primary-600 hover:text-primary-500"
+                    className="text-primary-400 hover:text-primary-300 transition-colors"
                   >
                     Kai Zenjiro (0xGenesis)
                   </a>
@@ -175,13 +208,19 @@ const Footer = () => {
               </div>
               
               <div className="flex items-center space-x-4">
-                <span className="text-xs text-gray-500">{t('footer.poweredBy')}</span>
+                <span className="text-xs text-gray-500">Propulsé par</span>
                 <div className="flex items-center space-x-2">
-                  <span className="text-xs font-medium text-blockchain-ethereum">Ethereum</span>
-                  <span className="text-gray-300">•</span>
-                  <span className="text-xs font-medium text-blockchain-polygon">Polygon</span>
-                  <span className="text-gray-300">•</span>
-                  <span className="text-xs font-medium text-blockchain-ipfs">IPFS</span>
+                  <span className="inline-flex items-center gap-1 px-2 py-1 bg-purple-500/20 text-purple-400 text-xs font-medium rounded border border-purple-500/30">
+                    Polygon
+                  </span>
+                  <span className="text-gray-600">•</span>
+                  <span className="inline-flex items-center gap-1 px-2 py-1 bg-blue-500/20 text-blue-400 text-xs font-medium rounded border border-blue-500/30">
+                    IPFS
+                  </span>
+                  <span className="text-gray-600">•</span>
+                  <span className="inline-flex items-center gap-1 px-2 py-1 bg-orange-500/20 text-orange-400 text-xs font-medium rounded border border-orange-500/30">
+                    MetaMask
+                  </span>
                 </div>
               </div>
             </div>

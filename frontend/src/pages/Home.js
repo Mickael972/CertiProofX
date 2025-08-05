@@ -87,39 +87,39 @@ const Home = () => {
       </Helmet>
 
       {/* Hero Section */}
-      <section className="relative bg-gradient-to-br from-primary-600 via-primary-700 to-primary-800 text-white overflow-hidden">
+      <section className="relative bg-gradient-to-br from-dark-950 via-dark-900 to-primary-900 text-white overflow-hidden">
         <div className="absolute inset-0 bg-pattern opacity-10"></div>
         <div className="relative container-custom py-20 lg:py-28">
           <div className="text-center max-w-4xl mx-auto">
-            <h1 className="text-4xl md:text-6xl font-bold mb-6 leading-tight">
-              {t('home.title')}
-              <span className="block text-primary-200">{t('home.subtitle')}</span>
+            <h1 className="text-4xl md:text-6xl font-bold mb-6 leading-tight font-poppins">
+              Protocole de Preuve
+              <span className="block text-primary-400">Décentralisé</span>
             </h1>
-            <p className="text-xl md:text-2xl text-primary-100 mb-8 leading-relaxed">
-              {t('home.description')}
-              <span className="block mt-2">{t('home.inspiration')}</span>
+            <p className="text-xl md:text-2xl text-gray-300 mb-8 leading-relaxed">
+              Certifiez toute preuve numérique en utilisant la blockchain, IPFS et les signatures cryptographiques.
+              <span className="block mt-2 text-primary-300">Inspiré par la révolution Bitcoin de la monnaie, nous révolutionnons la confiance numérique.</span>
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               {isConnected ? (
                 <Link
                   to="/upload"
-                  className="btn btn-primary bg-white text-primary-700 hover:bg-gray-50 btn-lg"
+                  className="bg-white text-primary-600 hover:bg-gray-100 px-8 py-4 rounded-xl text-lg font-semibold transition-all shadow-lg hover:shadow-xl transform hover:scale-105 font-poppins"
                 >
-                  {t('home.startMinting')}
+                  🚀 Créer Mon Premier Certificat
                 </Link>
               ) : (
                 <button
                   onClick={connectWallet}
-                  className="btn btn-primary bg-white text-primary-700 hover:bg-gray-50 btn-lg"
+                  className="bg-white text-primary-600 hover:bg-gray-100 px-8 py-4 rounded-xl text-lg font-semibold transition-all shadow-lg hover:shadow-xl transform hover:scale-105 font-poppins"
                 >
-                  {t('home.connectToStart')}
+                  🦊 Connecter Mon Wallet
                 </button>
               )}
               <Link
                 to="/verify"
-                className="btn bg-transparent border-2 border-white text-white hover:bg-white hover:text-primary-700 btn-lg"
+                className="bg-dark-800/50 hover:bg-dark-700/50 text-white border border-gray-600 hover:border-primary-400 px-8 py-4 rounded-xl text-lg font-semibold transition-all backdrop-blur-sm transform hover:scale-105"
               >
-                {t('home.verifyCertificate')}
+                🔍 Vérifier un Certificat
               </Link>
             </div>
             <div className="mt-8 flex items-center justify-center space-x-2 text-sm text-primary-200">
@@ -133,16 +133,20 @@ const Home = () => {
       </section>
 
       {/* Stats Section */}
-      <section className="py-16 bg-white">
+      <section className="py-16 bg-dark-900/50 backdrop-blur-sm">
         <div className="container-custom">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
             {stats.map((stat, index) => (
               <div key={index} className="text-center">
-                <div className="text-3xl md:text-4xl font-bold text-primary-600 mb-2">
+                <div className="text-3xl md:text-4xl font-bold text-primary-500 mb-2 font-poppins">
                   {stat.value}
                 </div>
-                <div className="text-sm md:text-base text-gray-600">
-                  {stat.label}
+                <div className="text-sm md:text-base text-gray-400">
+                  {stat.label === 'Certificates Créés' ? 'Certificats Créés' :
+                   stat.label === 'Documents Vérifiés' ? 'Documents Vérifiés' :
+                   stat.label === 'Réseaux Supportés' ? 'Réseaux Supportés' :
+                   stat.label === 'Formats de Fichiers' ? 'Formats de Fichiers' :
+                   stat.label}
                 </div>
               </div>
             ))}
@@ -151,26 +155,62 @@ const Home = () => {
       </section>
 
       {/* Features Section */}
-      <section className="py-20 bg-gray-50">
-        <div className="container-custom">
+      <section className="py-20 bg-dark-950 relative" style={{ border: 'none', boxShadow: 'none', margin: 0, borderTop: 'none' }}>
+        <div className="absolute inset-0 bg-gradient-to-b from-dark-900/50 to-dark-950"></div>
+        <div className="container-custom relative">
           <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-              {t('home.whyChoose.title')}
+            <h2 className="text-3xl md:text-4xl font-bold text-white mb-6 font-poppins">
+              Révolutionner la Confiance Numérique
             </h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              {t('home.whyChoose.subtitle')}
+            <p className="text-xl text-gray-300 max-w-4xl mx-auto leading-relaxed">
+              Inspiré par la révolution Bitcoin de la monnaie, CertiProof X révolutionne la certification et la confiance dans le monde numérique grâce à la blockchain.
             </p>
           </div>
+          
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {features.map((feature, index) => (
-              <div key={index} className="card p-6 hover:shadow-lg transition-shadow">
-                <div className="w-12 h-12 bg-primary-100 rounded-lg flex items-center justify-center text-primary-600 mb-4">
+            {[
+              {
+                icon: "🛡️",
+                title: "Sécurité Cryptographique Absolue",
+                description: "Chaque document est protégé par un hash SHA-256 unique et des signatures cryptographiques inviolables, garantissant son intégrité pour l'éternité."
+              },
+              {
+                icon: "🌐", 
+                title: "Décentralisation IPFS",
+                description: "Stockage distribué sur le réseau IPFS mondial. Vos documents ne dépendent d'aucune autorité centrale et restent accessibles en permanence."
+              },
+              {
+                icon: "💎",
+                title: "Propriété NFT Prouvée",
+                description: "Transformation automatique en NFT sur Polygon. Chaque certificat devient un actif numérique unique dont vous êtes le propriétaire indiscutable."
+              },
+              {
+                icon: "🔒",
+                title: "Souveraineté des Données",
+                description: "Vos informations personnelles restent privées. Seule l'empreinte cryptographique est publique, préservant votre confidentialité absolue."
+              },
+              {
+                icon: "⚡",
+                title: "Vérification Instantanée",
+                description: "Validation en temps réel de l'authenticité via QR code ou hash. La vérité devient accessible à tous, instantanément et sans intermédiaire."
+              },
+              {
+                icon: "🚀",
+                title: "Révolution Open Source",
+                description: "Code entièrement ouvert, auditable et transparent. Construit par la communauté pour une nouvelle ère de confiance décentralisée."
+              }
+            ].map((feature, index) => (
+              <div 
+                key={index} 
+                className="bg-gradient-to-br from-dark-900/80 to-dark-800/80 backdrop-blur-sm rounded-2xl p-8 border border-gray-700/30 hover:border-primary-500/50 transition-all duration-300 group"
+              >
+                <div className="text-5xl mb-6 group-hover:scale-110 transition-transform duration-300">
                   {feature.icon}
                 </div>
-                <h3 className="text-xl font-semibold text-gray-900 mb-3">
+                <h3 className="text-xl font-bold text-white mb-4 font-poppins group-hover:text-primary-400 transition-colors">
                   {feature.title}
                 </h3>
-                <p className="text-gray-600 leading-relaxed">
+                <p className="text-gray-400 leading-relaxed group-hover:text-gray-300 transition-colors">
                   {feature.description}
                 </p>
               </div>
@@ -180,42 +220,42 @@ const Home = () => {
       </section>
 
       {/* How It Works Section */}
-      <section className="py-20 bg-white">
+      <section className="py-20 bg-dark-900/30 backdrop-blur-sm" style={{ border: 'none', boxShadow: 'none', margin: 0, borderTop: 'none' }}>
         <div className="container-custom">
           <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-              {t('home.steps.title')}
+            <h2 className="text-3xl md:text-4xl font-bold text-white mb-6 font-poppins">
+              Comment Ça Fonctionne
             </h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              {t('home.steps.subtitle')}
+            <p className="text-xl text-gray-300 max-w-3xl mx-auto">
+              Trois étapes simples pour sécuriser vos documents sur la blockchain
             </p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div className="text-center">
-              <div className="w-16 h-16 bg-primary-600 rounded-full flex items-center justify-center text-white text-2xl font-bold mx-auto mb-6">
+            <div className="text-center group">
+              <div className="w-20 h-20 bg-gradient-to-br from-primary-500 to-primary-600 rounded-full flex items-center justify-center text-white text-3xl font-bold mx-auto mb-6 shadow-lg shadow-primary-500/25 group-hover:scale-110 transition-transform font-poppins">
                 1
               </div>
-              <h3 className="text-xl font-semibold text-gray-900 mb-4">{t('home.steps.step1.title')}</h3>
-              <p className="text-gray-600">
-                {t('home.steps.step1.description')}
+              <h3 className="text-xl font-semibold text-white mb-4 font-poppins">Télécharger</h3>
+              <p className="text-gray-400 leading-relaxed">
+                Uploadez votre document (PDF, image, texte). Le système calcule automatiquement son empreinte SHA-256 unique.
               </p>
             </div>
-            <div className="text-center">
-              <div className="w-16 h-16 bg-primary-600 rounded-full flex items-center justify-center text-white text-2xl font-bold mx-auto mb-6">
+            <div className="text-center group">
+              <div className="w-20 h-20 bg-gradient-to-br from-success-500 to-success-600 rounded-full flex items-center justify-center text-white text-3xl font-bold mx-auto mb-6 shadow-lg shadow-success-500/25 group-hover:scale-110 transition-transform font-poppins">
                 2
               </div>
-              <h3 className="text-xl font-semibold text-gray-900 mb-4">{t('home.steps.step2.title')}</h3>
-              <p className="text-gray-600">
-                {t('home.steps.step2.description')}
+              <h3 className="text-xl font-semibold text-white mb-4 font-poppins">Certifier</h3>
+              <p className="text-gray-400 leading-relaxed">
+                Générez votre certificat blockchain et mintez un NFT unique. Votre document est stocké de manière décentralisée sur IPFS.
               </p>
             </div>
-            <div className="text-center">
-              <div className="w-16 h-16 bg-primary-600 rounded-full flex items-center justify-center text-white text-2xl font-bold mx-auto mb-6">
+            <div className="text-center group">
+              <div className="w-20 h-20 bg-gradient-to-br from-purple-500 to-purple-600 rounded-full flex items-center justify-center text-white text-3xl font-bold mx-auto mb-6 shadow-lg shadow-purple-500/25 group-hover:scale-110 transition-transform font-poppins">
                 3
               </div>
-              <h3 className="text-xl font-semibold text-gray-900 mb-4">{t('home.steps.step3.title')}</h3>
-              <p className="text-gray-600">
-                {t('home.steps.step3.description')}
+              <h3 className="text-xl font-semibold text-white mb-4 font-poppins">Vérifier</h3>
+              <p className="text-gray-400 leading-relaxed">
+                Partagez le QR code ou le hash pour permettre à quiconque de vérifier instantanément l'authenticité de votre document.
               </p>
             </div>
           </div>
@@ -223,35 +263,36 @@ const Home = () => {
       </section>
 
       {/* CTA Section */}
-      <section className="py-20 bg-gradient-to-r from-primary-600 to-primary-800 text-white">
-        <div className="container-custom text-center">
-          <h2 className="text-3xl md:text-4xl font-bold mb-6">
-            {t('home.cta.title')}
+      <section className="relative bg-gradient-to-br from-dark-950 via-dark-900 to-primary-900 text-white overflow-hidden py-20" style={{ marginTop: 0, borderTop: 'none' }}>
+        <div className="absolute inset-0 bg-pattern opacity-10"></div>
+        <div className="container-custom text-center relative">
+          <h2 className="text-3xl md:text-4xl font-bold mb-6 text-white font-poppins">
+            Prêt à Créer Votre Premier Certificat ?
           </h2>
-          <p className="text-xl text-primary-100 mb-8 max-w-2xl mx-auto">
-            {t('home.cta.subtitle')}
+          <p className="text-xl text-gray-200 mb-8 max-w-2xl mx-auto leading-relaxed">
+            Rejoignez la révolution de la confiance décentralisée. Sécurisez vos documents sur la blockchain en quelques clics.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             {isConnected ? (
               <Link
                 to="/upload"
-                className="btn bg-white text-primary-700 hover:bg-gray-50 btn-lg"
+                className="bg-white text-primary-600 hover:bg-gray-100 px-8 py-4 rounded-xl text-lg font-semibold transition-all shadow-lg hover:shadow-xl transform hover:scale-105 font-poppins"
               >
-                {t('home.cta.uploadFirst')}
+                🚀 Créer Mon Certificat
               </Link>
             ) : (
               <button
                 onClick={connectWallet}
-                className="btn bg-white text-primary-700 hover:bg-gray-50 btn-lg"
+                className="bg-white text-primary-600 hover:bg-gray-100 px-8 py-4 rounded-xl text-lg font-semibold transition-all shadow-lg hover:shadow-xl transform hover:scale-105 font-poppins"
               >
-                {t('home.cta.connectWallet')}
+                🦊 Connecter Mon Wallet
               </button>
             )}
             <Link
               to="/about"
-              className="btn bg-transparent border-2 border-white text-white hover:bg-white hover:text-primary-700 btn-lg"
+              className="bg-transparent border-2 border-white text-white hover:bg-white hover:text-primary-600 px-8 py-4 rounded-xl text-lg font-semibold transition-all font-poppins"
             >
-              {t('home.cta.learnMore')}
+              En Savoir Plus
             </Link>
           </div>
         </div>

@@ -20,13 +20,13 @@ const Layout = ({ children }) => {
   const isMinimal = minimalPages.some(page => location.pathname.startsWith(page));
 
   return (
-    <div className="min-h-screen flex flex-col">
+    <div className="min-h-screen flex flex-col" style={{ border: 'none', boxShadow: 'none', gap: 0, margin: 0 }}>
       {/* Header */}
       <Header />
       
       {/* Main content */}
-      <main className={`flex-1 ${isFullScreen ? '' : 'pb-8'}`}>
-        <div className={isMinimal ? 'container-custom' : ''}>
+      <main className={`flex-1 ${isFullScreen ? '' : ''}`} style={{ border: 'none', boxShadow: 'none', margin: 0, padding: 0 }}>
+        <div className={isMinimal ? 'container-custom' : ''} style={{ border: 'none', boxShadow: 'none' }}>
           {children}
         </div>
       </main>

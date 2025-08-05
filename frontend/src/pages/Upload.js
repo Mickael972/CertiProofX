@@ -9,6 +9,7 @@ import { useNavigate } from 'react-router-dom';
 import toast from 'react-hot-toast';
 import { useWeb3 } from '../contexts/Web3Context';
 import LoadingSpinner from '../components/UI/LoadingSpinner';
+import UploadDocument from '../components/UploadDocument';
 
 const Upload = () => {
   const navigate = useNavigate();
@@ -103,28 +104,28 @@ const Upload = () => {
         <meta name="description" content="Upload your document to create a blockchain certificate" />
       </Helmet>
 
-      <div className="min-h-screen bg-gray-50 py-12">
+      <div className="min-h-screen bg-dark-950 py-12">
         <div className="container-custom">
           <div className="max-w-2xl mx-auto">
             <div className="text-center mb-8">
-              <h1 className="text-3xl font-bold text-gray-900 mb-4">
-                Upload Your Document
+              <h1 className="text-3xl font-bold text-white mb-4 font-poppins">
+                Créer un Certificat
               </h1>
-              <p className="text-lg text-gray-600">
-                Select a file to create a tamper-proof blockchain certificate
+              <p className="text-lg text-gray-300">
+                Sélectionnez un fichier pour créer un certificat blockchain inviolable
               </p>
             </div>
 
-            <div className="card p-8">
+            <div className="bg-dark-900/80 backdrop-blur-sm rounded-2xl border border-gray-700 p-8">
               {/* Connection Check */}
               {!isConnected && (
-                <div className="mb-6 p-4 bg-warning-50 border border-warning-200 rounded-lg">
+                <div className="mb-6 p-4 bg-yellow-500/20 border border-yellow-500/30 rounded-xl">
                   <div className="flex items-center">
-                    <svg className="w-5 h-5 text-warning-600 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                    <svg className="w-5 h-5 text-yellow-400 mr-2" fill="currentColor" viewBox="0 0 20 20">
                       <path fillRule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
                     </svg>
-                    <span className="text-warning-800">
-                      Please connect your wallet to upload documents
+                    <span className="text-yellow-300">
+                      Veuillez connecter votre wallet pour télécharger des documents
                     </span>
                   </div>
                 </div>
@@ -149,33 +150,35 @@ const Upload = () => {
                 />
                 
                 <div className="text-center">
-                  <svg className="w-12 h-12 mx-auto text-gray-400 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
-                  </svg>
-                  <p className="text-lg font-medium text-gray-900 mb-2">
-                    {dragActive ? 'Drop your file here' : 'Drag and drop your file'}
+                  <div className="w-16 h-16 mx-auto bg-primary-500/20 rounded-full flex items-center justify-center mb-6">
+                    <svg className="w-8 h-8 text-primary-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
+                    </svg>
+                  </div>
+                  <p className="text-lg font-medium text-white mb-2 font-poppins">
+                    {dragActive ? 'Déposez votre fichier ici' : 'Glissez-déposez votre fichier'}
                   </p>
-                  <p className="text-sm text-gray-600 mb-4">
-                    or click to browse
+                  <p className="text-sm text-gray-400 mb-4">
+                    ou cliquez pour parcourir
                   </p>
                   <p className="text-xs text-gray-500">
-                    PDF, JPG, PNG, GIF, TXT up to 50MB
+                    PDF, JPG, PNG, GIF, TXT jusqu'à 50MB
                   </p>
                 </div>
               </div>
 
               {/* Selected File Info */}
               {file && (
-                <div className="mt-6 p-4 bg-success-50 border border-success-200 rounded-lg">
+                <div className="mt-6 p-4 bg-success-500/20 border border-success-500/30 rounded-xl">
                   <div className="flex items-center">
-                    <svg className="w-5 h-5 text-success-600 mr-3" fill="currentColor" viewBox="0 0 20 20">
+                    <svg className="w-5 h-5 text-success-400 mr-3" fill="currentColor" viewBox="0 0 20 20">
                       <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
                     </svg>
                     <div>
-                      <p className="text-sm font-medium text-success-800">
+                      <p className="text-sm font-medium text-success-300">
                         {file.name}
                       </p>
-                      <p className="text-xs text-success-600">
+                      <p className="text-xs text-success-400">
                         {(file.size / 1024 / 1024).toFixed(2)} MB
                       </p>
                     </div>
@@ -188,23 +191,23 @@ const Upload = () => {
                 <button
                   onClick={handleUpload}
                   disabled={!file || !isConnected || uploading}
-                  className="btn btn-primary btn-lg disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="bg-primary-500 hover:bg-primary-600 disabled:bg-gray-600 disabled:cursor-not-allowed text-white px-8 py-4 rounded-xl text-lg font-medium transition-all shadow-lg hover:shadow-primary-500/25 disabled:opacity-50"
                 >
                   {uploading ? (
                     <>
                       <LoadingSpinner size="sm" color="white" className="mr-2" />
-                      Uploading...
+                      Téléchargement...
                     </>
                   ) : (
-                    'Continue to Mint Certificate'
+                    'Continuer vers le Certificat'
                   )}
                 </button>
               </div>
 
               {/* Info */}
-              <div className="mt-8 text-center text-sm text-gray-600">
+              <div className="mt-8 text-center text-sm text-gray-400">
                 <p>
-                  Your file will be hashed locally for security. Only the hash is stored on the blockchain.
+                  Votre fichier sera haché localement pour la sécurité. Seul le hash est stocké sur la blockchain.
                 </p>
               </div>
             </div>

@@ -20,18 +20,18 @@ const LoadingSpinner = ({
   };
 
   const colorClasses = {
-    primary: 'border-primary-600',
+    primary: 'border-primary-500',
     white: 'border-white',
     gray: 'border-gray-600',
-    success: 'border-success-600',
-    error: 'border-error-600'
+    success: 'border-success-500',
+    error: 'border-error-500'
   };
 
   const spinnerClasses = `
     ${sizeClasses[size]} 
-    border-2 border-gray-200 border-t-2 
+    border-2 border-gray-600 border-t-2 
     ${colorClasses[color]} 
-    rounded-full animate-spin
+    rounded-full animate-spin shadow-lg shadow-primary-500/25
     ${className}
   `;
 
@@ -39,7 +39,7 @@ const LoadingSpinner = ({
     <div className={`flex flex-col items-center justify-center ${text ? 'space-y-3' : ''}`}>
       <div className={spinnerClasses}></div>
       {text && (
-        <p className="text-sm text-gray-600 animate-pulse">
+        <p className="text-sm text-gray-400 animate-pulse">
           {text}
         </p>
       )}
@@ -48,7 +48,7 @@ const LoadingSpinner = ({
 
   if (fullScreen) {
     return (
-      <div className="fixed inset-0 bg-white bg-opacity-75 flex items-center justify-center z-50">
+      <div className="fixed inset-0 bg-dark-950 bg-opacity-95 flex items-center justify-center z-50">
         {content}
       </div>
     );

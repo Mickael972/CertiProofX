@@ -14,48 +14,48 @@ const About = () => {
         <meta name="description" content="Learn about CertiProof X, the decentralized proof protocol" />
       </Helmet>
 
-      <div className="min-h-screen bg-gray-50 py-12">
+      <div className="min-h-screen bg-dark-950 py-12">
         <div className="container-custom">
           <div className="max-w-4xl mx-auto">
             <div className="text-center mb-12">
-              <h1 className="text-4xl font-bold text-gray-900 mb-4">
-                About CertiProof X
+              <h1 className="text-4xl font-bold text-white mb-4 font-poppins">
+                À Propos de CertiProof X
               </h1>
-              <p className="text-xl text-gray-600">
-                Revolutionizing digital trust through blockchain technology
+              <p className="text-xl text-gray-300">
+                Révolutionner la confiance numérique grâce à la technologie blockchain
               </p>
             </div>
 
             <div className="space-y-8">
               {/* Mission */}
-              <div className="card p-8">
-                <h2 className="text-2xl font-bold text-gray-900 mb-4">Our Mission</h2>
-                <p className="text-gray-600 leading-relaxed">
-                  CertiProof X aims to revolutionize digital trust by providing a decentralized, 
-                  tamper-proof system for certifying any digital proof. Inspired by Bitcoin's 
-                  revolution of money, we're building the future of digital verification.
+              <div className="bg-dark-900/80 backdrop-blur-sm rounded-2xl border border-gray-700 p-8">
+                <h2 className="text-2xl font-bold text-white mb-4 font-poppins">Notre Mission</h2>
+                <p className="text-gray-300 leading-relaxed">
+                  CertiProof X vise à révolutionner la confiance numérique en fournissant un système décentralisé 
+                  et inviolable pour certifier toute preuve numérique. Inspiré par la révolution Bitcoin de la monnaie, 
+                  nous construisons l'avenir de la vérification numérique.
                 </p>
               </div>
 
               {/* Technology */}
-              <div className="card p-8">
-                <h2 className="text-2xl font-bold text-gray-900 mb-6">Technology Stack</h2>
+              <div className="bg-dark-900/80 backdrop-blur-sm rounded-2xl border border-gray-700 p-8">
+                <h2 className="text-2xl font-bold text-white mb-6 font-poppins">Stack Technologique</h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <div>
-                    <h3 className="text-lg font-semibold text-gray-900 mb-2">Blockchain</h3>
-                    <p className="text-gray-600">Ethereum and Polygon networks ensure immutability and decentralization</p>
+                  <div className="bg-dark-800/50 rounded-xl p-6 border border-gray-600/50">
+                    <h3 className="text-lg font-semibold text-primary-400 mb-2 font-poppins">🔗 Blockchain</h3>
+                    <p className="text-gray-300">Les réseaux Ethereum et Polygon garantissent l'immuabilité et la décentralisation</p>
                   </div>
-                  <div>
-                    <h3 className="text-lg font-semibold text-gray-900 mb-2">IPFS</h3>
-                    <p className="text-gray-600">Distributed storage for permanent file availability</p>
+                  <div className="bg-dark-800/50 rounded-xl p-6 border border-gray-600/50">
+                    <h3 className="text-lg font-semibold text-primary-400 mb-2 font-poppins">🌐 IPFS</h3>
+                    <p className="text-gray-300">Stockage distribué pour une disponibilité permanente des fichiers</p>
                   </div>
-                  <div>
-                    <h3 className="text-lg font-semibold text-gray-900 mb-2">NFTs</h3>
-                    <p className="text-gray-600">ERC-721 tokens represent ownership and authenticity</p>
+                  <div className="bg-dark-800/50 rounded-xl p-6 border border-gray-600/50">
+                    <h3 className="text-lg font-semibold text-primary-400 mb-2 font-poppins">💎 NFTs</h3>
+                    <p className="text-gray-300">Les tokens ERC-721 représentent la propriété et l'authenticité</p>
                   </div>
-                  <div>
-                    <h3 className="text-lg font-semibold text-gray-900 mb-2">Cryptography</h3>
-                    <p className="text-gray-600">SHA-256 hashing for document integrity verification</p>
+                  <div className="bg-dark-800/50 rounded-xl p-6 border border-gray-600/50">
+                    <h3 className="text-lg font-semibold text-primary-400 mb-2 font-poppins">🔐 Cryptographie</h3>
+                    <p className="text-gray-300">Hashage SHA-256 pour la vérification de l'intégrité des documents</p>
                   </div>
                 </div>
               </div>

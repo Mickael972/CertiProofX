@@ -8,16 +8,33 @@ module.exports = {
     extend: {
       fontFamily: {
         'inter': ['Inter', 'sans-serif'],
+        'poppins': ['Poppins', 'sans-serif'],
+        'sora': ['Sora', 'sans-serif'],
+        'sans': ['Inter', 'Open Sans', 'sans-serif'],
       },
       colors: {
-        // Primary brand colors
+        // CertiProof X Dark Theme Colors
+        dark: {
+          50: '#fafafa',
+          100: '#f4f4f5',
+          200: '#e4e4e7',
+          300: '#d4d4d8',
+          400: '#a1a1aa',
+          500: '#71717a',
+          600: '#52525b',
+          700: '#3f3f46',
+          800: '#27272a',
+          900: '#18181b',
+          950: '#0D0D0D', // Fond principal noir profond
+        },
+        // Primary electric blue
         primary: {
-          50: '#eff6ff',
-          100: '#dbeafe',
-          200: '#bfdbfe',
-          300: '#93c5fd',
-          400: '#60a5fa',
-          500: '#3b82f6',
+          50: '#eff8ff',
+          100: '#dbeefe',
+          200: '#bfe3fd',
+          300: '#93d2fc',
+          400: '#60b8f9',
+          500: '#4B9EFF', // Bleu électrique principal
           600: '#2563eb',
           700: '#1d4ed8',
           800: '#1e40af',
@@ -36,14 +53,14 @@ module.exports = {
           800: '#1e293b',
           900: '#0f172a',
         },
-        // Success colors
+        // Success/validation green
         success: {
           50: '#f0fdf4',
           100: '#dcfce7',
           200: '#bbf7d0',
           300: '#86efac',
           400: '#4ade80',
-          500: '#22c55e',
+          500: '#28C76F', // Vert validation principal
           600: '#16a34a',
           700: '#15803d',
           800: '#166534',

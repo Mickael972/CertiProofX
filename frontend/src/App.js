@@ -26,11 +26,18 @@ const Verify = lazy(() => import('./pages/Verify'));
 const Certificates = lazy(() => import('./pages/Certificates'));
 const About = lazy(() => import('./pages/About'));
 const NotFound = lazy(() => import('./pages/NotFound'));
+const ExampleUsage = lazy(() => import('./pages/ExampleUsage'));
 
 // Loading fallback component
 const PageLoader = () => (
-  <div className="min-h-screen flex items-center justify-center">
-    <LoadingSpinner size="lg" />
+  <div className="min-h-screen bg-dark-950 flex items-center justify-center">
+    <div className="text-center space-y-6">
+      <div className="w-16 h-16 bg-gradient-to-br from-primary-500 to-primary-600 rounded-xl flex items-center justify-center mx-auto shadow-lg shadow-primary-500/25">
+        <span className="text-white font-bold text-2xl font-poppins">C</span>
+      </div>
+      <LoadingSpinner size="lg" />
+      <p className="text-gray-400 font-medium">Chargement de CertiProof X...</p>
+    </div>
   </div>
 );
 
@@ -41,8 +48,13 @@ function App() {
         <I18nProvider>
           <AppProvider>
             <Web3Provider>
-            <Router>
-              <div className="App min-h-screen bg-gray-50">
+            <Router 
+              future={{ 
+                v7_startTransition: true,
+                v7_relativeSplatPath: true 
+              }}
+            >
+              <div className="App min-h-screen bg-dark-950">
                 {/* Toast notifications */}
                 <Toaster
                   position="top-right"
@@ -91,6 +103,7 @@ function App() {
                       <Route path="/verify/:tokenId" element={<Verify />} />
                       <Route path="/certificates" element={<Certificates />} />
                       <Route path="/about" element={<About />} />
+                      <Route path="/demo" element={<ExampleUsage />} />
                       
                       {/* Certificate specific routes */}
                       <Route path="/certificate/:tokenId" element={<Verify />} />

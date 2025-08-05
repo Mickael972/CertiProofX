@@ -1,0 +1,47 @@
+/* Override CSS pour éliminer définitivement la barre noire */
+
+/* Suppression complète de toutes les bordures et ombres */
+* {
+  border: none !important;
+  border-top: none !important;
+  border-bottom: none !important;
+  box-shadow: none !important;
+  outline: none !important;
+}
+
+/* Suppression spécifique pour les éléments de layout */
+section,
+footer,
+header,
+main,
+.container-custom {
+  border: none !important;
+  border-top: none !important;
+  border-bottom: none !important;
+  box-shadow: none !important;
+  outline: none !important;
+  margin-top: 0 !important;
+  margin-bottom: 0 !important;
+}
+
+/* Force la suppression des classes Tailwind problématiques */
+.shadow-lg,
+.shadow-xl,
+.shadow-2xl,
+.shadow,
+.border-t,
+.border-b,
+.border-gray-800,
+.border-gray-700,
+.border-gray-600 {
+  border: none !important;
+  box-shadow: none !important;
+}
+
+/* Suppression des pseudo-éléments qui pourraient créer des lignes */
+*::before,
+*::after {
+  border: none !important;
+  box-shadow: none !important;
+  background: transparent !important;
+}
