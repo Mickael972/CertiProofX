@@ -3,7 +3,7 @@
  * Author: Kai Zenjiro (0xGenesis) - certiproofx@protonmail.me
  */
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   Shield,
@@ -47,153 +47,157 @@ const VerifyCertificate = ({ initialHash = '', onVerificationComplete }) => {
   };
 
   // Fonction de vérification
-  const handleVerification = useCallback(async (value = inputValue) => {
-    if (!value.trim()) {
-      toast.error(t('verify.pleaseEnterValue'));
-      return;
-    }
-
-    setIsVerifying(true);
-    const detectedType = detectInputType(value);
-    setInputType(detectedType);
-
-    try {
-      // Simulation d'un appel API de vérification
-      await new Promise((resolve) => setTimeout(resolve, 1500));
-
-      // 1. D'abord, chercher dans les certificats de l'utilisateur (localStorage)
-      const savedCerts = JSON.parse(
-        localStorage.getItem('userCertificates') || '[]'
-      );
-      const userCert = savedCerts.find(
-        (cert) =>
-          cert.hash === value ||
-          cert.tokenId === value ||
-          cert.walletAddress === value ||
-          cert.id === value
-      );
-
-      if (userCert) {
-        // Certificat utilisateur trouvé - retourner les vraies données
-        const userResult = {
-          isValid: true,
-          certificate: {
-            ...userCert,
-            isVerified: true,
-          },
-          isUserCertificate: true,
-        };
-        setResult(userResult);
-        onVerificationComplete?.(userResult);
-        toast.success(`🎉 ${t('verify.yourCertificateVerified')}`);
+  const handleVerification = useCallback(
+    async (value = inputValue) => {
+      if (!value.trim()) {
+        toast.error(t('verify.pleaseEnterValue'));
         return;
       }
 
-      // 2. Vérifier dans les certificats d'exemple
-      const exampleCertificates = [
-        {
-          id: 'cert_kai_001',
-          name: "Master's Degree Certificate",
-          description: 'Computer Science with Blockchain Specialization',
-          hash: '0x1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef',
-          walletAddress: '0x1E274F39A44f1561b3Bb21148B9881075575676D',
-          createdAt: '2025-08-03T10:30:00.000Z',
-          ipfsHash: 'QmKaiZenjiroMasterDegree2025',
-          tokenId: '42',
-          isVerified: true,
-          contractAddress: '0xabcdef1234567890abcdef1234567890abcdef12',
-          network: 'mumbai',
-          transactionHash:
-            '0x1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef',
-          issuer: "École Supérieure d'Informatique",
-        },
-        {
-          id: 'cert_kai_002',
-          name: 'Blockchain Developer Certificate',
-          description: 'Full-Stack Blockchain Development Certification',
-          hash: '0xabcdef1234567890abcdef1234567890abcdef1234567890abcdef1234567890',
-          walletAddress: '0x1E274F39A44f1561b3Bb21148B9881075575676D',
-          createdAt: '2025-07-15T14:20:00.000Z',
-          ipfsHash: 'QmKaiZenjiroBlockchainDev2025',
-          tokenId: '43',
-          isVerified: true,
-          contractAddress: '0xabcdef1234567890abcdef1234567890abcdef12',
-          network: 'mumbai',
-          transactionHash:
-            '0x234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef',
-          issuer: "École Supérieure d'Informatique",
-        },
-      ];
+      setIsVerifying(true);
+      const detectedType = detectInputType(value);
+      setInputType(detectedType);
 
-      const exampleCert = exampleCertificates.find(
-        (cert) =>
-          cert.hash === value ||
-          cert.tokenId === value ||
-          cert.walletAddress === value ||
-          cert.id === value
-      );
+      try {
+        // Simulation d'un appel API de vérification
+        await new Promise((resolve) => setTimeout(resolve, 1500));
 
-      if (exampleCert) {
-        // Certificat d'exemple trouvé
-        const exampleResult = {
-          isValid: true,
-          certificate: exampleCert,
-        };
-        setResult(exampleResult);
-        onVerificationComplete?.(exampleResult);
-        toast.success(t('verify.valid'));
-        return;
-      }
+        // 1. D'abord, chercher dans les certificats de l'utilisateur (localStorage)
+        const savedCerts = JSON.parse(
+          localStorage.getItem('userCertificates') || '[]'
+        );
+        const userCert = savedCerts.find(
+          (cert) =>
+            cert.hash === value ||
+            cert.tokenId === value ||
+            cert.walletAddress === value ||
+            cert.id === value
+        );
 
-      // 3. Fallback sur la simulation générique
-      const isValid = !value.includes('invalid') && !value.includes('fake');
-
-      const mockResult = {
-        isValid,
-        certificate: isValid
-          ? {
-              id: 'cert_demo',
-              name: 'Demo Certificate',
-              description: 'Certificat de démonstration généré automatiquement',
-              hash: value.startsWith('0x')
-                ? value
-                : '0x1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef',
-              walletAddress: '0x1E274F39A44f1561b3Bb21148B9881075575676D',
-              createdAt: new Date().toISOString(),
-              ipfsHash: 'QmDemoHash123456789abcdef',
-              tokenId: Math.floor(Math.random() * 1000).toString(),
-              contractAddress: '0xabcdef1234567890abcdef1234567890abcdef12',
-              network: 'mumbai',
-              transactionHash:
-                '0x34567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef',
-              issuer: 'CertiProof X Demo',
+        if (userCert) {
+          // Certificat utilisateur trouvé - retourner les vraies données
+          const userResult = {
+            isValid: true,
+            certificate: {
+              ...userCert,
               isVerified: true,
-            }
-          : null,
-        error: !isValid ? t('verify.notFound') : undefined,
-      };
+            },
+            isUserCertificate: true,
+          };
+          setResult(userResult);
+          onVerificationComplete?.(userResult);
+          toast.success(`🎉 ${t('verify.yourCertificateVerified')}`);
+          return;
+        }
 
-      setResult(mockResult);
-      onVerificationComplete?.(mockResult);
+        // 2. Vérifier dans les certificats d'exemple
+        const exampleCertificates = [
+          {
+            id: 'cert_kai_001',
+            name: "Master's Degree Certificate",
+            description: 'Computer Science with Blockchain Specialization',
+            hash: '0x1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef',
+            walletAddress: '0x1E274F39A44f1561b3Bb21148B9881075575676D',
+            createdAt: '2025-08-03T10:30:00.000Z',
+            ipfsHash: 'QmKaiZenjiroMasterDegree2025',
+            tokenId: '42',
+            isVerified: true,
+            contractAddress: '0xabcdef1234567890abcdef1234567890abcdef12',
+            network: 'mumbai',
+            transactionHash:
+              '0x1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef',
+            issuer: "École Supérieure d'Informatique",
+          },
+          {
+            id: 'cert_kai_002',
+            name: 'Blockchain Developer Certificate',
+            description: 'Full-Stack Blockchain Development Certification',
+            hash: '0xabcdef1234567890abcdef1234567890abcdef1234567890abcdef1234567890',
+            walletAddress: '0x1E274F39A44f1561b3Bb21148B9881075575676D',
+            createdAt: '2025-07-15T14:20:00.000Z',
+            ipfsHash: 'QmKaiZenjiroBlockchainDev2025',
+            tokenId: '43',
+            isVerified: true,
+            contractAddress: '0xabcdef1234567890abcdef1234567890abcdef12',
+            network: 'mumbai',
+            transactionHash:
+              '0x234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef',
+            issuer: "École Supérieure d'Informatique",
+          },
+        ];
 
-      if (isValid) {
-        toast.success(t('verify.valid'));
-      } else {
-        toast.error(t('verify.invalid'));
+        const exampleCert = exampleCertificates.find(
+          (cert) =>
+            cert.hash === value ||
+            cert.tokenId === value ||
+            cert.walletAddress === value ||
+            cert.id === value
+        );
+
+        if (exampleCert) {
+          // Certificat d'exemple trouvé
+          const exampleResult = {
+            isValid: true,
+            certificate: exampleCert,
+          };
+          setResult(exampleResult);
+          onVerificationComplete?.(exampleResult);
+          toast.success(t('verify.valid'));
+          return;
+        }
+
+        // 3. Fallback sur la simulation générique
+        const isValid = !value.includes('invalid') && !value.includes('fake');
+
+        const mockResult = {
+          isValid,
+          certificate: isValid
+            ? {
+                id: 'cert_demo',
+                name: 'Demo Certificate',
+                description:
+                  'Certificat de démonstration généré automatiquement',
+                hash: value.startsWith('0x')
+                  ? value
+                  : '0x1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef',
+                walletAddress: '0x1E274F39A44f1561b3Bb21148B9881075575676D',
+                createdAt: new Date().toISOString(),
+                ipfsHash: 'QmDemoHash123456789abcdef',
+                tokenId: Math.floor(Math.random() * 1000).toString(),
+                contractAddress: '0xabcdef1234567890abcdef1234567890abcdef12',
+                network: 'mumbai',
+                transactionHash:
+                  '0x34567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef',
+                issuer: 'CertiProof X Demo',
+                isVerified: true,
+              }
+            : null,
+          error: !isValid ? t('verify.notFound') : undefined,
+        };
+
+        setResult(mockResult);
+        onVerificationComplete?.(mockResult);
+
+        if (isValid) {
+          toast.success(t('verify.valid'));
+        } else {
+          toast.error(t('verify.invalid'));
+        }
+      } catch (error) {
+        const errorResult = {
+          isValid: false,
+          certificate: null,
+          error: t('verify.errorDuringVerification'),
+        };
+        setResult(errorResult);
+        onVerificationComplete?.(errorResult);
+        toast.error(t('verify.errorDuringVerification'));
+      } finally {
+        setIsVerifying(false);
       }
-    } catch (error) {
-      const errorResult = {
-        isValid: false,
-        certificate: null,
-        error: t('verify.errorDuringVerification'),
-      };
-      setResult(errorResult);
-      onVerificationComplete?.(errorResult);
-      toast.error(t('verify.errorDuringVerification'));
-    } finally {
-      setIsVerifying(false);
-    }
-  }, [inputValue, t]);
+    },
+    [inputValue, t]
+  );
 
   // Copier dans le presse-papier
   // eslint-disable-next-line no-unused-vars
