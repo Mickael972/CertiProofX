@@ -29,7 +29,7 @@ const NotFound = () => {
               Page non trouvée
             </h2>
             <p className="mt-2 text-lg text-gray-400">
-              Désolé, nous n'avons pas pu trouver la page que vous recherchez.
+              Désolé, nous n&apos;avons pas pu trouver la page que vous recherchez.
             </p>
           </div>
         </div>
@@ -41,7 +41,7 @@ const NotFound = () => {
                 to="/"
                 className="w-full flex justify-center py-3 px-6 border border-transparent rounded-xl shadow-lg text-sm font-medium text-white bg-primary-500 hover:bg-primary-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 transition-all hover:shadow-primary-500/25"
               >
-                Retourner à l'accueil
+                Retourner à l&apos;accueil
               </Link>
 
               <Link

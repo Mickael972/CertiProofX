@@ -87,9 +87,10 @@ const appReducer = (state, action) => {
         errors: { ...state.errors, [action.payload.key]: action.payload.error },
       };
 
-    case APP_ACTIONS.CLEAR_ERROR:
+    case APP_ACTIONS.CLEAR_ERROR: {
       const { [action.payload]: removed, ...remainingErrors } = state.errors;
       return { ...state, errors: remainingErrors };
+    }
 
     case APP_ACTIONS.UPDATE_SETTINGS:
       return {
@@ -97,12 +98,13 @@ const appReducer = (state, action) => {
         settings: { ...state.settings, ...action.payload },
       };
 
-    case APP_ACTIONS.ADD_RECENT_FILE:
+    case APP_ACTIONS.ADD_RECENT_FILE: {
       const recentFiles = [
         action.payload,
         ...state.recentFiles.filter((f) => f.hash !== action.payload.hash),
       ].slice(0, 10); // Keep only last 10 files
       return { ...state, recentFiles };
+    }
 
     case APP_ACTIONS.ADD_CERTIFICATE:
       return {

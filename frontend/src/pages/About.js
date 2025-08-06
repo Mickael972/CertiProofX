@@ -66,7 +66,7 @@ const About = () => {
                     </h3>
                     <p className="text-gray-300">
                       Les tokens ERC-721 représentent la propriété et
-                      l'authenticité
+                      l&apos;authenticité
                     </p>
                   </div>
                   <div className="bg-dark-800/50 rounded-xl p-6 border border-gray-600/50">
@@ -74,7 +74,7 @@ const About = () => {
                       🔐 Cryptographie
                     </h3>
                     <p className="text-gray-300">
-                      Hashage SHA-256 pour la vérification de l'intégrité des
+                      Hashage SHA-256 pour la vérification de l&apos;intégrité des
                       documents
                     </p>
                   </div>

@@ -96,7 +96,7 @@ const ExampleUsage = () => {
                   Upload Document Component
                 </h2>
                 <p className="text-gray-400">
-                  Composant d'upload avec calcul SHA256, génération de
+                  Composant d&apos;upload avec calcul SHA256, génération de
                   certificat et mint NFT
                 </p>
               </div>
