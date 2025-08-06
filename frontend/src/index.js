@@ -14,8 +14,10 @@ import { reportWebVitals } from './utils/reportWebVitals';
 // Error tracking (in production)
 if (process.env.NODE_ENV === 'production') {
   // Initialize error tracking service here if needed
-  console.log('🚀 CertiProof X - Production Mode');
+  // eslint-disable-next-line no-console
+console.log('🚀 CertiProof X - Production Mode');
 } else {
+  // eslint-disable-next-line no-console
   console.log('🔧 CertiProof X - Development Mode');
 }
 
@@ -39,6 +41,7 @@ root.render(
 reportWebVitals((metric) => {
   // Log performance metrics in development
   if (process.env.NODE_ENV === 'development') {
+    // eslint-disable-next-line no-console
     console.log('📊 Web Vitals:', metric);
   }
 
@@ -55,17 +58,20 @@ if ('serviceWorker' in navigator && process.env.NODE_ENV === 'production') {
     navigator.serviceWorker
       .register('/sw.js')
       .then((registration) => {
-        console.log('SW registered: ', registration);
+        // eslint-disable-next-line no-console
+      console.log('SW registered: ', registration);
       })
       .catch((registrationError) => {
-        console.log('SW registration failed: ', registrationError);
+                  // eslint-disable-next-line no-console
+          console.log('SW registration failed: ', registrationError);
       });
   });
 }
 
 // Global error handling
 window.addEventListener('error', (event) => {
-  console.error('Global error:', event.error);
+      // eslint-disable-next-line no-console
+    console.error('Global error:', event.error);
 
   // Report to error tracking service in production
   if (process.env.NODE_ENV === 'production') {
@@ -74,7 +80,8 @@ window.addEventListener('error', (event) => {
 });
 
 window.addEventListener('unhandledrejection', (event) => {
-  console.error('Unhandled promise rejection:', event.reason);
+      // eslint-disable-next-line no-console
+    console.error('Unhandled promise rejection:', event.reason);
 
   // Report to error tracking service in production
   if (process.env.NODE_ENV === 'production') {
@@ -84,7 +91,8 @@ window.addEventListener('unhandledrejection', (event) => {
 
 // Web3 detection warning
 if (typeof window.ethereum === 'undefined') {
-  console.warn(
+      // eslint-disable-next-line no-console
+    console.warn(
     '⚠️ No Web3 provider detected. Install MetaMask or use a Web3-enabled browser.'
   );
 }
@@ -101,6 +109,7 @@ const checkBrowserCompatibility = () => {
     'localStorage' in window;
 
   if (!isCompatible) {
+    // eslint-disable-next-line no-console
     console.error('❌ Browser not compatible with CertiProof X');
     alert(
       'Your browser is not compatible with CertiProof X. Please upgrade to a modern browser.'

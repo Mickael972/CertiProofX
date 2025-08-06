@@ -95,12 +95,13 @@ const UploadDocument = ({ onFileProcessed, onMintNFT }) => {
         toast.success(t('upload.fileProcessedSuccess'));
         onFileProcessed?.(file, hash);
       } catch (error) {
+        // eslint-disable-next-line no-console
         console.error('Erreur lors du traitement du fichier:', error);
         toast.error(t('upload.fileProcessingError'));
         setProcessedFile(null);
       }
     },
-    [calculateSHA256, onFileProcessed]
+    [calculateSHA256, onFileProcessed, t]
   );
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({

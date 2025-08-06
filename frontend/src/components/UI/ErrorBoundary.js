@@ -29,8 +29,7 @@ class ErrorBoundary extends React.Component {
     // In production, send to error reporting service
     if (process.env.NODE_ENV === 'production') {
       // Example: Sentry.captureException(error, { extra: errorInfo });
-      // eslint-disable-next-line no-console
-      console.log('Error captured in production');
+      // Error captured in production
     }
   }
 

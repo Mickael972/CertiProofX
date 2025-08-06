@@ -284,6 +284,7 @@ export const Web3Provider = ({ children }) => {
 
       toast.success('Wallet connected successfully!');
     } catch (error) {
+      // eslint-disable-next-line no-console
       console.error('Failed to connect wallet:', error);
       dispatch({ type: WEB3_ACTIONS.SET_ERROR, payload: error.message });
       toast.error(error.message);

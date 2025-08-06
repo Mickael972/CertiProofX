@@ -11,14 +11,9 @@ import {
   QrCode,
   CheckCircle,
   XCircle,
-  AlertTriangle,
   Loader2,
-  Copy,
-  ExternalLink,
-  Calendar,
   User,
   Hash,
-  Database,
   Sparkles,
 } from 'lucide-react';
 import toast from 'react-hot-toast';
@@ -37,7 +32,7 @@ const VerifyCertificate = ({ initialHash = '', onVerificationComplete }) => {
     if (initialHash) {
       handleVerification(initialHash);
     }
-  }, [initialHash]);
+  }, [initialHash, handleVerification]);
 
   // Détecter automatiquement le type d'input
   const detectInputType = (value) => {
@@ -201,6 +196,7 @@ const VerifyCertificate = ({ initialHash = '', onVerificationComplete }) => {
   };
 
   // Copier dans le presse-papier
+  // eslint-disable-next-line no-unused-vars
   const copyToClipboard = async (text, label) => {
     try {
       await navigator.clipboard.writeText(text);
@@ -211,11 +207,13 @@ const VerifyCertificate = ({ initialHash = '', onVerificationComplete }) => {
   };
 
   // Formater l'adresse
+  // eslint-disable-next-line no-unused-vars
   const formatAddress = (address) => {
     return `${address.slice(0, 6)}...${address.slice(-4)}`;
   };
 
   // Formater la date
+  // eslint-disable-next-line no-unused-vars
   const formatDate = (dateString) => {
     return new Date(dateString).toLocaleDateString('fr-FR', {
       year: 'numeric',
@@ -447,11 +445,13 @@ const VerifyCertificate = ({ initialHash = '', onVerificationComplete }) => {
                 <CertificateCard
                   certificate={result.certificate}
                   onVerify={(hash) => {
-                    console.log('Re-verifying certificate:', hash);
+                    // eslint-disable-next-line no-console
+        console.log('Re-verifying certificate:', hash);
                   }}
-                  onView={(cert) => {
-                    console.log('Viewing certificate details:', cert);
-                  }}
+                                      onView={(cert) => {
+                      // eslint-disable-next-line no-console
+                      console.log('Viewing certificate details:', cert);
+                    }}
                   className="max-w-4xl mx-auto"
                 />
               </motion.div>

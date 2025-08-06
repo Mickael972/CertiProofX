@@ -88,6 +88,7 @@ const appReducer = (state, action) => {
       };
 
     case APP_ACTIONS.CLEAR_ERROR: {
+      // eslint-disable-next-line no-unused-vars
       const { [action.payload]: _removed, ...remainingErrors } = state.errors;
       return { ...state, errors: remainingErrors };
     }

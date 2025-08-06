@@ -3,12 +3,12 @@
  * Author: Kai Zenjiro (0xGenesis) - certiproofx@protonmail.me
  */
 
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { useParams, useSearchParams } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import toast from 'react-hot-toast';
 import { useT } from '../contexts/I18nContext';
-import LoadingSpinner from '../components/UI/LoadingSpinner';
+// import LoadingSpinner from '../components/UI/LoadingSpinner';
 import VerifyCertificate from '../components/VerifyCertificate';
 
 const Verify = () => {
@@ -41,7 +41,8 @@ const Verify = () => {
             <VerifyCertificate
               initialHash={initialHashValue}
               onVerificationComplete={(result) => {
-                console.log('Verification completed:', result);
+                // eslint-disable-next-line no-console
+      console.log('Verification completed:', result);
                 if (result.isValid) {
                   toast.success(t('verify.valid'));
                 } else {
