@@ -32,14 +32,12 @@ const Header = () => {
         <div className="flex items-center h-16 min-h-[4rem]">
           {/* Logo */}
           <div className="flex items-center">
-            <Link to="/" className="flex items-center space-x-3 shrink-0">
-              <div className="w-10 h-10 bg-gradient-to-br from-primary-500 to-primary-600 rounded-xl flex items-center justify-center shadow-lg shadow-primary-500/25">
-                <span className="text-white font-bold text-lg font-poppins">C</span>
-              </div>
-              <span className="text-xl sm:text-2xl font-bold text-white whitespace-nowrap font-poppins">
-                <span className="hidden sm:inline">CertiProof X</span>
-                <span className="sm:hidden">CertiProof</span>
-              </span>
+            <Link to="/" className="flex items-center shrink-0">
+              <img 
+                src="/images/Logo moderne CertiProof X.png" 
+                alt="CertiProof X Logo" 
+                className="w-32 h-32"
+              />
             </Link>
           </div>
 

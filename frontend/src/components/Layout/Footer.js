@@ -11,26 +11,6 @@ const Footer = () => {
   const currentYear = new Date().getFullYear();
   const t = useT();
 
-  const footerLinks = {
-    product: [
-      { name: t('footer.uploadDocuments'), href: '/upload' },
-      { name: t('footer.mintCertificates'), href: '/mint' },
-      { name: t('footer.verifyProofs'), href: '/verify' },
-      { name: t('footer.viewCertificates'), href: '/certificates' },
-    ],
-    resources: [
-      { name: t('footer.documentation'), href: 'https://github.com/Mickael972/CertiProofX/blob/main/README.md' },
-      { name: t('footer.apiReference'), href: 'https://github.com/Mickael972/CertiProofX/blob/main/docs/TECHNICAL_DOCUMENTATION.md' },
-      { name: t('footer.smartContract'), href: 'https://github.com/Mickael972/CertiProofX/blob/main/contracts/contracts/CertiProofNFT.sol' },
-      { name: 'GitHub', href: 'https://github.com/Mickael972/CertiProofX' },
-    ],
-    legal: [
-      { name: t('footer.privacyPolicy'), href: '/privacy' },
-      { name: t('footer.termsOfService'), href: '/terms' },
-      { name: t('footer.mitLicense'), href: 'https://github.com/Mickael972/CertiProofX/blob/main/LICENSE' },
-    ],
-  };
-
   const socialLinks = [
     {
       name: 'GitHub',
@@ -62,166 +42,149 @@ const Footer = () => {
   ];
 
   return (
-    <footer className="bg-dark-900/95 backdrop-blur-sm" style={{ borderTop: 'none', marginTop: 0 }}>
-      <div className="container-custom">
-        <div className="py-12">
-          {/* Main footer content */}
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
-            {/* Brand section */}
-            <div className="col-span-1 md:col-span-1">
-              <div className="flex items-center space-x-3 mb-4">
-                <div className="w-10 h-10 bg-gradient-to-br from-primary-500 to-primary-600 rounded-xl flex items-center justify-center shadow-lg shadow-primary-500/25">
-                  <span className="text-white font-bold text-lg font-poppins">C</span>
-                </div>
-                <span className="text-xl font-bold text-white font-poppins">CertiProof X</span>
-              </div>
-              <p className="text-sm text-gray-400 mb-4">
-                {t('footer.description')}
-              </p>
-              <div className="flex space-x-4">
-                {socialLinks.map((item) => (
-                  <a
-                    key={item.name}
-                    href={item.href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-gray-500 hover:text-primary-400 transition-colors"
-                  >
-                    <span className="sr-only">{item.name}</span>
-                    {item.icon}
-                  </a>
-                ))}
-              </div>
-            </div>
+    <footer className="bg-dark-900/95 backdrop-blur-sm">
+      <div className="container mx-auto px-4 py-12">
+        {/* Brand Section */}
+        <div className="text-center mb-8">
+          <div className="flex items-center justify-center mb-4">
+            <img 
+              src="/images/Logo moderne CertiProof X.png" 
+              alt="CertiProof X Logo" 
+              className="w-32 h-32"
+            />
+          </div>
+          <p className="text-sm text-gray-400 mb-4 max-w-md mx-auto">
+            {t('footer.description')}
+          </p>
+          <div className="flex justify-center space-x-4">
+            {socialLinks.map((item) => (
+              <a
+                key={item.name}
+                href={item.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-gray-500 hover:text-primary-400 transition-colors"
+              >
+                <span className="sr-only">{item.name}</span>
+                {item.icon}
+              </a>
+            ))}
+          </div>
+        </div>
 
-            {/* Product links */}
-            <div>
-              <h3 className="text-sm font-semibold text-white tracking-wider uppercase mb-4 font-poppins">
-                {t('footer.product')}
-              </h3>
-              <ul className="space-y-3">
-                <li>
-                  <Link to="/upload" className="text-sm text-gray-400 hover:text-primary-400 transition-colors">
-                    {t('footer.uploadDocuments')}
-                  </Link>
-                </li>
-                <li>
-                  <Link to="/verify" className="text-sm text-gray-400 hover:text-primary-400 transition-colors">
-                    {t('footer.verifyProofs')}
-                  </Link>
-                </li>
-                <li>
-                  <Link to="/certificates" className="text-sm text-gray-400 hover:text-primary-400 transition-colors">
-                    {t('footer.viewCertificates')}
-                  </Link>
-                </li>
-              </ul>
-            </div>
-
-            {/* Resources links */}
-            <div>
-              <h3 className="text-sm font-semibold text-white tracking-wider uppercase mb-4 font-poppins">
-                {t('footer.resources')}
-              </h3>
-              <ul className="space-y-3">
-                <li>
-                  <a
-                    href="https://github.com/0xGenesis/certiproof-x"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-sm text-gray-400 hover:text-primary-400 transition-colors"
-                  >
-                    {t('footer.documentation')}
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href="https://github.com/0xGenesis/certiproof-x/blob/main/docs/TECHNICAL_DOCUMENTATION.md"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-sm text-gray-400 hover:text-primary-400 transition-colors"
-                  >
-                    {t('footer.apiReference')}
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href="https://polygonscan.com"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-sm text-gray-400 hover:text-primary-400 transition-colors"
-                  >
-                    {t('footer.smartContract')}
-                  </a>
-                </li>
-              </ul>
-            </div>
-
-            {/* Legal links */}
-            <div>
-              <h3 className="text-sm font-semibold text-white tracking-wider uppercase mb-4 font-poppins">
-                {t('footer.legal')}
-              </h3>
-              <ul className="space-y-3">
-                <li>
-                  <a
-                    href="https://github.com/0xGenesis/certiproof-x/blob/main/LICENSE"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex items-center gap-2 text-sm text-gray-400 hover:text-success-400 transition-colors"
-                  >
-                    <span className="inline-flex items-center gap-1 px-2 py-1 bg-success-500/20 text-success-400 text-xs font-medium rounded border border-success-500/30">
-                      MIT License
-                    </span>
-                  </a>
-                </li>
-                <li>
-                  <span className="text-sm text-gray-400">
-                    {t('footer.openSource')}
-                  </span>
-                </li>
-                <li>
-                  <span className="text-sm text-gray-400">
-                    {t('footer.decentralized')}
-                  </span>
-                </li>
-              </ul>
+        {/* Links Section */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
+          {/* Product */}
+          <div className="text-center">
+            <h3 className="text-sm font-semibold text-white tracking-wider uppercase mb-4 font-poppins">
+              {t('footer.product')}
+            </h3>
+            <div className="space-y-2">
+              <Link to="/upload" className="block text-sm text-gray-400 hover:text-primary-400 transition-colors">
+                {t('footer.uploadDocuments')}
+              </Link>
+              <Link to="/verify" className="block text-sm text-gray-400 hover:text-primary-400 transition-colors">
+                {t('footer.verifyProofs')}
+              </Link>
+              <Link to="/certificates" className="block text-sm text-gray-400 hover:text-primary-400 transition-colors">
+                {t('footer.viewCertificates')}
+              </Link>
             </div>
           </div>
 
-          {/* Bottom section */}
-                              <div className="mt-8 pt-8">
-            <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
-              <div className="flex flex-col md:flex-row items-center space-y-2 md:space-y-0 md:space-x-4">
-                <p className="text-sm text-gray-400">
-                  © {currentYear} CertiProof X. {t('footer.allRightsReserved')}
-                </p>
-                <p className="text-sm text-gray-500">
-                  {t('footer.builtBy')}{' '}
-                  <a
-                    href="mailto:certiproofx@protonmail.me"
-                    className="text-primary-400 hover:text-primary-300 transition-colors"
-                  >
-                    Kai Zenjiro (0xGenesis)
-                  </a>
-                </p>
+          {/* Resources */}
+          <div className="text-center">
+            <h3 className="text-sm font-semibold text-white tracking-wider uppercase mb-4 font-poppins">
+              {t('footer.resources')}
+            </h3>
+            <div className="space-y-2">
+              <a
+                href="https://github.com/0xGenesis/certiproof-x"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="block text-sm text-gray-400 hover:text-primary-400 transition-colors"
+              >
+                {t('footer.documentation')}
+              </a>
+              <a
+                href="https://github.com/0xGenesis/certiproof-x/blob/main/docs/TECHNICAL_DOCUMENTATION.md"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="block text-sm text-gray-400 hover:text-primary-400 transition-colors"
+              >
+                {t('footer.apiReference')}
+              </a>
+              <a
+                href="https://polygonscan.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="block text-sm text-gray-400 hover:text-primary-400 transition-colors"
+              >
+                {t('footer.smartContract')}
+              </a>
+            </div>
+          </div>
+
+          {/* Legal */}
+          <div className="text-center">
+            <h3 className="text-sm font-semibold text-white tracking-wider uppercase mb-4 font-poppins">
+              {t('footer.legal')}
+            </h3>
+            <div className="space-y-3">
+              <a
+                href="https://github.com/0xGenesis/certiproof-x/blob/main/LICENSE"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 text-sm text-gray-400 hover:text-success-400 transition-colors"
+              >
+                <span className="inline-flex items-center gap-1 px-3 py-1.5 bg-success-500/20 text-success-400 text-xs font-medium rounded-lg border border-success-500/30 hover:bg-success-500/30 transition-colors">
+                  MIT License
+                </span>
+              </a>
+              <div className="space-y-1">
+                <span className="block text-sm text-gray-400 font-medium">
+                  {t('footer.openSource')}
+                </span>
+                <span className="block text-sm text-gray-400 font-medium">
+                  {t('footer.decentralized')}
+                </span>
               </div>
-              
-              <div className="flex items-center space-x-4">
-                <span className="text-xs text-gray-500">{t('footer.poweredBy')}</span>
-                <div className="flex items-center space-x-2">
-                  <span className="inline-flex items-center gap-1 px-2 py-1 bg-purple-500/20 text-purple-400 text-xs font-medium rounded border border-purple-500/30">
-                    Polygon
-                  </span>
-                  <span className="text-gray-600">•</span>
-                  <span className="inline-flex items-center gap-1 px-2 py-1 bg-blue-500/20 text-blue-400 text-xs font-medium rounded border border-blue-500/30">
-                    IPFS
-                  </span>
-                  <span className="text-gray-600">•</span>
-                  <span className="inline-flex items-center gap-1 px-2 py-1 bg-orange-500/20 text-orange-400 text-xs font-medium rounded border border-orange-500/30">
-                    MetaMask
-                  </span>
-                </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Bottom Section */}
+        <div className="border-t border-gray-800 pt-8">
+          <div className="text-center space-y-4">
+            <div className="space-y-2">
+              <p className="text-sm text-gray-400">
+                © {currentYear} CertiProof X. {t('footer.allRightsReserved')}
+              </p>
+              <p className="text-sm text-gray-500">
+                {t('footer.builtBy')}{' '}
+                <a
+                  href="mailto:certiproofx@protonmail.me"
+                  className="text-primary-400 hover:text-primary-300 transition-colors"
+                >
+                  Kai Zenjiro (0xGenesis)
+                </a>
+              </p>
+            </div>
+            
+            <div className="flex items-center justify-center space-x-4">
+              <span className="text-xs text-gray-500">{t('footer.poweredBy')}</span>
+              <div className="flex items-center space-x-2">
+                <span className="inline-flex items-center gap-1 px-2 py-1 bg-purple-500/20 text-purple-400 text-xs font-medium rounded border border-purple-500/30">
+                  Polygon
+                </span>
+                <span className="text-gray-600">•</span>
+                <span className="inline-flex items-center gap-1 px-2 py-1 bg-blue-500/20 text-blue-400 text-xs font-medium rounded border border-blue-500/30">
+                  IPFS
+                </span>
+                <span className="text-gray-600">•</span>
+                <span className="inline-flex items-center gap-1 px-2 py-1 bg-orange-500/20 text-orange-400 text-xs font-medium rounded border border-orange-500/30">
+                  MetaMask
+                </span>
               </div>
             </div>
           </div>
