@@ -42,7 +42,7 @@ const Verify = () => {
               initialHash={initialHashValue}
               onVerificationComplete={(result) => {
                 // eslint-disable-next-line no-console
-      console.log('Verification completed:', result);
+                console.log('Verification completed:', result);
                 if (result.isValid) {
                   toast.success(t('verify.valid'));
                 } else {

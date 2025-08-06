@@ -446,12 +446,12 @@ const VerifyCertificate = ({ initialHash = '', onVerificationComplete }) => {
                   certificate={result.certificate}
                   onVerify={(hash) => {
                     // eslint-disable-next-line no-console
-        console.log('Re-verifying certificate:', hash);
+                    console.log('Re-verifying certificate:', hash);
                   }}
-                                      onView={(cert) => {
-                      // eslint-disable-next-line no-console
-                      console.log('Viewing certificate details:', cert);
-                    }}
+                  onView={(cert) => {
+                    // eslint-disable-next-line no-console
+                    console.log('Viewing certificate details:', cert);
+                  }}
                   className="max-w-4xl mx-auto"
                 />
               </motion.div>

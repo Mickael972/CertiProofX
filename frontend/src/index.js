@@ -15,7 +15,7 @@ import { reportWebVitals } from './utils/reportWebVitals';
 if (process.env.NODE_ENV === 'production') {
   // Initialize error tracking service here if needed
   // eslint-disable-next-line no-console
-console.log('🚀 CertiProof X - Production Mode');
+  console.log('🚀 CertiProof X - Production Mode');
 } else {
   // eslint-disable-next-line no-console
   console.log('🔧 CertiProof X - Development Mode');
@@ -59,19 +59,19 @@ if ('serviceWorker' in navigator && process.env.NODE_ENV === 'production') {
       .register('/sw.js')
       .then((registration) => {
         // eslint-disable-next-line no-console
-      console.log('SW registered: ', registration);
+        console.log('SW registered: ', registration);
       })
       .catch((registrationError) => {
-                  // eslint-disable-next-line no-console
-          console.log('SW registration failed: ', registrationError);
+        // eslint-disable-next-line no-console
+        console.log('SW registration failed: ', registrationError);
       });
   });
 }
 
 // Global error handling
 window.addEventListener('error', (event) => {
-      // eslint-disable-next-line no-console
-    console.error('Global error:', event.error);
+  // eslint-disable-next-line no-console
+  console.error('Global error:', event.error);
 
   // Report to error tracking service in production
   if (process.env.NODE_ENV === 'production') {
@@ -80,8 +80,8 @@ window.addEventListener('error', (event) => {
 });
 
 window.addEventListener('unhandledrejection', (event) => {
-      // eslint-disable-next-line no-console
-    console.error('Unhandled promise rejection:', event.reason);
+  // eslint-disable-next-line no-console
+  console.error('Unhandled promise rejection:', event.reason);
 
   // Report to error tracking service in production
   if (process.env.NODE_ENV === 'production') {
@@ -91,8 +91,8 @@ window.addEventListener('unhandledrejection', (event) => {
 
 // Web3 detection warning
 if (typeof window.ethereum === 'undefined') {
-      // eslint-disable-next-line no-console
-    console.warn(
+  // eslint-disable-next-line no-console
+  console.warn(
     '⚠️ No Web3 provider detected. Install MetaMask or use a Web3-enabled browser.'
   );
 }

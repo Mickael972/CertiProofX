@@ -88,11 +88,13 @@ const Certificates = () => {
                   <CertificateCard
                     certificate={certificate}
                     onVerify={(hash) => {
+                      // eslint-disable-next-line no-console
                       console.log('Verifying certificate:', hash);
                       // Utiliser query param pour que VerifyCertificate puisse chercher dans localStorage
                       window.location.href = `/verify?hash=${hash}`;
                     }}
                     onView={(cert) => {
+                      // eslint-disable-next-line no-console
                       console.log('Viewing certificate details:', cert);
                     }}
                   />
@@ -110,11 +112,13 @@ const Certificates = () => {
                   <CertificateCard
                     certificate={certificate}
                     onVerify={(hash) => {
+                      // eslint-disable-next-line no-console
                       console.log('Verifying certificate:', hash);
                       // Utiliser query param pour que VerifyCertificate puisse chercher dans localStorage
                       window.location.href = `/verify?hash=${hash}`;
                     }}
                     onView={(cert) => {
+                      // eslint-disable-next-line no-console
                       console.log('Viewing certificate details:', cert);
                     }}
                   />

@@ -15,6 +15,7 @@ const reportWebVitals = (onPerfEntry) => {
       })
       .catch(() => {
         // Silently ignore web-vitals errors in development
+        // eslint-disable-next-line no-console
         console.log('🔧 Development mode: Web Vitals disabled');
       });
   }
