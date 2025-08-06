@@ -5,18 +5,18 @@
 
 import React from 'react';
 
-const LoadingSpinner = ({ 
-  size = 'md', 
-  color = 'primary', 
+const LoadingSpinner = ({
+  size = 'md',
+  color = 'primary',
   className = '',
   text = null,
-  fullScreen = false 
+  fullScreen = false,
 }) => {
   const sizeClasses = {
     sm: 'w-4 h-4',
     md: 'w-6 h-6',
     lg: 'w-8 h-8',
-    xl: 'w-12 h-12'
+    xl: 'w-12 h-12',
   };
 
   const colorClasses = {
@@ -24,7 +24,7 @@ const LoadingSpinner = ({
     white: 'border-white',
     gray: 'border-gray-600',
     success: 'border-success-500',
-    error: 'border-error-500'
+    error: 'border-error-500',
   };
 
   const spinnerClasses = `
@@ -36,13 +36,11 @@ const LoadingSpinner = ({
   `;
 
   const content = (
-    <div className={`flex flex-col items-center justify-center ${text ? 'space-y-3' : ''}`}>
+    <div
+      className={`flex flex-col items-center justify-center ${text ? 'space-y-3' : ''}`}
+    >
       <div className={spinnerClasses}></div>
-      {text && (
-        <p className="text-sm text-gray-400 animate-pulse">
-          {text}
-        </p>
-      )}
+      {text && <p className="text-sm text-gray-400 animate-pulse">{text}</p>}
     </div>
   );
 

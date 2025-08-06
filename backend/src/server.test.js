@@ -13,27 +13,27 @@ jest.mock('./services/ipfsService', () => ({
       filename: 'test.pdf',
       uploadTime: 100,
       provider: 'mock',
-      mock: true
+      mock: true,
     }),
     uploadMetadata: jest.fn().mockResolvedValue({
       hash: 'mock_metadata_hash',
-      url: 'https://ipfs.io/ipfs/mock_metadata_hash'
+      url: 'https://ipfs.io/ipfs/mock_metadata_hash',
     }),
     retrieveFile: jest.fn().mockResolvedValue({
       content: Buffer.from('test content'),
-      metadata: { filename: 'test.pdf' }
+      metadata: { filename: 'test.pdf' },
     }),
     fileExists: jest.fn().mockResolvedValue(true),
     getFileMetadata: jest.fn().mockResolvedValue({
       filename: 'test.pdf',
       size: 1024,
-      type: 'application/pdf'
+      type: 'application/pdf',
     }),
     getStatus: jest.fn().mockResolvedValue({
       provider: 'mock',
-      status: 'connected'
-    })
-  }))
+      status: 'connected',
+    }),
+  })),
 }));
 
 const app = require('./server');
@@ -48,4 +48,4 @@ describe('Server', () => {
     const response = await request(app).get('/');
     expect(response.status).toBe(200);
   });
-}); 
+});

@@ -12,22 +12,14 @@ import toast from 'react-hot-toast';
 
 const Mint = () => {
   const t = useT();
-  const { 
-    isConnected, 
-    account, 
-    contract, 
-    connectWallet, 
-    network 
-  } = useWeb3();
-
-
+  const { isConnected, account, contract, connectWallet, network } = useWeb3();
 
   // Form state
   const [formData, setFormData] = useState({
     title: '',
     description: '',
     documentType: 'certificate',
-    recipient: ''
+    recipient: '',
   });
 
   // File state
@@ -43,57 +35,60 @@ const Mint = () => {
     { key: 'hash', status: 'pending' },
     { key: 'ipfs', status: 'pending' },
     { key: 'mint', status: 'pending' },
-    { key: 'success', status: 'pending' }
+    { key: 'success', status: 'pending' },
   ]);
 
   // Result state
   const [mintResult, setMintResult] = useState(null);
 
   // Handle file selection
-  const handleFileSelect = useCallback((file) => {
-    if (!file) return;
+  const handleFileSelect = useCallback(
+    (file) => {
+      if (!file) return;
 
-    // Validate file size (50MB limit)
-    if (file.size > 50 * 1024 * 1024) {
-      toast.error(t('mint.fileTooLarge'));
-      return;
-    }
+      // Validate file size (50MB limit)
+      if (file.size > 50 * 1024 * 1024) {
+        toast.error(t('mint.fileTooLarge'));
+        return;
+      }
 
-    // Validate file type
-    const allowedTypes = [
-      'application/pdf',
-      'image/jpeg',
-      'image/jpg', 
-      'image/png',
-      'image/gif',
-      'image/webp',
-      'text/plain',
-      'application/msword',
-      'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
-    ];
+      // Validate file type
+      const allowedTypes = [
+        'application/pdf',
+        'image/jpeg',
+        'image/jpg',
+        'image/png',
+        'image/gif',
+        'image/webp',
+        'text/plain',
+        'application/msword',
+        'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+      ];
 
-    if (!allowedTypes.includes(file.type)) {
-      toast.error(t('mint.fileTypeNotAllowed'));
-      return;
-    }
+      if (!allowedTypes.includes(file.type)) {
+        toast.error(t('mint.fileTypeNotAllowed'));
+        return;
+      }
 
-    setSelectedFile(file);
-    
-    // Auto-fill title if empty
-    if (!formData.title) {
-      const fileName = file.name.split('.').slice(0, -1).join('.');
-      setFormData(prev => ({ ...prev, title: fileName }));
-    }
+      setSelectedFile(file);
 
-    // Create preview for images
-    if (file.type.startsWith('image/')) {
-      const reader = new FileReader();
-      reader.onload = (e) => setFilePreview(e.target.result);
-      reader.readAsDataURL(file);
-    } else {
-      setFilePreview(null);
-    }
-  }, [formData.title, t]);
+      // Auto-fill title if empty
+      if (!formData.title) {
+        const fileName = file.name.split('.').slice(0, -1).join('.');
+        setFormData((prev) => ({ ...prev, title: fileName }));
+      }
+
+      // Create preview for images
+      if (file.type.startsWith('image/')) {
+        const reader = new FileReader();
+        reader.onload = (e) => setFilePreview(e.target.result);
+        reader.readAsDataURL(file);
+      } else {
+        setFilePreview(null);
+      }
+    },
+    [formData.title, t]
+  );
 
   // Handle drag and drop
   const handleDragOver = useCallback((e) => {
@@ -106,28 +101,34 @@ const Mint = () => {
     setIsDragOver(false);
   }, []);
 
-  const handleDrop = useCallback((e) => {
-    e.preventDefault();
-    setIsDragOver(false);
-    
-    const files = e.dataTransfer.files;
-    if (files.length > 0) {
-      handleFileSelect(files[0]);
-    }
-  }, [handleFileSelect]);
+  const handleDrop = useCallback(
+    (e) => {
+      e.preventDefault();
+      setIsDragOver(false);
+
+      const files = e.dataTransfer.files;
+      if (files.length > 0) {
+        handleFileSelect(files[0]);
+      }
+    },
+    [handleFileSelect]
+  );
 
   // Handle file input change
-  const handleFileInputChange = useCallback((e) => {
-    const file = e.target.files[0];
-    if (file) {
-      handleFileSelect(file);
-    }
-  }, [handleFileSelect]);
+  const handleFileInputChange = useCallback(
+    (e) => {
+      const file = e.target.files[0];
+      if (file) {
+        handleFileSelect(file);
+      }
+    },
+    [handleFileSelect]
+  );
 
   // Update process step
   const updateStep = useCallback((stepIndex, status) => {
-    setProcessSteps(prev => 
-      prev.map((step, index) => 
+    setProcessSteps((prev) =>
+      prev.map((step, index) =>
         index === stepIndex ? { ...step, status } : step
       )
     );
@@ -136,7 +137,7 @@ const Mint = () => {
   // Handle form input changes
   const handleInputChange = useCallback((e) => {
     const { name, value } = e.target;
-    setFormData(prev => ({ ...prev, [name]: value }));
+    setFormData((prev) => ({ ...prev, [name]: value }));
   }, []);
 
   // Upload file to backend
@@ -149,7 +150,7 @@ const Mint = () => {
 
     const response = await fetch('/api/upload', {
       method: 'POST',
-      body: formDataObj
+      body: formDataObj,
     });
 
     if (!response.ok) {
@@ -167,7 +168,7 @@ const Mint = () => {
     }
 
     const recipient = formData.recipient || account;
-    
+
     // Call smart contract mint function
     const tx = await contract.mint(
       recipient,
@@ -184,7 +185,7 @@ const Mint = () => {
   // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
+
     if (!selectedFile) {
       toast.error(t('mint.pleaseSelectFile'));
       return;
@@ -222,17 +223,17 @@ const Mint = () => {
       // Step 4: Mint NFT
       updateStep(3, 'processing');
       const tx = await mintNFT(fileHash, ipfsHash);
-      
+
       toast.loading(t('mint.waitingForConfirmation'), { id: 'mint-tx' });
-      
+
       const receipt = await tx.wait();
       updateStep(3, 'completed');
 
       // Step 5: Success
       updateStep(4, 'processing');
-      
+
       // Extract token ID from transaction logs
-      const mintEvent = receipt.logs.find(log => {
+      const mintEvent = receipt.logs.find((log) => {
         try {
           const parsed = contract.interface.parseLog(log);
           return parsed.name === 'ProofMinted';
@@ -254,44 +255,43 @@ const Mint = () => {
         contractAddress: contract.target || contract.address,
         networkName: network?.name || 'Unknown',
         blockNumber: receipt.blockNumber,
-        
+
         // Document Data
         fileHash,
         ipfsHash,
         ipfsUrl: `ipfs://${ipfsHash}`,
-        
+
         // Certificate Metadata (compatible avec CertificateCard)
         id: `cert_${Date.now()}`,
-        name: formData.title,              // title → name pour CertificateCard
-        title: formData.title,             // garde title aussi
+        name: formData.title, // title → name pour CertificateCard
+        title: formData.title, // garde title aussi
         description: formData.description,
         documentType: formData.documentType,
-        
+
         // User Data
         recipient: formData.recipient || account,
         walletAddress: formData.recipient || account, // recipient → walletAddress pour CertificateCard
         issuer: account,
-        
+
         // Timestamps
         createdAt: new Date().toISOString(),
         mintedAt: new Date().toISOString(),
-        
+
         // Status
         isVerified: true,
         isActive: true,
-        network: network?.name?.toLowerCase() || 'unknown'
+        network: network?.name?.toLowerCase() || 'unknown',
       });
 
       updateStep(4, 'completed');
       toast.success(t('mint.successfullyMinted'), { id: 'mint-tx' });
-
     } catch (error) {
       console.error('Minting failed:', error);
       toast.error(error.message || t('mint.mintingFailed'), { id: 'mint-tx' });
-      
+
       // Reset steps on error
-      setProcessSteps(prev => 
-        prev.map(step => ({ ...step, status: 'pending' }))
+      setProcessSteps((prev) =>
+        prev.map((step) => ({ ...step, status: 'pending' }))
       );
     }
 
@@ -304,13 +304,13 @@ const Mint = () => {
       title: '',
       description: '',
       documentType: 'certificate',
-      recipient: ''
+      recipient: '',
     });
     setSelectedFile(null);
     setFilePreview(null);
     setMintResult(null);
-    setProcessSteps(prev => 
-      prev.map(step => ({ ...step, status: 'pending' }))
+    setProcessSteps((prev) =>
+      prev.map((step) => ({ ...step, status: 'pending' }))
     );
     setIsProcessing(false);
     if (fileInputRef.current) {
@@ -332,20 +332,28 @@ const Mint = () => {
             <div className="text-center mb-8">
               <h1 className="text-3xl font-bold text-white mb-4 font-poppins">
                 {t('mint.title')}
-            </h1>
-              <p className="text-lg text-gray-400">
-                {t('mint.subtitle')}
-              </p>
+              </h1>
+              <p className="text-lg text-gray-400">{t('mint.subtitle')}</p>
             </div>
 
             {/* Connection Check */}
             {!isConnected && (
               <div className="card p-6 mb-8">
-              <div className="text-center">
+                <div className="text-center">
                   <div className="w-16 h-16 bg-primary-500/20 rounded-full flex items-center justify-center mx-auto mb-4">
-                    <svg className="w-8 h-8 text-primary-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
-                </svg>
+                    <svg
+                      className="w-8 h-8 text-primary-500"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth="2"
+                        d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"
+                      />
+                    </svg>
                   </div>
                   <h3 className="text-xl font-semibold text-white mb-2 font-poppins">
                     {t('mint.connectWalletFirst')}
@@ -353,10 +361,7 @@ const Mint = () => {
                   <p className="text-gray-400 mb-6">
                     {t('mint.connectWalletDescription')}
                   </p>
-                  <button
-                    onClick={connectWallet}
-                    className="btn-primary"
-                  >
+                  <button onClick={connectWallet} className="btn-primary">
                     {t('mint.connectWallet')}
                   </button>
                 </div>
@@ -374,11 +379,11 @@ const Mint = () => {
                       <h3 className="text-lg font-semibold text-white mb-4 font-poppins">
                         {t('mint.selectDocument')}
                       </h3>
-                      
+
                       <div
                         className={`border-2 border-dashed rounded-lg p-8 text-center transition-colors cursor-pointer ${
-                          isDragOver 
-                            ? 'border-primary-500 bg-primary-500/10' 
+                          isDragOver
+                            ? 'border-primary-500 bg-primary-500/10'
                             : selectedFile
                               ? 'border-success-500 bg-success-500/10'
                               : 'border-gray-700 hover:border-gray-600'
@@ -395,13 +400,13 @@ const Mint = () => {
                           onChange={handleFileInputChange}
                           accept=".pdf,.jpg,.jpeg,.png,.gif,.webp,.txt,.doc,.docx,.xls,.xlsx"
                         />
-                        
+
                         {selectedFile ? (
                           <div className="space-y-4">
                             {filePreview && (
-                              <img 
-                                src={filePreview} 
-                                alt="Preview" 
+                              <img
+                                src={filePreview}
+                                alt="Preview"
                                 className="w-32 h-32 object-cover mx-auto rounded-lg"
                               />
                             )}
@@ -410,7 +415,8 @@ const Mint = () => {
                                 ✓ {selectedFile.name}
                               </p>
                               <p className="text-sm text-gray-400">
-                                {(selectedFile.size / 1024 / 1024).toFixed(2)} MB
+                                {(selectedFile.size / 1024 / 1024).toFixed(2)}{' '}
+                                MB
                               </p>
                             </div>
                             <button
@@ -430,8 +436,18 @@ const Mint = () => {
                           </div>
                         ) : (
                           <div className="space-y-4">
-                            <svg className="w-12 h-12 mx-auto text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
+                            <svg
+                              className="w-12 h-12 mx-auto text-gray-500"
+                              fill="none"
+                              stroke="currentColor"
+                              viewBox="0 0 24 24"
+                            >
+                              <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                strokeWidth="2"
+                                d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"
+                              />
                             </svg>
                             <div>
                               <p className="text-gray-300 font-medium">
@@ -451,7 +467,7 @@ const Mint = () => {
                       <h3 className="text-lg font-semibold text-white mb-4 font-poppins">
                         {t('mint.certificateDetails')}
                       </h3>
-                      
+
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div>
                           <label className="block text-sm font-medium text-gray-300 mb-2">
@@ -467,7 +483,7 @@ const Mint = () => {
                             required
                           />
                         </div>
-                        
+
                         <div>
                           <label className="block text-sm font-medium text-gray-300 mb-2">
                             {t('mint.documentType')}
@@ -478,16 +494,28 @@ const Mint = () => {
                             onChange={handleInputChange}
                             className="w-full px-3 py-2 bg-dark-800 border border-gray-600 rounded-md text-white focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
                           >
-                            <option value="certificate">{t('mint.types.certificate')}</option>
-                            <option value="diploma">{t('mint.types.diploma')}</option>
-                            <option value="license">{t('mint.types.license')}</option>
-                            <option value="proof">{t('mint.types.proof')}</option>
-                            <option value="document">{t('mint.types.document')}</option>
-                            <option value="other">{t('mint.types.other')}</option>
+                            <option value="certificate">
+                              {t('mint.types.certificate')}
+                            </option>
+                            <option value="diploma">
+                              {t('mint.types.diploma')}
+                            </option>
+                            <option value="license">
+                              {t('mint.types.license')}
+                            </option>
+                            <option value="proof">
+                              {t('mint.types.proof')}
+                            </option>
+                            <option value="document">
+                              {t('mint.types.document')}
+                            </option>
+                            <option value="other">
+                              {t('mint.types.other')}
+                            </option>
                           </select>
                         </div>
                       </div>
-                      
+
                       <div className="mt-4">
                         <label className="block text-sm font-medium text-gray-300 mb-2">
                           {t('mint.description')}
@@ -501,7 +529,7 @@ const Mint = () => {
                           placeholder={t('mint.descriptionPlaceholder')}
                         />
                       </div>
-                      
+
                       <div className="mt-4">
                         <label className="block text-sm font-medium text-gray-300 mb-2">
                           {t('mint.recipient')}
@@ -515,7 +543,9 @@ const Mint = () => {
                           value={formData.recipient}
                           onChange={handleInputChange}
                           className="w-full px-3 py-2 bg-dark-800 border border-gray-600 rounded-md text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
-                          placeholder={account || t('mint.recipientPlaceholder')}
+                          placeholder={
+                            account || t('mint.recipientPlaceholder')
+                          }
                         />
                         <p className="text-xs text-gray-500 mt-1">
                           {t('mint.recipientHint')}
@@ -536,9 +566,13 @@ const Mint = () => {
                       <button
                         type="submit"
                         className="btn-primary px-8 py-2"
-                        disabled={!selectedFile || !formData.title || isProcessing}
+                        disabled={
+                          !selectedFile || !formData.title || isProcessing
+                        }
                       >
-                        {isProcessing ? t('mint.minting') : t('mint.mintCertificate')}
+                        {isProcessing
+                          ? t('mint.minting')
+                          : t('mint.mintCertificate')}
                       </button>
                     </div>
                   </form>
@@ -553,20 +587,30 @@ const Mint = () => {
                     </h3>
                     <div className="space-y-2 text-sm">
                       <div className="flex justify-between">
-                        <span className="text-gray-400">{t('mint.network')}:</span>
+                        <span className="text-gray-400">
+                          {t('mint.network')}:
+                        </span>
                         <span className="font-medium text-white">
                           {network?.displayName || 'Unknown'}
                         </span>
                       </div>
                       <div className="flex justify-between">
-                        <span className="text-gray-400">{t('mint.account')}:</span>
+                        <span className="text-gray-400">
+                          {t('mint.account')}:
+                        </span>
                         <span className="font-mono text-xs text-white">
-                          {account ? `${account.slice(0, 6)}...${account.slice(-4)}` : '-'}
+                          {account
+                            ? `${account.slice(0, 6)}...${account.slice(-4)}`
+                            : '-'}
                         </span>
                       </div>
                       <div className="flex justify-between">
-                        <span className="text-gray-400">{t('mint.contract')}:</span>
-                        <span className={`text-xs ${contract ? 'text-success-500' : 'text-error-400'}`}>
+                        <span className="text-gray-400">
+                          {t('mint.contract')}:
+                        </span>
+                        <span
+                          className={`text-xs ${contract ? 'text-success-500' : 'text-error-400'}`}
+                        >
                           {contract ? '✓ Connected' : '✗ Not Available'}
                         </span>
                       </div>
@@ -581,23 +625,30 @@ const Mint = () => {
                       </h3>
                       <div className="space-y-3">
                         {processSteps.map((step, index) => (
-                          <div key={step.key} className="flex items-center space-x-3">
-                            <div className={`w-6 h-6 rounded-full flex items-center justify-center text-xs font-medium ${
-                              step.status === 'completed' 
-                                ? 'bg-success-500/20 text-success-500'
-                                : step.status === 'processing'
-                                  ? 'bg-primary-500/20 text-primary-500 animate-pulse'
-                                  : 'bg-gray-700 text-gray-400'
-                            }`}>
+                          <div
+                            key={step.key}
+                            className="flex items-center space-x-3"
+                          >
+                            <div
+                              className={`w-6 h-6 rounded-full flex items-center justify-center text-xs font-medium ${
+                                step.status === 'completed'
+                                  ? 'bg-success-500/20 text-success-500'
+                                  : step.status === 'processing'
+                                    ? 'bg-primary-500/20 text-primary-500 animate-pulse'
+                                    : 'bg-gray-700 text-gray-400'
+                              }`}
+                            >
                               {step.status === 'completed' ? '✓' : index + 1}
                             </div>
-                            <span className={`text-sm ${
-                              step.status === 'completed' 
-                                ? 'text-success-500'
-                                : step.status === 'processing'
-                                  ? 'text-primary-500 font-medium'
-                                  : 'text-gray-400'
-                            }`}>
+                            <span
+                              className={`text-sm ${
+                                step.status === 'completed'
+                                  ? 'text-success-500'
+                                  : step.status === 'processing'
+                                    ? 'text-primary-500 font-medium'
+                                    : 'text-gray-400'
+                              }`}
+                            >
                               {t(`mint.steps.${step.key}`)}
                             </span>
                           </div>
@@ -614,12 +665,18 @@ const Mint = () => {
                       </h3>
                       <div className="space-y-2 text-sm">
                         <div>
-                          <span className="text-success-400 font-medium">{t('mint.tokenId')}:</span>
-                          <span className="ml-2 font-mono text-white">{mintResult.tokenId}</span>
+                          <span className="text-success-400 font-medium">
+                            {t('mint.tokenId')}:
+                          </span>
+                          <span className="ml-2 font-mono text-white">
+                            {mintResult.tokenId}
+                          </span>
                         </div>
                         <div>
-                          <span className="text-success-400 font-medium">{t('mint.transaction')}:</span>
-                          <a 
+                          <span className="text-success-400 font-medium">
+                            {t('mint.transaction')}:
+                          </span>
+                          <a
                             href={`${network?.blockExplorer}/tx/${mintResult.transactionHash}`}
                             target="_blank"
                             rel="noopener noreferrer"
@@ -629,9 +686,12 @@ const Mint = () => {
                           </a>
                         </div>
                         <div>
-                          <span className="text-success-400 font-medium">{t('mint.recipient')}:</span>
+                          <span className="text-success-400 font-medium">
+                            {t('mint.recipient')}:
+                          </span>
                           <span className="ml-2 font-mono text-xs text-white">
-                            {mintResult.recipient.slice(0, 6)}...{mintResult.recipient.slice(-4)}
+                            {mintResult.recipient.slice(0, 6)}...
+                            {mintResult.recipient.slice(-4)}
                           </span>
                         </div>
                       </div>
@@ -648,10 +708,15 @@ const Mint = () => {
                         <button
                           onClick={() => {
                             // Sauvegarder le certificat dans localStorage pour l'afficher dans /certificates
-                            const savedCerts = JSON.parse(localStorage.getItem('userCertificates') || '[]');
+                            const savedCerts = JSON.parse(
+                              localStorage.getItem('userCertificates') || '[]'
+                            );
                             savedCerts.unshift(mintResult); // Ajouter en premier
-                            localStorage.setItem('userCertificates', JSON.stringify(savedCerts));
-                            
+                            localStorage.setItem(
+                              'userCertificates',
+                              JSON.stringify(savedCerts)
+                            );
+
                             // Naviguer vers la page certificats
                             window.location.href = '/certificates';
                           }}
@@ -668,8 +733,8 @@ const Mint = () => {
                       </div>
                     </div>
                   )}
+                </div>
               </div>
-            </div>
             )}
           </div>
         </div>

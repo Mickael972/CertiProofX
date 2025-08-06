@@ -14,15 +14,20 @@ const LanguageDropdown = ({ isOpen, onClose, buttonRef }) => {
 
   useEffect(() => {
     const handleClickOutside = (event) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target) && 
-          buttonRef.current && !buttonRef.current.contains(event.target)) {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target) &&
+        buttonRef.current &&
+        !buttonRef.current.contains(event.target)
+      ) {
         onClose();
       }
     };
 
     if (isOpen) {
       document.addEventListener('mousedown', handleClickOutside);
-      return () => document.removeEventListener('mousedown', handleClickOutside);
+      return () =>
+        document.removeEventListener('mousedown', handleClickOutside);
     }
   }, [isOpen, onClose, buttonRef]);
 
@@ -33,14 +38,14 @@ const LanguageDropdown = ({ isOpen, onClose, buttonRef }) => {
   const right = buttonRect ? window.innerWidth - buttonRect.right : 20;
 
   return createPortal(
-    <div 
+    <div
       ref={dropdownRef}
       className="fixed w-48 bg-dark-900 border border-gray-700 rounded-xl shadow-2xl"
-      style={{ 
+      style={{
         zIndex: 999999,
         position: 'fixed',
         top: `${top}px`,
-        right: `${right}px`
+        right: `${right}px`,
       }}
     >
       <div className="py-1">
@@ -57,8 +62,16 @@ const LanguageDropdown = ({ isOpen, onClose, buttonRef }) => {
             <span className="text-lg">{language.flag}</span>
             <span>{language.name}</span>
             {currentLanguage === language.code && (
-              <svg className="w-4 h-4 ml-auto text-primary-400" fill="currentColor" viewBox="0 0 20 20">
-                <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+              <svg
+                className="w-4 h-4 ml-auto text-primary-400"
+                fill="currentColor"
+                viewBox="0 0 20 20"
+              >
+                <path
+                  fillRule="evenodd"
+                  d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                  clipRule="evenodd"
+                />
               </svg>
             )}
           </button>

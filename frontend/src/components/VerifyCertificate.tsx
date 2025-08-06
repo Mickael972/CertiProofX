@@ -5,12 +5,12 @@
 
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { 
-  Shield, 
-  Search, 
-  QrCode, 
-  CheckCircle, 
-  XCircle, 
+import {
+  Shield,
+  Search,
+  QrCode,
+  CheckCircle,
+  XCircle,
   AlertTriangle,
   Loader2,
   Copy,
@@ -19,7 +19,7 @@ import {
   User,
   Hash,
   Database,
-  Sparkles
+  Sparkles,
 } from 'lucide-react';
 import toast from 'react-hot-toast';
 
@@ -47,12 +47,14 @@ interface VerifyCertificateProps {
   onVerificationComplete?: (result: VerificationResult) => void;
 }
 
-const VerifyCertificate: React.FC<VerifyCertificateProps> = ({ 
-  initialHash = '', 
-  onVerificationComplete 
+const VerifyCertificate: React.FC<VerifyCertificateProps> = ({
+  initialHash = '',
+  onVerificationComplete,
 }) => {
   const [inputValue, setInputValue] = useState(initialHash);
-  const [inputType, setInputType] = useState<'hash' | 'tokenId' | 'address'>('hash');
+  const [inputType, setInputType] = useState<'hash' | 'tokenId' | 'address'>(
+    'hash'
+  );
   const [isVerifying, setIsVerifying] = useState(false);
   const [result, setResult] = useState<VerificationResult | null>(null);
   const [showQRScanner, setShowQRScanner] = useState(false);
@@ -88,28 +90,34 @@ const VerifyCertificate: React.FC<VerifyCertificateProps> = ({
 
     try {
       // Simulation d'un appel API de vérification
-      await new Promise(resolve => setTimeout(resolve, 2000));
+      await new Promise((resolve) => setTimeout(resolve, 2000));
 
       // Simulation du résultat basé sur la valeur
       const isValid = !value.includes('invalid') && !value.includes('fake');
-      
+
       const mockResult: VerificationResult = {
         isValid,
-        certificate: isValid ? {
-          id: 'cert_001',
-          name: 'Computer Science Degree Certificate',
-          description: 'Master\'s Degree in Computer Science - Blockchain Specialization',
-          hash: value.startsWith('0x') ? value : '0x1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef',
-          walletAddress: '0x1E274F39A44f1561b3Bb21148B9881075575676D',
-          createdAt: '2025-08-03T10:30:00.000Z',
-          ipfsHash: 'QmTestHash123456789abcdef',
-          tokenId: '42',
-          contractAddress: '0xabcdef1234567890abcdef1234567890abcdef12',
-          network: 'mumbai',
-          transactionHash: '0xabcdef1234567890abcdef1234567890abcdef1234567890abcdef1234567890',
-          issuer: 'École Supérieure d\'Informatique'
-        } : null,
-        error: !isValid ? 'Certificat non trouvé ou invalide' : undefined
+        certificate: isValid
+          ? {
+              id: 'cert_001',
+              name: 'Computer Science Degree Certificate',
+              description:
+                "Master's Degree in Computer Science - Blockchain Specialization",
+              hash: value.startsWith('0x')
+                ? value
+                : '0x1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef',
+              walletAddress: '0x1E274F39A44f1561b3Bb21148B9881075575676D',
+              createdAt: '2025-08-03T10:30:00.000Z',
+              ipfsHash: 'QmTestHash123456789abcdef',
+              tokenId: '42',
+              contractAddress: '0xabcdef1234567890abcdef1234567890abcdef12',
+              network: 'mumbai',
+              transactionHash:
+                '0xabcdef1234567890abcdef1234567890abcdef1234567890abcdef1234567890',
+              issuer: "École Supérieure d'Informatique",
+            }
+          : null,
+        error: !isValid ? 'Certificat non trouvé ou invalide' : undefined,
       };
 
       setResult(mockResult);
@@ -124,7 +132,7 @@ const VerifyCertificate: React.FC<VerifyCertificateProps> = ({
       const errorResult: VerificationResult = {
         isValid: false,
         certificate: null,
-        error: 'Erreur lors de la vérification'
+        error: 'Erreur lors de la vérification',
       };
       setResult(errorResult);
       onVerificationComplete?.(errorResult);
@@ -156,7 +164,7 @@ const VerifyCertificate: React.FC<VerifyCertificateProps> = ({
       month: 'long',
       day: 'numeric',
       hour: '2-digit',
-      minute: '2-digit'
+      minute: '2-digit',
     });
   };
 
@@ -165,9 +173,9 @@ const VerifyCertificate: React.FC<VerifyCertificateProps> = ({
       case 'hash':
         return 'Entrez le hash SHA256 du document (0x...)';
       case 'tokenId':
-        return 'Entrez l\'ID du token NFT';
+        return "Entrez l'ID du token NFT";
       case 'address':
-        return 'Entrez l\'adresse du propriétaire (0x...)';
+        return "Entrez l'adresse du propriétaire (0x...)";
       default:
         return 'Entrez le hash, token ID ou adresse à vérifier';
     }
@@ -193,7 +201,8 @@ const VerifyCertificate: React.FC<VerifyCertificateProps> = ({
               Vérifier un certificat
             </h2>
             <p className="text-gray-400">
-              Entrez un hash SHA256, un ID de token NFT ou une adresse pour vérifier l'authenticité
+              Entrez un hash SHA256, un ID de token NFT ou une adresse pour
+              vérifier l'authenticité
             </p>
           </div>
 
@@ -203,16 +212,17 @@ const VerifyCertificate: React.FC<VerifyCertificateProps> = ({
               {[
                 { key: 'hash', label: 'Hash SHA256', icon: Hash },
                 { key: 'tokenId', label: 'Token ID', icon: Sparkles },
-                { key: 'address', label: 'Adresse', icon: User }
+                { key: 'address', label: 'Adresse', icon: User },
               ].map(({ key, label, icon: Icon }) => (
                 <button
                   key={key}
                   onClick={() => setInputType(key as any)}
                   className={`
                     flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-all
-                    ${inputType === key 
-                      ? 'bg-primary-500 text-white shadow-lg' 
-                      : 'text-gray-400 hover:text-white hover:bg-dark-700'
+                    ${
+                      inputType === key
+                        ? 'bg-primary-500 text-white shadow-lg'
+                        : 'text-gray-400 hover:text-white hover:bg-dark-700'
                     }
                   `}
                 >
@@ -266,13 +276,18 @@ const VerifyCertificate: React.FC<VerifyCertificateProps> = ({
               className={`
                 w-full flex items-center justify-center gap-3 px-6 py-3 rounded-xl
                 font-medium transition-all duration-200
-                ${isVerifying || !inputValue.trim()
-                  ? 'bg-gray-600 text-gray-400 cursor-not-allowed'
-                  : 'bg-primary-500 hover:bg-primary-600 text-white shadow-lg hover:shadow-primary-500/25'
+                ${
+                  isVerifying || !inputValue.trim()
+                    ? 'bg-gray-600 text-gray-400 cursor-not-allowed'
+                    : 'bg-primary-500 hover:bg-primary-600 text-white shadow-lg hover:shadow-primary-500/25'
                 }
               `}
-              whileHover={!isVerifying && inputValue.trim() ? { scale: 1.02 } : {}}
-              whileTap={!isVerifying && inputValue.trim() ? { scale: 0.98 } : {}}
+              whileHover={
+                !isVerifying && inputValue.trim() ? { scale: 1.02 } : {}
+              }
+              whileTap={
+                !isVerifying && inputValue.trim() ? { scale: 0.98 } : {}
+              }
             >
               {isVerifying ? (
                 <>
@@ -299,9 +314,10 @@ const VerifyCertificate: React.FC<VerifyCertificateProps> = ({
             exit={{ opacity: 0, y: -20 }}
             className={`
               rounded-2xl border p-8 backdrop-blur-sm
-              ${result.isValid 
-                ? 'bg-success-500/10 border-success-500/30' 
-                : 'bg-red-500/10 border-red-500/30'
+              ${
+                result.isValid
+                  ? 'bg-success-500/10 border-success-500/30'
+                  : 'bg-red-500/10 border-red-500/30'
               }
             `}
           >
@@ -309,16 +325,19 @@ const VerifyCertificate: React.FC<VerifyCertificateProps> = ({
             <motion.div
               initial={{ scale: 0 }}
               animate={{ scale: 1 }}
-              transition={{ type: "spring", stiffness: 300, damping: 20 }}
+              transition={{ type: 'spring', stiffness: 300, damping: 20 }}
               className="flex justify-center mb-6"
             >
-              <div className={`
+              <div
+                className={`
                 p-4 rounded-full
-                ${result.isValid 
-                  ? 'bg-success-500/20 border border-success-500/50' 
-                  : 'bg-red-500/20 border border-red-500/50'
+                ${
+                  result.isValid
+                    ? 'bg-success-500/20 border border-success-500/50'
+                    : 'bg-red-500/20 border border-red-500/50'
                 }
-              `}>
+              `}
+              >
                 {result.isValid ? (
                   <CheckCircle className="w-12 h-12 text-success-500" />
                 ) : (
@@ -328,17 +347,20 @@ const VerifyCertificate: React.FC<VerifyCertificateProps> = ({
             </motion.div>
 
             <div className="text-center mb-8">
-              <h3 className={`
+              <h3
+                className={`
                 text-2xl font-bold font-poppins mb-2
                 ${result.isValid ? 'text-success-400' : 'text-red-400'}
-              `}>
-                {result.isValid ? 'Certificat vérifié ✓' : 'Certificat non valide ✗'}
+              `}
+              >
+                {result.isValid
+                  ? 'Certificat vérifié ✓'
+                  : 'Certificat non valide ✗'}
               </h3>
               <p className="text-gray-400">
-                {result.isValid 
-                  ? 'Ce certificat est authentique et vérifié sur la blockchain' 
-                  : result.error || 'Ce certificat n\'a pas pu être vérifié'
-                }
+                {result.isValid
+                  ? 'Ce certificat est authentique et vérifié sur la blockchain'
+                  : result.error || "Ce certificat n'a pas pu être vérifié"}
               </p>
             </div>
 
@@ -366,13 +388,20 @@ const VerifyCertificate: React.FC<VerifyCertificateProps> = ({
 
                     <div className="space-y-3">
                       <div className="flex items-center justify-between">
-                        <span className="text-gray-400 text-sm">Propriétaire:</span>
+                        <span className="text-gray-400 text-sm">
+                          Propriétaire:
+                        </span>
                         <div className="flex items-center gap-2">
                           <code className="text-gray-300 text-sm">
                             {formatAddress(result.certificate.walletAddress)}
                           </code>
                           <button
-                            onClick={() => copyToClipboard(result.certificate!.walletAddress, 'Adresse')}
+                            onClick={() =>
+                              copyToClipboard(
+                                result.certificate!.walletAddress,
+                                'Adresse'
+                              )
+                            }
                             className="p-1 hover:bg-gray-700 rounded transition-colors"
                           >
                             <Copy className="w-3 h-3 text-gray-400" />
@@ -381,7 +410,9 @@ const VerifyCertificate: React.FC<VerifyCertificateProps> = ({
                       </div>
 
                       <div className="flex items-center justify-between">
-                        <span className="text-gray-400 text-sm">Date de création:</span>
+                        <span className="text-gray-400 text-sm">
+                          Date de création:
+                        </span>
                         <span className="text-gray-300 text-sm">
                           {formatDate(result.certificate.createdAt)}
                         </span>
@@ -389,7 +420,9 @@ const VerifyCertificate: React.FC<VerifyCertificateProps> = ({
 
                       {result.certificate.tokenId && (
                         <div className="flex items-center justify-between">
-                          <span className="text-gray-400 text-sm">Token NFT:</span>
+                          <span className="text-gray-400 text-sm">
+                            Token NFT:
+                          </span>
                           <span className="text-purple-400 text-sm font-medium">
                             #{result.certificate.tokenId}
                           </span>
@@ -400,7 +433,10 @@ const VerifyCertificate: React.FC<VerifyCertificateProps> = ({
                         <div className="flex items-center justify-between">
                           <span className="text-gray-400 text-sm">Réseau:</span>
                           <span className="text-blue-400 text-sm font-medium">
-                            {result.certificate.network.charAt(0).toUpperCase() + result.certificate.network.slice(1)}
+                            {result.certificate.network
+                              .charAt(0)
+                              .toUpperCase() +
+                              result.certificate.network.slice(1)}
                           </span>
                         </div>
                       )}

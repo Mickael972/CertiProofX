@@ -15,7 +15,7 @@ const ExampleUsage = () => {
   // Données d'exemple pour le certificat
   const exampleCertificate = {
     id: 'cert_kai_001',
-    name: 'Master\'s Degree Certificate',
+    name: "Master's Degree Certificate",
     description: 'Computer Science with Blockchain Specialization',
     hash: '0x1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef',
     walletAddress: '0x1E274F39A44f1561b3Bb21148B9881075575676D',
@@ -24,13 +24,13 @@ const ExampleUsage = () => {
     tokenId: '42',
     isVerified: true,
     contractAddress: '0xabcdef1234567890abcdef1234567890abcdef12',
-    network: 'mumbai'
+    network: 'mumbai',
   };
 
   const tabs = [
     { id: 'upload', label: 'Upload Document', icon: '📤' },
     { id: 'card', label: 'Certificate Card', icon: '🏆' },
-    { id: 'verify', label: 'Verify Certificate', icon: '🔍' }
+    { id: 'verify', label: 'Verify Certificate', icon: '🔍' },
   ];
 
   return (
@@ -38,14 +38,14 @@ const ExampleUsage = () => {
       <div className="container mx-auto px-4">
         {/* Header */}
         <div className="text-center mb-12">
-          <motion.h1 
+          <motion.h1
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             className="text-4xl font-bold text-white font-poppins mb-4"
           >
             CertiProof X Components
           </motion.h1>
-          <motion.p 
+          <motion.p
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.1 }}
@@ -56,7 +56,7 @@ const ExampleUsage = () => {
         </div>
 
         {/* Navigation des onglets */}
-        <motion.div 
+        <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2 }}
@@ -68,9 +68,10 @@ const ExampleUsage = () => {
               onClick={() => setActiveTab(tab.id)}
               className={`
                 flex items-center gap-3 px-6 py-3 rounded-xl font-medium transition-all
-                ${activeTab === tab.id 
-                  ? 'bg-primary-500 text-white shadow-lg shadow-primary-500/25' 
-                  : 'bg-dark-800/50 text-gray-300 hover:bg-dark-700 hover:text-white'
+                ${
+                  activeTab === tab.id
+                    ? 'bg-primary-500 text-white shadow-lg shadow-primary-500/25'
+                    : 'bg-dark-800/50 text-gray-300 hover:bg-dark-700 hover:text-white'
                 }
               `}
             >
@@ -95,12 +96,17 @@ const ExampleUsage = () => {
                   Upload Document Component
                 </h2>
                 <p className="text-gray-400">
-                  Composant d'upload avec calcul SHA256, génération de certificat et mint NFT
+                  Composant d'upload avec calcul SHA256, génération de
+                  certificat et mint NFT
                 </p>
               </div>
               <UploadDocument
-                onFileProcessed={(file, hash) => console.log('File processed:', file.name, hash)}
-                onMintNFT={(file, hash) => console.log('Minting NFT for:', file.name, hash)}
+                onFileProcessed={(file, hash) =>
+                  console.log('File processed:', file.name, hash)
+                }
+                onMintNFT={(file, hash) =>
+                  console.log('Minting NFT for:', file.name, hash)
+                }
               />
             </div>
           )}
@@ -112,7 +118,8 @@ const ExampleUsage = () => {
                   Certificate Card Component
                 </h2>
                 <p className="text-gray-400">
-                  Carte de certificat avec QR code, détails et actions de vérification
+                  Carte de certificat avec QR code, détails et actions de
+                  vérification
                 </p>
               </div>
               <div className="max-w-3xl mx-auto">
@@ -132,11 +139,14 @@ const ExampleUsage = () => {
                   Verify Certificate Component
                 </h2>
                 <p className="text-gray-400">
-                  Interface de vérification avec animations et résultats détaillés
+                  Interface de vérification avec animations et résultats
+                  détaillés
                 </p>
               </div>
               <VerifyCertificate
-                onVerificationComplete={(result) => console.log('Verification result:', result)}
+                onVerificationComplete={(result) =>
+                  console.log('Verification result:', result)
+                }
               />
             </div>
           )}
@@ -152,7 +162,7 @@ const ExampleUsage = () => {
           <h3 className="text-xl font-bold text-white font-poppins mb-6 text-center">
             Spécifications Techniques
           </h3>
-          
+
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             <div className="text-center">
               <div className="w-12 h-12 bg-primary-500/20 rounded-xl flex items-center justify-center mx-auto mb-3">
@@ -166,7 +176,7 @@ const ExampleUsage = () => {
                 <li>Fonts: Poppins/Inter</li>
               </ul>
             </div>
-            
+
             <div className="text-center">
               <div className="w-12 h-12 bg-purple-500/20 rounded-xl flex items-center justify-center mx-auto mb-3">
                 <span className="text-2xl">⚡</span>
@@ -179,7 +189,7 @@ const ExampleUsage = () => {
                 <li>Lucide React</li>
               </ul>
             </div>
-            
+
             <div className="text-center">
               <div className="w-12 h-12 bg-success-500/20 rounded-xl flex items-center justify-center mx-auto mb-3">
                 <span className="text-2xl">🔗</span>
@@ -192,7 +202,7 @@ const ExampleUsage = () => {
                 <li>NFT Certificates</li>
               </ul>
             </div>
-            
+
             <div className="text-center">
               <div className="w-12 h-12 bg-blue-500/20 rounded-xl flex items-center justify-center mx-auto mb-3">
                 <span className="text-2xl">🛡️</span>

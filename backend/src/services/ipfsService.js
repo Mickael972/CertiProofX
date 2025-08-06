@@ -1,7 +1,7 @@
 /**
  * IPFS Service for CertiProof X Backend
  * Author: Kai Zenjiro (0xGenesis) - certiproofx@protonmail.me
- * 
+ *
  * Handles file uploads to IPFS using various providers
  */
 
@@ -27,17 +27,19 @@ class IPFSService {
       case 'web3storage':
         if (!config.ipfs.web3Storage.token) {
           if (config.server.env === 'development') {
-            logger.warn('🔧 Development mode: Web3.Storage token not configured, IPFS upload will be mocked');
+            logger.warn(
+              '🔧 Development mode: Web3.Storage token not configured, IPFS upload will be mocked'
+            );
             this.client = null; // Mock mode
             return;
           }
           throw new Error('Web3.Storage token not configured');
         }
-        this.client = new Web3Storage({ 
-          token: config.ipfs.web3Storage.token 
+        this.client = new Web3Storage({
+          token: config.ipfs.web3Storage.token,
         });
         break;
-        
+
       case 'pinata':
         if (!config.ipfs.pinata.apiKey || !config.ipfs.pinata.secretKey) {
           throw new Error('Pinata API credentials not configured');
@@ -45,24 +47,27 @@ class IPFSService {
         this.pinataAxios = axios.create({
           baseURL: config.ipfs.pinata.endpoint,
           headers: {
-            'pinata_api_key': config.ipfs.pinata.apiKey,
-            'pinata_secret_api_key': config.ipfs.pinata.secretKey
+            pinata_api_key: config.ipfs.pinata.apiKey,
+            pinata_secret_api_key: config.ipfs.pinata.secretKey,
           },
-          timeout: config.ipfs.timeout
+          timeout: config.ipfs.timeout,
         });
         break;
-        
+
       case 'infura':
-        if (!config.ipfs.infura.projectId || !config.ipfs.infura.projectSecret) {
+        if (
+          !config.ipfs.infura.projectId ||
+          !config.ipfs.infura.projectSecret
+        ) {
           throw new Error('Infura IPFS credentials not configured');
         }
         // Infura IPFS client setup would go here
         break;
-        
+
       default:
         throw new Error(`Unsupported IPFS provider: ${this.provider}`);
     }
-    
+
     logger.info(`IPFS Service initialized with provider: ${this.provider}`);
   }
 
@@ -77,12 +82,12 @@ class IPFSService {
     try {
       const startTime = Date.now();
       logger.info(`Starting IPFS upload for file: ${filename}`);
-      
+
       // Generate file hash for verification
       const fileHash = await generateSHA256(fileBuffer);
-      
+
       let result;
-      
+
       // Mock mode for development when client is not configured
       if (this.client === null && config.server.env === 'development') {
         logger.warn('🔧 Development mode: Mocking IPFS upload');
@@ -95,37 +100,53 @@ class IPFSService {
           filename: filename,
           uploadTime: Date.now() - startTime,
           provider: 'mock',
-          mock: true
+          mock: true,
         };
       } else {
         switch (this.provider) {
           case 'web3storage':
-            result = await this.uploadToWeb3Storage(fileBuffer, filename, metadata, fileHash);
+            result = await this.uploadToWeb3Storage(
+              fileBuffer,
+              filename,
+              metadata,
+              fileHash
+            );
             break;
-            
+
           case 'pinata':
-            result = await this.uploadToPinata(fileBuffer, filename, metadata, fileHash);
+            result = await this.uploadToPinata(
+              fileBuffer,
+              filename,
+              metadata,
+              fileHash
+            );
             break;
-            
+
           case 'infura':
-            result = await this.uploadToInfura(fileBuffer, filename, metadata, fileHash);
+            result = await this.uploadToInfura(
+              fileBuffer,
+              filename,
+              metadata,
+              fileHash
+            );
             break;
-            
+
           default:
-            throw new Error(`Upload method not implemented for provider: ${this.provider}`);
+            throw new Error(
+              `Upload method not implemented for provider: ${this.provider}`
+            );
         }
       }
-      
+
       const uploadTime = Date.now() - startTime;
       logger.ipfs('upload', result.hash, {
         filename,
         size: fileBuffer.length,
         uploadTime: `${uploadTime}ms`,
-        provider: this.provider
+        provider: this.provider,
       });
-      
+
       return result;
-      
     } catch (error) {
       logger.error(`IPFS upload failed for ${filename}:`, error);
       throw new Error(`Failed to upload to IPFS: ${error.message}`);
@@ -138,15 +159,15 @@ class IPFSService {
   async uploadToWeb3Storage(fileBuffer, filename, metadata, fileHash) {
     try {
       const file = new File([fileBuffer], filename, {
-        type: this.getMimeType(filename)
+        type: this.getMimeType(filename),
       });
-      
+
       const cid = await this.client.put([file], {
         name: filename,
         maxRetries: 3,
-        wrapWithDirectory: false
+        wrapWithDirectory: false,
       });
-      
+
       return {
         hash: cid,
         ipfsUrl: `ipfs://${cid}`,
@@ -158,10 +179,9 @@ class IPFSService {
         metadata: {
           ...metadata,
           uploadedAt: new Date().toISOString(),
-          uploadId: generateUUID()
-        }
+          uploadId: generateUUID(),
+        },
       };
-      
     } catch (error) {
       throw new Error(`Web3.Storage upload failed: ${error.message}`);
     }
@@ -175,9 +195,9 @@ class IPFSService {
       const formData = new FormData();
       formData.append('file', fileBuffer, {
         filename,
-        contentType: this.getMimeType(filename)
+        contentType: this.getMimeType(filename),
       });
-      
+
       // Add metadata
       const pinataMetadata = {
         name: filename,
@@ -186,35 +206,39 @@ class IPFSService {
           fileHash,
           uploadedAt: new Date().toISOString(),
           uploadId: generateUUID(),
-          originalFilename: filename
-        }
+          originalFilename: filename,
+        },
       };
-      
+
       formData.append('pinataMetadata', JSON.stringify(pinataMetadata));
-      
+
       const pinataOptions = {
         cidVersion: 1,
         customPinPolicy: {
           regions: [
             { id: 'FRA1', desiredReplicationCount: 1 },
-            { id: 'NYC1', desiredReplicationCount: 1 }
-          ]
-        }
-      };
-      
-      formData.append('pinataOptions', JSON.stringify(pinataOptions));
-      
-      const response = await this.pinataAxios.post('/pinning/pinFileToIPFS', formData, {
-        headers: {
-          ...formData.getHeaders(),
-          'Content-Length': formData.getLengthSync()
+            { id: 'NYC1', desiredReplicationCount: 1 },
+          ],
         },
-        maxContentLength: config.upload.maxFileSize,
-        maxBodyLength: config.upload.maxFileSize
-      });
-      
+      };
+
+      formData.append('pinataOptions', JSON.stringify(pinataOptions));
+
+      const response = await this.pinataAxios.post(
+        '/pinning/pinFileToIPFS',
+        formData,
+        {
+          headers: {
+            ...formData.getHeaders(),
+            'Content-Length': formData.getLengthSync(),
+          },
+          maxContentLength: config.upload.maxFileSize,
+          maxBodyLength: config.upload.maxFileSize,
+        }
+      );
+
       const { IpfsHash, PinSize } = response.data;
-      
+
       return {
         hash: IpfsHash,
         ipfsUrl: `ipfs://${IpfsHash}`,
@@ -223,12 +247,13 @@ class IPFSService {
         fileHash,
         filename,
         size: PinSize,
-        metadata: pinataMetadata.keyvalues
+        metadata: pinataMetadata.keyvalues,
       };
-      
     } catch (error) {
       if (error.response) {
-        throw new Error(`Pinata upload failed: ${error.response.data.error || error.response.statusText}`);
+        throw new Error(
+          `Pinata upload failed: ${error.response.data.error || error.response.statusText}`
+        );
       }
       throw new Error(`Pinata upload failed: ${error.message}`);
     }
@@ -252,14 +277,13 @@ class IPFSService {
     try {
       const metadataString = JSON.stringify(metadata, null, 2);
       const metadataBuffer = Buffer.from(metadataString, 'utf8');
-      
+
       logger.info(`Uploading metadata to IPFS: ${name}`);
-      
+
       return await this.uploadFile(metadataBuffer, name, {
         type: 'metadata',
-        contentType: 'application/json'
+        contentType: 'application/json',
       });
-      
     } catch (error) {
       logger.error(`Failed to upload metadata:`, error);
       throw new Error(`Failed to upload metadata to IPFS: ${error.message}`);
@@ -274,33 +298,36 @@ class IPFSService {
   async retrieveFile(hash) {
     try {
       logger.info(`Retrieving file from IPFS: ${hash}`);
-      
+
       // Try multiple gateways for redundancy
       const gateways = [
         config.ipfs.gateway,
         'https://ipfs.io/ipfs/',
         'https://gateway.pinata.cloud/ipfs/',
-        'https://cloudflare-ipfs.com/ipfs/'
+        'https://cloudflare-ipfs.com/ipfs/',
       ];
-      
+
       for (const gateway of gateways) {
         try {
           const response = await axios.get(`${gateway}${hash}`, {
             responseType: 'arraybuffer',
-            timeout: config.ipfs.timeout
+            timeout: config.ipfs.timeout,
           });
-          
-          logger.ipfs('retrieve', hash, { gateway, size: response.data.length });
+
+          logger.ipfs('retrieve', hash, {
+            gateway,
+            size: response.data.length,
+          });
           return Buffer.from(response.data);
-          
         } catch (error) {
-          logger.warn(`Failed to retrieve from gateway ${gateway}: ${error.message}`);
+          logger.warn(
+            `Failed to retrieve from gateway ${gateway}: ${error.message}`
+          );
           continue;
         }
       }
-      
+
       throw new Error('Failed to retrieve file from all gateways');
-      
     } catch (error) {
       logger.error(`Failed to retrieve file ${hash}:`, error);
       throw new Error(`Failed to retrieve file from IPFS: ${error.message}`);
@@ -315,7 +342,7 @@ class IPFSService {
   async fileExists(hash) {
     try {
       const response = await axios.head(`${config.ipfs.gateway}${hash}`, {
-        timeout: 10000
+        timeout: 10000,
       });
       return response.status === 200;
     } catch (error) {
@@ -331,21 +358,21 @@ class IPFSService {
   async getFileMetadata(hash) {
     try {
       const response = await axios.head(`${config.ipfs.gateway}${hash}`, {
-        timeout: 10000
+        timeout: 10000,
       });
-      
+
       return {
         exists: true,
         size: parseInt(response.headers['content-length']) || 0,
-        contentType: response.headers['content-type'] || 'application/octet-stream',
+        contentType:
+          response.headers['content-type'] || 'application/octet-stream',
         lastModified: response.headers['last-modified'],
-        etag: response.headers['etag']
+        etag: response.headers['etag'],
       };
-      
     } catch (error) {
       return {
         exists: false,
-        error: error.message
+        error: error.message,
       };
     }
   }
@@ -381,19 +408,20 @@ class IPFSService {
           name: `pinned-${hash}`,
           keyvalues: {
             pinnedAt: new Date().toISOString(),
-            method: 'pinByHash'
-          }
-        }
+            method: 'pinByHash',
+          },
+        },
       });
-      
+
       return {
         success: true,
         hash: response.data.ipfsHash,
-        provider: 'pinata'
+        provider: 'pinata',
       };
-      
     } catch (error) {
-      throw new Error(`Pinata pin failed: ${error.response?.data?.error || error.message}`);
+      throw new Error(
+        `Pinata pin failed: ${error.response?.data?.error || error.message}`
+      );
     }
   }
 
@@ -403,20 +431,20 @@ class IPFSService {
   getMimeType(filename) {
     const ext = filename.split('.').pop().toLowerCase();
     const mimeTypes = {
-      'pdf': 'application/pdf',
-      'jpg': 'image/jpeg',
-      'jpeg': 'image/jpeg',
-      'png': 'image/png',
-      'gif': 'image/gif',
-      'webp': 'image/webp',
-      'txt': 'text/plain',
-      'json': 'application/json',
-      'doc': 'application/msword',
-      'docx': 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-      'xls': 'application/vnd.ms-excel',
-      'xlsx': 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+      pdf: 'application/pdf',
+      jpg: 'image/jpeg',
+      jpeg: 'image/jpeg',
+      png: 'image/png',
+      gif: 'image/gif',
+      webp: 'image/webp',
+      txt: 'text/plain',
+      json: 'application/json',
+      doc: 'application/msword',
+      docx: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+      xls: 'application/vnd.ms-excel',
+      xlsx: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
     };
-    
+
     return mimeTypes[ext] || 'application/octet-stream';
   }
 
@@ -429,7 +457,7 @@ class IPFSService {
       gateway: config.ipfs.gateway,
       maxFileSize: config.upload.maxFileSize,
       supportedTypes: config.upload.allowedMimeTypes,
-      operational: true
+      operational: true,
     };
   }
 }

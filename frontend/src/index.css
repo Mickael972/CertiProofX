@@ -9,7 +9,7 @@
   html {
     scroll-behavior: smooth;
   }
-  
+
   body {
     @apply bg-dark-950 text-white antialiased font-inter;
     font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
@@ -20,7 +20,7 @@
     border-top: none !important;
     box-shadow: none !important;
   }
-  
+
   section {
     border: none !important;
     margin-top: 0 !important;
@@ -28,7 +28,7 @@
     box-shadow: none !important;
     outline: none !important;
   }
-  
+
   footer {
     border: none !important;
     border-top: none !important;
@@ -36,7 +36,7 @@
     box-shadow: none !important;
     outline: none !important;
   }
-  
+
   header {
     border-bottom: none !important;
     box-shadow: none !important;
@@ -287,13 +287,17 @@
     -ms-overflow-style: none;
     scrollbar-width: none;
   }
-  
+
   .scrollbar-hide::-webkit-scrollbar {
     display: none;
   }
 
   .bg-pattern {
-    background-image: radial-gradient(circle at 1px 1px, rgba(255,255,255,0.5) 1px, transparent 0);
+    background-image: radial-gradient(
+      circle at 1px 1px,
+      rgba(255, 255, 255, 0.5) 1px,
+      transparent 0
+    );
     background-size: 20px 20px;
   }
 
@@ -313,7 +317,8 @@
 
 /* Custom animations */
 @keyframes float {
-  0%, 100% {
+  0%,
+  100% {
     transform: translateY(0px);
   }
   50% {
@@ -322,7 +327,8 @@
 }
 
 @keyframes glow {
-  0%, 100% {
+  0%,
+  100% {
     box-shadow: 0 0 20px rgba(59, 130, 246, 0.5);
   }
   50% {
@@ -331,7 +337,8 @@
 }
 
 @keyframes pulse-glow {
-  0%, 100% {
+  0%,
+  100% {
     box-shadow: 0 0 20px rgba(59, 130, 246, 0.3);
   }
   50% {
@@ -371,7 +378,7 @@
   .container-custom {
     @apply px-3;
   }
-  
+
   .section-padding {
     @apply py-8;
   }

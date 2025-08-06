@@ -47,74 +47,81 @@ function App() {
         <I18nProvider>
           <AppProvider>
             <Web3Provider>
-            <Router 
-              future={{ 
-                v7_startTransition: true,
-                v7_relativeSplatPath: true 
-              }}
-            >
-              <div className="App min-h-screen bg-dark-950">
-                {/* Toast notifications */}
-                <Toaster
-                  position="top-right"
-                  toastOptions={{
-                    duration: 4000,
-                    style: {
-                      background: '#fff',
-                      color: '#374151',
-                      boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)',
-                      border: '1px solid #e5e7eb',
-                      borderRadius: '0.75rem',
-                      fontFamily: 'Inter, sans-serif',
-                      fontSize: '14px',
-                      maxWidth: '400px',
-                    },
-                    success: {
-                      iconTheme: {
-                        primary: '#10b981',
-                        secondary: '#fff',
+              <Router
+                future={{
+                  v7_startTransition: true,
+                  v7_relativeSplatPath: true,
+                }}
+              >
+                <div className="App min-h-screen bg-dark-950">
+                  {/* Toast notifications */}
+                  <Toaster
+                    position="top-right"
+                    toastOptions={{
+                      duration: 4000,
+                      style: {
+                        background: '#fff',
+                        color: '#374151',
+                        boxShadow:
+                          '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)',
+                        border: '1px solid #e5e7eb',
+                        borderRadius: '0.75rem',
+                        fontFamily: 'Inter, sans-serif',
+                        fontSize: '14px',
+                        maxWidth: '400px',
                       },
-                    },
-                    error: {
-                      iconTheme: {
-                        primary: '#ef4444',
-                        secondary: '#fff',
+                      success: {
+                        iconTheme: {
+                          primary: '#10b981',
+                          secondary: '#fff',
+                        },
                       },
-                    },
-                    loading: {
-                      iconTheme: {
-                        primary: '#3b82f6',
-                        secondary: '#fff',
+                      error: {
+                        iconTheme: {
+                          primary: '#ef4444',
+                          secondary: '#fff',
+                        },
                       },
-                    },
-                  }}
-                />
+                      loading: {
+                        iconTheme: {
+                          primary: '#3b82f6',
+                          secondary: '#fff',
+                        },
+                      },
+                    }}
+                  />
 
-                {/* Main application layout */}
-                <Layout>
-                  <Suspense fallback={<PageLoader />}>
-                    <Routes>
-                      {/* Public routes */}
-                      <Route path="/" element={<Home />} />
-                      <Route path="/upload" element={<Mint />} />
-                      <Route path="/mint" element={<Mint />} />
-                      <Route path="/verify" element={<Verify />} />
-                      <Route path="/verify/:tokenId" element={<Verify />} />
-                      <Route path="/certificates" element={<Certificates />} />
-                      <Route path="/about" element={<About />} />
-                      <Route path="/demo" element={<ExampleUsage />} />
-                      
-                      {/* Certificate specific routes */}
-                      <Route path="/certificate/:tokenId" element={<Verify />} />
-                      <Route path="/proof/:hash" element={<Verify />} />
-                      
-                      {/* 404 fallback */}
-                      <Route path="*" element={<NotFound />} />
-                    </Routes>
-                  </Suspense>
-                </Layout>
-              </div>
-            </Router>
+                  {/* Main application layout */}
+                  <Layout>
+                    <Suspense fallback={<PageLoader />}>
+                      <Routes>
+                        {/* Public routes */}
+                        <Route path="/" element={<Home />} />
+                        <Route path="/upload" element={<Mint />} />
+                        <Route path="/mint" element={<Mint />} />
+                        <Route path="/verify" element={<Verify />} />
+                        <Route path="/verify/:tokenId" element={<Verify />} />
+                        <Route
+                          path="/certificates"
+                          element={<Certificates />}
+                        />
+                        <Route path="/about" element={<About />} />
+                        <Route path="/demo" element={<ExampleUsage />} />
+
+                        {/* Certificate specific routes */}
+                        <Route
+                          path="/certificate/:tokenId"
+                          element={<Verify />}
+                        />
+                        <Route path="/proof/:hash" element={<Verify />} />
+
+                        {/* 404 fallback */}
+                        <Route path="*" element={<NotFound />} />
+                      </Routes>
+                    </Suspense>
+                  </Layout>
+                </div>
+              </Router>
             </Web3Provider>
           </AppProvider>
         </I18nProvider>

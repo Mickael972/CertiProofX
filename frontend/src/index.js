@@ -41,7 +41,7 @@ reportWebVitals((metric) => {
   if (process.env.NODE_ENV === 'development') {
     console.log('📊 Web Vitals:', metric);
   }
-  
+
   // Send to analytics service in production
   if (process.env.NODE_ENV === 'production') {
     // Send to analytics service
@@ -52,7 +52,8 @@ reportWebVitals((metric) => {
 // Service worker registration (optional)
 if ('serviceWorker' in navigator && process.env.NODE_ENV === 'production') {
   window.addEventListener('load', () => {
-    navigator.serviceWorker.register('/sw.js')
+    navigator.serviceWorker
+      .register('/sw.js')
       .then((registration) => {
         console.log('SW registered: ', registration);
       })
@@ -65,7 +66,7 @@ if ('serviceWorker' in navigator && process.env.NODE_ENV === 'production') {
 // Global error handling
 window.addEventListener('error', (event) => {
   console.error('Global error:', event.error);
-  
+
   // Report to error tracking service in production
   if (process.env.NODE_ENV === 'production') {
     // Example: Sentry.captureException(event.error);
@@ -74,7 +75,7 @@ window.addEventListener('error', (event) => {
 
 window.addEventListener('unhandledrejection', (event) => {
   console.error('Unhandled promise rejection:', event.reason);
-  
+
   // Report to error tracking service in production
   if (process.env.NODE_ENV === 'production') {
     // Example: Sentry.captureException(event.reason);
@@ -83,12 +84,14 @@ window.addEventListener('unhandledrejection', (event) => {
 
 // Web3 detection warning
 if (typeof window.ethereum === 'undefined') {
-  console.warn('⚠️ No Web3 provider detected. Install MetaMask or use a Web3-enabled browser.');
+  console.warn(
+    '⚠️ No Web3 provider detected. Install MetaMask or use a Web3-enabled browser.'
+  );
 }
 
 // Browser compatibility check
 const checkBrowserCompatibility = () => {
-  const isCompatible = 
+  const isCompatible =
     'fetch' in window &&
     'Promise' in window &&
     'Map' in window &&
@@ -99,7 +102,9 @@ const checkBrowserCompatibility = () => {
 
   if (!isCompatible) {
     console.error('❌ Browser not compatible with CertiProof X');
-    alert('Your browser is not compatible with CertiProof X. Please upgrade to a modern browser.');
+    alert(
+      'Your browser is not compatible with CertiProof X. Please upgrade to a modern browser.'
+    );
   }
 };
 

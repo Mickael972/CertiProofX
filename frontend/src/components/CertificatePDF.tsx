@@ -6,18 +6,18 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import QRCode from 'qrcode.react';
-import { 
-  FileText, 
-  Download, 
-  Shield, 
-  Calendar, 
-  User, 
-  Hash, 
+import {
+  FileText,
+  Download,
+  Shield,
+  Calendar,
+  User,
+  Hash,
   Signature,
   Award,
   Building,
   Globe,
-  Sparkles
+  Sparkles,
 } from 'lucide-react';
 
 interface CertificateData {
@@ -43,29 +43,31 @@ interface CertificatePDFProps {
   onSign?: () => void;
 }
 
-const CertificatePDF: React.FC<CertificatePDFProps> = ({ 
+const CertificatePDF: React.FC<CertificatePDFProps> = ({
   certificate,
   preview = false,
   onDownload,
-  onSign 
+  onSign,
 }) => {
   const [isGeneratingPDF, setIsGeneratingPDF] = useState(false);
 
   // Données par défaut pré-remplies pour Kai Zenjiro
   const defaultCertificate: CertificateData = {
     id: 'cert_kai_001',
-    name: 'Computer Science Master\'s Degree Certificate',
-    description: 'Master\'s Degree in Computer Science with specialization in Blockchain Technologies and Decentralized Systems',
+    name: "Computer Science Master's Degree Certificate",
+    description:
+      "Master's Degree in Computer Science with specialization in Blockchain Technologies and Decentralized Systems",
     recipientName: 'Kai Zenjiro',
     recipientWallet: '0x1E274F39A44f1561b3Bb21148B9881075575676D',
-    issuerName: 'École Supérieure d\'Informatique Paris',
+    issuerName: "École Supérieure d'Informatique Paris",
     issuerWallet: '0x742d35Cc6635C0532925a3b8D322035715d3b8B7',
-    documentHash: '0x1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef',
+    documentHash:
+      '0x1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef',
     ipfsHash: 'QmKaiZenjiroMasterDegree2025',
     tokenId: '42',
     issuedDate: '2025-08-03T10:30:00.000Z',
     network: 'Polygon Mumbai',
-    contractAddress: '0xabcdef1234567890abcdef1234567890abcdef12'
+    contractAddress: '0xabcdef1234567890abcdef1234567890abcdef12',
   };
 
   const certData = certificate || defaultCertificate;
@@ -74,7 +76,7 @@ const CertificatePDF: React.FC<CertificatePDFProps> = ({
     return new Date(dateString).toLocaleDateString('fr-FR', {
       year: 'numeric',
       month: 'long',
-      day: 'numeric'
+      day: 'numeric',
     });
   };
 
@@ -88,7 +90,7 @@ const CertificatePDF: React.FC<CertificatePDFProps> = ({
     setIsGeneratingPDF(true);
     try {
       // Ici on implémenterait la génération PDF réelle
-      await new Promise(resolve => setTimeout(resolve, 2000));
+      await new Promise((resolve) => setTimeout(resolve, 2000));
       onDownload?.();
     } finally {
       setIsGeneratingPDF(false);
@@ -149,12 +151,16 @@ const CertificatePDF: React.FC<CertificatePDFProps> = ({
                   <Award className="w-8 h-8 text-white" />
                 </div>
                 <div>
-                  <h1 className="text-2xl font-bold font-poppins">CertiProof X</h1>
-                  <p className="text-white/80 text-sm">Blockchain Certificate</p>
+                  <h1 className="text-2xl font-bold font-poppins">
+                    CertiProof X
+                  </h1>
+                  <p className="text-white/80 text-sm">
+                    Blockchain Certificate
+                  </p>
                 </div>
               </div>
             </div>
-            
+
             <div className="text-right">
               <p className="text-white/80 text-sm">Certificat #</p>
               <p className="font-mono text-lg">{certData.tokenId || '---'}</p>
@@ -180,7 +186,7 @@ const CertificatePDF: React.FC<CertificatePDFProps> = ({
                 {certData.recipientName}
               </h3>
             </div>
-            
+
             <div className="max-w-2xl mx-auto">
               <p className="text-gray-600 text-lg mb-2">a obtenu le</p>
               <h4 className="text-2xl font-semibold text-gray-800 mb-4">
@@ -200,7 +206,7 @@ const CertificatePDF: React.FC<CertificatePDFProps> = ({
                 <Shield className="w-5 h-5 text-primary-500" />
                 Détails Blockchain
               </h5>
-              
+
               <div className="space-y-3 text-sm">
                 <div>
                   <p className="text-gray-600">Hash du document:</p>
@@ -208,12 +214,14 @@ const CertificatePDF: React.FC<CertificatePDFProps> = ({
                     {formatAddress(certData.documentHash)}
                   </code>
                 </div>
-                
+
                 <div>
                   <p className="text-gray-600">Réseau:</p>
-                  <span className="font-medium text-purple-600">{certData.network}</span>
+                  <span className="font-medium text-purple-600">
+                    {certData.network}
+                  </span>
                 </div>
-                
+
                 {certData.ipfsHash && (
                   <div>
                     <p className="text-gray-600">IPFS:</p>
@@ -231,23 +239,25 @@ const CertificatePDF: React.FC<CertificatePDFProps> = ({
                 <Building className="w-5 h-5 text-primary-500" />
                 Émetteur
               </h5>
-              
+
               <div className="space-y-3 text-sm">
                 <div>
                   <p className="text-gray-600">Institution:</p>
                   <p className="font-medium">{certData.issuerName}</p>
                 </div>
-                
+
                 <div>
                   <p className="text-gray-600">Wallet émetteur:</p>
                   <code className="text-xs font-mono text-gray-800">
                     {formatAddress(certData.issuerWallet)}
                   </code>
                 </div>
-                
+
                 <div>
                   <p className="text-gray-600">Date d'émission:</p>
-                  <p className="font-medium">{formatDate(certData.issuedDate)}</p>
+                  <p className="font-medium">
+                    {formatDate(certData.issuedDate)}
+                  </p>
                 </div>
               </div>
             </div>
@@ -258,7 +268,7 @@ const CertificatePDF: React.FC<CertificatePDFProps> = ({
                 <Globe className="w-5 h-5 text-primary-500" />
                 Vérification
               </h5>
-              
+
               <div className="text-center space-y-3">
                 <QRCode
                   value={verificationUrl}
@@ -269,9 +279,7 @@ const CertificatePDF: React.FC<CertificatePDFProps> = ({
                   includeMargin={true}
                   className="mx-auto border border-gray-200 rounded-lg"
                 />
-                <p className="text-xs text-gray-600">
-                  Scanner pour vérifier
-                </p>
+                <p className="text-xs text-gray-600">Scanner pour vérifier</p>
               </div>
             </div>
           </div>
@@ -280,7 +288,9 @@ const CertificatePDF: React.FC<CertificatePDFProps> = ({
           <div className="border-t border-gray-200 pt-6">
             <div className="flex flex-col lg:flex-row justify-between items-center gap-6">
               <div className="text-center lg:text-left">
-                <p className="text-gray-600 text-sm mb-1">Signature numérique</p>
+                <p className="text-gray-600 text-sm mb-1">
+                  Signature numérique
+                </p>
                 <div className="flex items-center gap-2">
                   <Signature className="w-5 h-5 text-primary-500" />
                   <span className="font-semibold text-primary-600 font-script text-xl">
@@ -291,7 +301,7 @@ const CertificatePDF: React.FC<CertificatePDFProps> = ({
                   Wallet: {formatAddress(certData.recipientWallet)}
                 </p>
               </div>
-              
+
               {/* Badges de validation */}
               <div className="flex flex-wrap gap-2">
                 <span className="inline-flex items-center gap-1 px-3 py-1 bg-success-100 text-success-700 text-xs font-medium rounded-full">
@@ -322,7 +332,8 @@ const CertificatePDF: React.FC<CertificatePDFProps> = ({
               <span>Open Source</span>
             </div>
             <p className="text-xs text-gray-400 mt-2">
-              Ce certificat est authentifié par la blockchain et vérifiable publiquement
+              Ce certificat est authentifié par la blockchain et vérifiable
+              publiquement
             </p>
           </div>
         </div>

@@ -1,7 +1,7 @@
 /**
  * Authentication middleware for CertiProof X Backend
  * Author: Kai Zenjiro (0xGenesis) - certiproofx@protonmail.me
- * 
+ *
  * Handles API key authentication and request validation
  */
 
@@ -25,7 +25,7 @@ const validateApiKey = (req, res, next) => {
       ip: req.ip,
       userAgent: req.get('User-Agent'),
       url: req.originalUrl,
-      method: req.method
+      method: req.method,
     });
 
     return res.status(401).json({
@@ -33,7 +33,7 @@ const validateApiKey = (req, res, next) => {
       error: 'Authentication required',
       message: 'API key is required',
       code: 'API_KEY_REQUIRED',
-      timestamp: new Date().toISOString()
+      timestamp: new Date().toISOString(),
     });
   }
 
@@ -43,7 +43,7 @@ const validateApiKey = (req, res, next) => {
       ip: req.ip,
       userAgent: req.get('User-Agent'),
       url: req.originalUrl,
-      method: req.method
+      method: req.method,
     });
 
     return res.status(401).json({
@@ -51,14 +51,14 @@ const validateApiKey = (req, res, next) => {
       error: 'Authentication failed',
       message: 'Invalid API key',
       code: 'INVALID_API_KEY',
-      timestamp: new Date().toISOString()
+      timestamp: new Date().toISOString(),
     });
   }
 
   logger.info('API key validated successfully', {
     ip: req.ip,
     url: req.originalUrl,
-    method: req.method
+    method: req.method,
   });
 
   next();
@@ -78,7 +78,7 @@ const validateSignature = (req, res, next) => {
       hasTimestamp: !!timestamp,
       ip: req.ip,
       url: req.originalUrl,
-      method: req.method
+      method: req.method,
     });
 
     return res.status(401).json({
@@ -86,7 +86,7 @@ const validateSignature = (req, res, next) => {
       error: 'Signature verification required',
       message: 'Request signature and timestamp are required',
       code: 'SIGNATURE_REQUIRED',
-      timestamp: new Date().toISOString()
+      timestamp: new Date().toISOString(),
     });
   }
 
@@ -95,14 +95,15 @@ const validateSignature = (req, res, next) => {
   const currentTime = Math.floor(Date.now() / 1000);
   const timeDiff = Math.abs(currentTime - requestTime);
 
-  if (timeDiff > 300) { // 5 minutes
+  if (timeDiff > 300) {
+    // 5 minutes
     logger.security('Request timestamp expired', {
       requestTime,
       currentTime,
       timeDiff,
       ip: req.ip,
       url: req.originalUrl,
-      method: req.method
+      method: req.method,
     });
 
     return res.status(401).json({
@@ -110,7 +111,7 @@ const validateSignature = (req, res, next) => {
       error: 'Request expired',
       message: 'Request timestamp is too old or too far in the future',
       code: 'REQUEST_EXPIRED',
-      timestamp: new Date().toISOString()
+      timestamp: new Date().toISOString(),
     });
   }
 
@@ -119,7 +120,7 @@ const validateSignature = (req, res, next) => {
     method: req.method,
     url: req.originalUrl,
     timestamp: timestamp,
-    body: req.body || {}
+    body: req.body || {},
   });
 
   // Verify signature
@@ -135,7 +136,7 @@ const validateSignature = (req, res, next) => {
       signature: signature.substring(0, 16) + '...',
       ip: req.ip,
       url: req.originalUrl,
-      method: req.method
+      method: req.method,
     });
 
     return res.status(401).json({
@@ -143,14 +144,14 @@ const validateSignature = (req, res, next) => {
       error: 'Signature verification failed',
       message: 'Invalid request signature',
       code: 'INVALID_SIGNATURE',
-      timestamp: new Date().toISOString()
+      timestamp: new Date().toISOString(),
     });
   }
 
   logger.info('Request signature validated successfully', {
     ip: req.ip,
     url: req.originalUrl,
-    method: req.method
+    method: req.method,
   });
 
   next();
@@ -169,18 +170,19 @@ const requireAdmin = (req, res, next) => {
     // Add more authorized IPs as needed
   ];
 
-  const isAuthorizedIP = authorizedIPs.includes(req.ip) || 
-                        authorizedIPs.includes(req.connection.remoteAddress) ||
-                        req.ip.startsWith('192.168.') ||
-                        req.ip.startsWith('10.') ||
-                        req.ip.startsWith('172.');
+  const isAuthorizedIP =
+    authorizedIPs.includes(req.ip) ||
+    authorizedIPs.includes(req.connection.remoteAddress) ||
+    req.ip.startsWith('192.168.') ||
+    req.ip.startsWith('10.') ||
+    req.ip.startsWith('172.');
 
   if (!adminToken && !isAuthorizedIP) {
     logger.security('Unauthorized admin access attempt', {
       ip: req.ip,
       userAgent: req.get('User-Agent'),
       url: req.originalUrl,
-      method: req.method
+      method: req.method,
     });
 
     return res.status(403).json({
@@ -188,20 +190,20 @@ const requireAdmin = (req, res, next) => {
       error: 'Admin access required',
       message: 'Insufficient privileges',
       code: 'ADMIN_REQUIRED',
-      timestamp: new Date().toISOString()
+      timestamp: new Date().toISOString(),
     });
   }
 
   if (adminToken) {
     // Validate admin token (in production, this would be a proper JWT or database lookup)
     const expectedAdminToken = config.security.jwtSecret + '_admin';
-    
+
     if (adminToken !== expectedAdminToken) {
       logger.security('Invalid admin token', {
         token: adminToken.substring(0, 10) + '...',
         ip: req.ip,
         url: req.originalUrl,
-        method: req.method
+        method: req.method,
       });
 
       return res.status(403).json({
@@ -209,7 +211,7 @@ const requireAdmin = (req, res, next) => {
         error: 'Invalid admin token',
         message: 'Invalid administrative credentials',
         code: 'INVALID_ADMIN_TOKEN',
-        timestamp: new Date().toISOString()
+        timestamp: new Date().toISOString(),
       });
     }
   }
@@ -217,7 +219,7 @@ const requireAdmin = (req, res, next) => {
   logger.info('Admin access granted', {
     method: isAuthorizedIP ? 'authorized_ip' : 'admin_token',
     ip: req.ip,
-    url: req.originalUrl
+    url: req.originalUrl,
   });
 
   next();
@@ -229,10 +231,10 @@ const requireAdmin = (req, res, next) => {
  */
 const addRequestId = (req, res, next) => {
   const { generateUUID } = require('../utils/crypto');
-  
+
   req.id = req.header('X-Request-ID') || generateUUID();
   res.set('X-Request-ID', req.id);
-  
+
   next();
 };
 
@@ -247,13 +249,13 @@ const ipWhitelist = (whitelist = []) => {
     }
 
     const clientIP = req.ip || req.connection.remoteAddress;
-    
+
     if (!whitelist.includes(clientIP)) {
       logger.security('IP not whitelisted', {
         clientIP,
         whitelist,
         url: req.originalUrl,
-        method: req.method
+        method: req.method,
       });
 
       return res.status(403).json({
@@ -261,7 +263,7 @@ const ipWhitelist = (whitelist = []) => {
         error: 'Access denied',
         message: 'IP address not authorized',
         code: 'IP_NOT_WHITELISTED',
-        timestamp: new Date().toISOString()
+        timestamp: new Date().toISOString(),
       });
     }
 
@@ -275,12 +277,12 @@ const ipWhitelist = (whitelist = []) => {
  */
 const validateUserAgent = (req, res, next) => {
   const userAgent = req.get('User-Agent');
-  
+
   if (!userAgent) {
     logger.security('Missing User-Agent header', {
       ip: req.ip,
       url: req.originalUrl,
-      method: req.method
+      method: req.method,
     });
 
     return res.status(400).json({
@@ -288,7 +290,7 @@ const validateUserAgent = (req, res, next) => {
       error: 'Bad request',
       message: 'User-Agent header is required',
       code: 'MISSING_USER_AGENT',
-      timestamp: new Date().toISOString()
+      timestamp: new Date().toISOString(),
     });
   }
 
@@ -299,10 +301,10 @@ const validateUserAgent = (req, res, next) => {
     'python-requests',
     'bot',
     'crawler',
-    'spider'
+    'spider',
   ];
 
-  const isBlocked = blockedUserAgents.some(blocked => 
+  const isBlocked = blockedUserAgents.some((blocked) =>
     userAgent.toLowerCase().includes(blocked.toLowerCase())
   );
 
@@ -311,7 +313,7 @@ const validateUserAgent = (req, res, next) => {
       userAgent,
       ip: req.ip,
       url: req.originalUrl,
-      method: req.method
+      method: req.method,
     });
 
     return res.status(403).json({
@@ -319,7 +321,7 @@ const validateUserAgent = (req, res, next) => {
       error: 'Access denied',
       message: 'User agent not allowed',
       code: 'USER_AGENT_BLOCKED',
-      timestamp: new Date().toISOString()
+      timestamp: new Date().toISOString(),
     });
   }
 
@@ -333,12 +335,15 @@ const handlePreflight = (req, res, next) => {
   if (req.method === 'OPTIONS') {
     res.header('Access-Control-Allow-Origin', req.headers.origin || '*');
     res.header('Access-Control-Allow-Methods', 'GET,POST,PUT,DELETE,OPTIONS');
-    res.header('Access-Control-Allow-Headers', 'Content-Type,Authorization,X-API-Key,X-Signature,X-Timestamp,X-Request-ID');
+    res.header(
+      'Access-Control-Allow-Headers',
+      'Content-Type,Authorization,X-API-Key,X-Signature,X-Timestamp,X-Request-ID'
+    );
     res.header('Access-Control-Max-Age', '86400'); // 24 hours
-    
+
     return res.status(200).end();
   }
-  
+
   next();
 };
 
@@ -349,5 +354,5 @@ module.exports = {
   addRequestId,
   ipWhitelist,
   validateUserAgent,
-  handlePreflight
+  handlePreflight,
 };

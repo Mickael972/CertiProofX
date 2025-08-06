@@ -54,19 +54,7 @@
     "prettier": "^3.4.1",
     "@testing-library/jest-dom": "^6.4.2"
   },
-  "jest": {
-    "testEnvironment": "node",
-    "collectCoverageFrom": [
-      "src/**/*.js",
-      "!src/server.js"
-    ],
-    "coverageDirectory": "coverage",
-    "coverageReporters": [
-      "text",
-      "lcov",
-      "html"
-    ]
-  },
+
   "keywords": [
     "api",
     "backend",

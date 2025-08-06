@@ -11,20 +11,22 @@ import CertificateCard from '../components/CertificateCard';
 
 const Certificates = () => {
   const t = useT();
-  
+
   // Charger les certificats du localStorage + données d'exemple
   const [userCertificates, setUserCertificates] = useState([]);
-  
+
   useEffect(() => {
-    const savedCerts = JSON.parse(localStorage.getItem('userCertificates') || '[]');
+    const savedCerts = JSON.parse(
+      localStorage.getItem('userCertificates') || '[]'
+    );
     setUserCertificates(savedCerts);
   }, []);
-  
+
   // Données d'exemple de certificats
   const exampleCertificates = [
     {
       id: 'cert_kai_001',
-      name: 'Master\'s Degree Certificate',
+      name: "Master's Degree Certificate",
       description: 'Computer Science with Blockchain Specialization',
       hash: '0x1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef',
       walletAddress: '0x1E274F39A44f1561b3Bb21148B9881075575676D',
@@ -33,7 +35,7 @@ const Certificates = () => {
       tokenId: '42',
       isVerified: true,
       contractAddress: '0xabcdef1234567890abcdef1234567890abcdef12',
-      network: 'mumbai'
+      network: 'mumbai',
     },
     {
       id: 'cert_kai_002',
@@ -46,8 +48,8 @@ const Certificates = () => {
       tokenId: '43',
       isVerified: true,
       contractAddress: '0xabcdef1234567890abcdef1234567890abcdef12',
-      network: 'mumbai'
-    }
+      network: 'mumbai',
+    },
   ];
 
   return (
@@ -96,7 +98,7 @@ const Certificates = () => {
                   />
                 </motion.div>
               ))}
-              
+
               {/* Puis les certificats d'exemple */}
               {exampleCertificates.map((certificate, index) => (
                 <motion.div
@@ -121,31 +123,42 @@ const Certificates = () => {
             </div>
 
             {/* Message si aucun certificat */}
-            {userCertificates.length === 0 && exampleCertificates.length === 0 && (
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                className="text-center py-16"
-              >
-                <div className="w-24 h-24 mx-auto mb-6 bg-gray-800 rounded-full flex items-center justify-center">
-                  <svg className="w-12 h-12 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12h6m-6 0a9 9 0 110 18 9 9 0 010-18zm0 0v6a9 9 0 119 9m-9-9h6" />
-                  </svg>
-                </div>
-                <h3 className="text-xl font-semibold text-white mb-2">
-                  {t('certificates.noCertificates')}
-                </h3>
-                <p className="text-gray-400 mb-6">
-                  {t('certificates.createFirstCertificate')}
-                </p>
-                <a
-                  href="/upload"
-                  className="inline-flex items-center gap-2 px-6 py-3 bg-primary-500 hover:bg-primary-600 text-white font-medium rounded-xl transition-all shadow-lg hover:shadow-primary-500/25"
+            {userCertificates.length === 0 &&
+              exampleCertificates.length === 0 && (
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  className="text-center py-16"
                 >
-                  {t('certificates.createCertificate')}
-                </a>
-              </motion.div>
-            )}
+                  <div className="w-24 h-24 mx-auto mb-6 bg-gray-800 rounded-full flex items-center justify-center">
+                    <svg
+                      className="w-12 h-12 text-gray-500"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth="2"
+                        d="M9 12h6m-6 0a9 9 0 110 18 9 9 0 010-18zm0 0v6a9 9 0 119 9m-9-9h6"
+                      />
+                    </svg>
+                  </div>
+                  <h3 className="text-xl font-semibold text-white mb-2">
+                    {t('certificates.noCertificates')}
+                  </h3>
+                  <p className="text-gray-400 mb-6">
+                    {t('certificates.createFirstCertificate')}
+                  </p>
+                  <a
+                    href="/upload"
+                    className="inline-flex items-center gap-2 px-6 py-3 bg-primary-500 hover:bg-primary-600 text-white font-medium rounded-xl transition-all shadow-lg hover:shadow-primary-500/25"
+                  >
+                    {t('certificates.createCertificate')}
+                  </a>
+                </motion.div>
+              )}
           </div>
         </div>
       </div>

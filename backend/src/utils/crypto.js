@@ -15,7 +15,7 @@ const path = require('path');
 const generateSHA256 = async (input) => {
   try {
     const hash = crypto.createHash('sha256');
-    
+
     if (Buffer.isBuffer(input)) {
       // Input is a buffer
       hash.update(input);
@@ -32,7 +32,7 @@ const generateSHA256 = async (input) => {
     } else {
       throw new Error('Input must be a Buffer, file path, or string');
     }
-    
+
     return hash.digest('hex');
   } catch (error) {
     throw new Error(`Failed to generate SHA-256 hash: ${error.message}`);
@@ -47,17 +47,19 @@ const generateSHA256 = async (input) => {
 const generateSHA256FromStream = (stream) => {
   return new Promise((resolve, reject) => {
     const hash = crypto.createHash('sha256');
-    
+
     stream.on('data', (chunk) => {
       hash.update(chunk);
     });
-    
+
     stream.on('end', () => {
       resolve(hash.digest('hex'));
     });
-    
+
     stream.on('error', (error) => {
-      reject(new Error(`Failed to generate hash from stream: ${error.message}`));
+      reject(
+        new Error(`Failed to generate hash from stream: ${error.message}`)
+      );
     });
   });
 };
@@ -70,7 +72,7 @@ const generateSHA256FromStream = (stream) => {
 const generateMD5 = async (input) => {
   try {
     const hash = crypto.createHash('md5');
-    
+
     if (Buffer.isBuffer(input)) {
       hash.update(input);
     } else if (typeof input === 'string') {
@@ -83,7 +85,7 @@ const generateMD5 = async (input) => {
     } else {
       throw new Error('Input must be a Buffer, file path, or string');
     }
-    
+
     return hash.digest('hex');
   } catch (error) {
     throw new Error(`Failed to generate MD5 hash: ${error.message}`);
@@ -118,7 +120,7 @@ const generateSecureFilename = (originalName, prefix = '') => {
   const timestamp = Date.now();
   const random = crypto.randomBytes(8).toString('hex');
   const prefixPart = prefix ? `${prefix}_` : '';
-  
+
   return `${prefixPart}${timestamp}_${random}${ext}`;
 };
 
@@ -146,13 +148,13 @@ const calculateFileChecksum = async (input) => {
   try {
     const [sha256, md5] = await Promise.all([
       generateSHA256(input),
-      generateMD5(input)
+      generateMD5(input),
     ]);
-    
+
     return {
       sha256,
       md5,
-      timestamp: new Date().toISOString()
+      timestamp: new Date().toISOString(),
     };
   } catch (error) {
     throw new Error(`Failed to calculate file checksum: ${error.message}`);
@@ -224,18 +226,18 @@ const encryptData = (plaintext, password) => {
     const key = crypto.pbkdf2Sync(password, salt, 100000, 32, 'sha256');
     const iv = crypto.randomBytes(16);
     const cipher = crypto.createCipherGCM('aes-256-gcm', key, iv);
-    
+
     let encrypted = cipher.update(plaintext, 'utf8', 'hex');
     encrypted += cipher.final('hex');
-    
+
     const authTag = cipher.getAuthTag();
-    
+
     return {
       encrypted,
       salt: salt.toString('hex'),
       iv: iv.toString('hex'),
       authTag: authTag.toString('hex'),
-      algorithm: 'aes-256-gcm'
+      algorithm: 'aes-256-gcm',
     };
   } catch (error) {
     throw new Error(`Failed to encrypt data: ${error.message}`);
@@ -251,14 +253,24 @@ const encryptData = (plaintext, password) => {
 const decryptData = (encryptedData, password) => {
   try {
     const { encrypted, salt, iv, authTag } = encryptedData;
-    
-    const key = crypto.pbkdf2Sync(password, Buffer.from(salt, 'hex'), 100000, 32, 'sha256');
-    const decipher = crypto.createDecipherGCM('aes-256-gcm', key, Buffer.from(iv, 'hex'));
+
+    const key = crypto.pbkdf2Sync(
+      password,
+      Buffer.from(salt, 'hex'),
+      100000,
+      32,
+      'sha256'
+    );
+    const decipher = crypto.createDecipherGCM(
+      'aes-256-gcm',
+      key,
+      Buffer.from(iv, 'hex')
+    );
     decipher.setAuthTag(Buffer.from(authTag, 'hex'));
-    
+
     let decrypted = decipher.update(encrypted, 'hex', 'utf8');
     decrypted += decipher.final('utf8');
-    
+
     return decrypted;
   } catch (error) {
     throw new Error(`Failed to decrypt data: ${error.message}`);
@@ -278,5 +290,5 @@ module.exports = {
   verifyHMAC,
   generateContentID,
   encryptData,
-  decryptData
+  decryptData,
 };

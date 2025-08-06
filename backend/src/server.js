@@ -1,7 +1,7 @@
 /**
  * CertiProof X Backend Server
  * Author: Kai Zenjiro (0xGenesis) - certiproofx@protonmail.me
- * 
+ *
  * Main server file for the CertiProof X backend API
  * Handles IPFS uploads, PDF generation, QR codes, and metadata management
  */
@@ -38,32 +38,35 @@ const app = express();
 app.set('trust proxy', 1);
 
 // Security middleware
-app.use(helmet({
-  crossOriginResourcePolicy: { policy: "cross-origin" },
-  contentSecurityPolicy: {
-    directives: {
-      defaultSrc: ["'self'"],
-      styleSrc: ["'self'", "'unsafe-inline'"],
-      scriptSrc: ["'self'"],
-      imgSrc: ["'self'", "data:", "https:"],
-      connectSrc: ["'self'", "https:"],
-      fontSrc: ["'self'"],
-      objectSrc: ["'none'"],
-      mediaSrc: ["'self'"],
-      frameSrc: ["'none'"]
-    }
-  }
-}));
+app.use(
+  helmet({
+    crossOriginResourcePolicy: { policy: 'cross-origin' },
+    contentSecurityPolicy: {
+      directives: {
+        defaultSrc: ["'self'"],
+        styleSrc: ["'self'", "'unsafe-inline'"],
+        scriptSrc: ["'self'"],
+        imgSrc: ["'self'", 'data:', 'https:'],
+        connectSrc: ["'self'", 'https:'],
+        fontSrc: ["'self'"],
+        objectSrc: ["'none'"],
+        mediaSrc: ["'self'"],
+        frameSrc: ["'none'"],
+      },
+    },
+  })
+);
 
 // CORS configuration
 const corsOptions = {
-  origin: process.env.NODE_ENV === 'production' 
-    ? ['https://certiproof-x.vercel.app', 'https://www.certiproof-x.com']
-    : ['http://localhost:3000', 'http://127.0.0.1:3000'],
+  origin:
+    process.env.NODE_ENV === 'production'
+      ? ['https://certiproof-x.vercel.app', 'https://www.certiproof-x.com']
+      : ['http://localhost:3000', 'http://127.0.0.1:3000'],
   credentials: true,
   optionsSuccessStatus: 200,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization', 'X-API-Key']
+  allowedHeaders: ['Content-Type', 'Authorization', 'X-API-Key'],
 };
 
 app.use(cors(corsOptions));
@@ -75,11 +78,11 @@ const limiter = rateLimit({
   max: process.env.NODE_ENV === 'production' ? 100 : 1000, // Limit each IP
   message: {
     error: 'Too many requests from this IP, please try again later.',
-    code: 'RATE_LIMIT_EXCEEDED'
+    code: 'RATE_LIMIT_EXCEEDED',
   },
   standardHeaders: true,
   legacyHeaders: false,
-  trustProxy: true
+  trustProxy: true,
 });
 
 app.use(limiter);
@@ -90,20 +93,26 @@ app.use(express.urlencoded({ extended: true, limit: '50mb' }));
 
 // Request logging
 if (process.env.NODE_ENV !== 'test') {
-  app.use(morgan('combined', { stream: { write: message => logger.info(message.trim()) } }));
+  app.use(
+    morgan('combined', {
+      stream: { write: (message) => logger.info(message.trim()) },
+    })
+  );
 }
 
 // Winston request logging
-app.use(expressWinston.logger({
-  winstonInstance: logger,
-  meta: true,
-  msg: "HTTP {{req.method}} {{req.url}}",
-  expressFormat: true,
-  colorize: false,
-  ignoreRoute: function (req, res) { 
-    return req.path === '/health' || req.path === '/api/health';
-  }
-}));
+app.use(
+  expressWinston.logger({
+    winstonInstance: logger,
+    meta: true,
+    msg: 'HTTP {{req.method}} {{req.url}}',
+    expressFormat: true,
+    colorize: false,
+    ignoreRoute: function (req, res) {
+      return req.path === '/health' || req.path === '/api/health';
+    },
+  })
+);
 
 // API routes
 app.use('/api/health', healthRoutes);
@@ -125,11 +134,12 @@ app.get('/', (req, res) => {
       upload: '/api/upload',
       certificate: '/api/certificate',
       verification: '/api/verification',
-      metadata: '/api/metadata'
+      metadata: '/api/metadata',
     },
-    documentation: 'https://github.com/Mickael972/CertiProofX/blob/main/docs/TECHNICAL_DOCUMENTATION.md',
+    documentation:
+      'https://github.com/Mickael972/CertiProofX/blob/main/docs/TECHNICAL_DOCUMENTATION.md',
     status: 'operational',
-    timestamp: new Date().toISOString()
+    timestamp: new Date().toISOString(),
   });
 });
 
@@ -146,15 +156,17 @@ app.use('*', (req, res) => {
       'POST /api/certificate/generate',
       'POST /api/certificate/qr',
       'GET /api/verification/:tokenId',
-      'GET /api/metadata/:tokenId'
-    ]
+      'GET /api/metadata/:tokenId',
+    ],
   });
 });
 
 // Error handling middleware (must be last)
-app.use(expressWinston.errorLogger({
-  winstonInstance: logger
-}));
+app.use(
+  expressWinston.errorLogger({
+    winstonInstance: logger,
+  })
+);
 
 app.use(errorHandler);
 
@@ -169,13 +181,19 @@ if (process.env.NODE_ENV !== 'test') {
     logger.info(`🌍 Environment: ${process.env.NODE_ENV || 'development'}`);
     logger.info(`📁 IPFS Provider: ${config.ipfs.provider}`);
     logger.info(`🔒 Security: Helmet enabled, CORS configured`);
-    
+
     // Display configuration
     if (process.env.NODE_ENV === 'development') {
       logger.info('📋 Configuration:');
-      logger.info(`   - Max file size: ${config.upload.maxFileSize / 1024 / 1024}MB`);
-      logger.info(`   - Supported formats: ${config.upload.allowedMimeTypes.join(', ')}`);
-      logger.info(`   - Rate limit: ${process.env.NODE_ENV === 'production' ? 100 : 1000} requests/15min`);
+      logger.info(
+        `   - Max file size: ${config.upload.maxFileSize / 1024 / 1024}MB`
+      );
+      logger.info(
+        `   - Supported formats: ${config.upload.allowedMimeTypes.join(', ')}`
+      );
+      logger.info(
+        `   - Rate limit: ${process.env.NODE_ENV === 'production' ? 100 : 1000} requests/15min`
+      );
     }
   });
 }

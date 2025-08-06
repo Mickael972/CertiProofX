@@ -6,17 +6,17 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import QRCode from 'qrcode.react';
-import { 
-  Shield, 
-  Calendar, 
-  Wallet, 
-  Hash, 
-  ExternalLink, 
-  Copy, 
+import {
+  Shield,
+  Calendar,
+  Wallet,
+  Hash,
+  ExternalLink,
+  Copy,
   CheckCircle,
   Eye,
   Sparkles,
-  Database
+  Database,
 } from 'lucide-react';
 import toast from 'react-hot-toast';
 
@@ -39,11 +39,11 @@ interface CertificateCardProps {
   className?: string;
 }
 
-const CertificateCard: React.FC<CertificateCardProps> = ({ 
-  certificate, 
-  onVerify, 
+const CertificateCard: React.FC<CertificateCardProps> = ({
+  certificate,
+  onVerify,
   onView,
-  className = "" 
+  className = '',
 }) => {
   const [copiedField, setCopiedField] = useState<string | null>(null);
 
@@ -71,7 +71,7 @@ const CertificateCard: React.FC<CertificateCardProps> = ({
       month: 'long',
       day: 'numeric',
       hour: '2-digit',
-      minute: '2-digit'
+      minute: '2-digit',
     });
   };
 
@@ -139,7 +139,8 @@ const CertificateCard: React.FC<CertificateCardProps> = ({
               )}
               {certificate.network && (
                 <span className="inline-flex items-center gap-1 px-3 py-1 bg-blue-500/20 text-blue-400 text-xs font-medium rounded-full border border-blue-500/30">
-                  {certificate.network.charAt(0).toUpperCase() + certificate.network.slice(1)}
+                  {certificate.network.charAt(0).toUpperCase() +
+                    certificate.network.slice(1)}
                 </span>
               )}
             </div>
@@ -151,7 +152,9 @@ const CertificateCard: React.FC<CertificateCardProps> = ({
             <div className="space-y-2">
               <div className="flex items-center gap-2">
                 <Hash className="w-4 h-4 text-gray-400" />
-                <span className="text-sm font-medium text-gray-300">Hash SHA256</span>
+                <span className="text-sm font-medium text-gray-300">
+                  Hash SHA256
+                </span>
               </div>
               <div className="flex items-center gap-2 bg-dark-800 rounded-lg p-3 border border-gray-600">
                 <code className="flex-1 text-xs text-gray-300 font-mono break-all">
@@ -175,14 +178,18 @@ const CertificateCard: React.FC<CertificateCardProps> = ({
             <div className="space-y-2">
               <div className="flex items-center gap-2">
                 <Wallet className="w-4 h-4 text-gray-400" />
-                <span className="text-sm font-medium text-gray-300">Propriétaire</span>
+                <span className="text-sm font-medium text-gray-300">
+                  Propriétaire
+                </span>
               </div>
               <div className="flex items-center gap-2 bg-dark-800 rounded-lg p-3 border border-gray-600">
                 <code className="flex-1 text-sm text-gray-300 font-mono">
                   {formatAddress(certificate.walletAddress)}
                 </code>
                 <motion.button
-                  onClick={() => copyToClipboard(certificate.walletAddress, 'Wallet')}
+                  onClick={() =>
+                    copyToClipboard(certificate.walletAddress, 'Wallet')
+                  }
                   className="p-1 hover:bg-gray-700 rounded transition-colors"
                   whileTap={{ scale: 0.95 }}
                 >
@@ -199,7 +206,9 @@ const CertificateCard: React.FC<CertificateCardProps> = ({
             <div className="space-y-2">
               <div className="flex items-center gap-2">
                 <Calendar className="w-4 h-4 text-gray-400" />
-                <span className="text-sm font-medium text-gray-300">Créé le</span>
+                <span className="text-sm font-medium text-gray-300">
+                  Créé le
+                </span>
               </div>
               <div className="text-sm text-gray-400">
                 {formatDate(certificate.createdAt)}

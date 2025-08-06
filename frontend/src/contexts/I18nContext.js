@@ -1,7 +1,7 @@
 /**
  * I18n Context for CertiProof X Frontend
  * Author: Kai Zenjiro (0xGenesis) - certiproofx@protonmail.me
- * 
+ *
  * Simple and lightweight internationalization system
  */
 
@@ -19,14 +19,14 @@ const LANGUAGES = {
     code: 'fr',
     name: 'Français',
     flag: '🇫🇷',
-    translations: frTranslations
+    translations: frTranslations,
   },
   en: {
-    code: 'en', 
+    code: 'en',
     name: 'English',
     flag: '🇺🇸',
-    translations: enTranslations
-  }
+    translations: enTranslations,
+  },
 };
 
 // Default language
@@ -64,14 +64,17 @@ export const I18nProvider = ({ children }) => {
   };
 
   const getCurrentTranslations = () => {
-    return LANGUAGES[currentLanguage]?.translations || LANGUAGES[DEFAULT_LANGUAGE].translations;
+    return (
+      LANGUAGES[currentLanguage]?.translations ||
+      LANGUAGES[DEFAULT_LANGUAGE].translations
+    );
   };
 
   // Translation function with nested key support
   const t = (key, defaultValue = key) => {
     const translations = getCurrentTranslations();
     const keys = key.split('.');
-    
+
     let value = translations;
     for (const k of keys) {
       if (value && typeof value === 'object' && k in value) {
@@ -80,7 +83,7 @@ export const I18nProvider = ({ children }) => {
         return defaultValue;
       }
     }
-    
+
     return typeof value === 'string' ? value : defaultValue;
   };
 
@@ -89,24 +92,20 @@ export const I18nProvider = ({ children }) => {
     changeLanguage,
     t,
     languages: LANGUAGES,
-    isRTL: false // Add RTL support if needed
+    isRTL: false, // Add RTL support if needed
   };
 
-  return (
-    <I18nContext.Provider value={value}>
-      {children}
-    </I18nContext.Provider>
-  );
+  return <I18nContext.Provider value={value}>{children}</I18nContext.Provider>;
 };
 
 // Custom hook to use i18n
 export const useTranslation = () => {
   const context = useContext(I18nContext);
-  
+
   if (!context) {
     throw new Error('useTranslation must be used within an I18nProvider');
   }
-  
+
   return context;
 };
 

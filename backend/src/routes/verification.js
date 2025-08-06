@@ -1,7 +1,7 @@
 /**
  * Verification routes for CertiProof X Backend
  * Author: Kai Zenjiro (0xGenesis) - certiproofx@protonmail.me
- * 
+ *
  * Handles certificate and proof verification
  */
 
@@ -18,10 +18,13 @@ const router = express.Router();
  * Verify certificate by token ID
  * GET /api/verification/:tokenId
  */
-router.get('/:tokenId',
+router.get(
+  '/:tokenId',
   [
     param('tokenId').isNumeric().toInt(),
-    query('network').optional().isIn(['mumbai', 'polygon', 'goerli', 'mainnet'])
+    query('network')
+      .optional()
+      .isIn(['mumbai', 'polygon', 'goerli', 'mainnet']),
   ],
   async (req, res) => {
     try {
@@ -30,17 +33,22 @@ router.get('/:tokenId',
         return res.status(400).json({
           success: false,
           error: 'Validation failed',
-          details: errors.array()
+          details: errors.array(),
         });
       }
 
       const { tokenId } = req.params;
       const network = req.query.network || config.blockchain.defaultNetwork;
 
-      logger.apiRequest(req.method, req.originalUrl, req.ip, req.get('User-Agent'));
+      logger.apiRequest(
+        req.method,
+        req.originalUrl,
+        req.ip,
+        req.get('User-Agent')
+      );
       logger.info(`Verifying certificate: Token ID ${tokenId}`, {
         network,
-        ip: req.ip
+        ip: req.ip,
       });
 
       // This would typically interact with the blockchain to get token data
@@ -52,37 +60,40 @@ router.get('/:tokenId',
         isActive: true,
         verified: true,
         proof: {
-          documentHash: "0x1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef", // Mock
-          ipfsHash: "QmTestHash123456789", // Mock
-          issuer: "0x1234567890123456789012345678901234567890", // Mock
-          recipient: "0x0987654321098765432109876543210987654321", // Mock
-          issuedAt: "2025-08-03T00:00:00.000Z", // Mock
-          title: "Sample Certificate", // Mock
-          documentType: "diploma" // Mock
+          documentHash:
+            '0x1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef', // Mock
+          ipfsHash: 'QmTestHash123456789', // Mock
+          issuer: '0x1234567890123456789012345678901234567890', // Mock
+          recipient: '0x0987654321098765432109876543210987654321', // Mock
+          issuedAt: '2025-08-03T00:00:00.000Z', // Mock
+          title: 'Sample Certificate', // Mock
+          documentType: 'diploma', // Mock
         },
         blockchain: {
           network,
-          contractAddress: config.blockchain.networks[network]?.contractAddress || "Not deployed",
+          contractAddress:
+            config.blockchain.networks[network]?.contractAddress ||
+            'Not deployed',
           blockNumber: 12345678, // Mock
-          transactionHash: "0xabcdef1234567890abcdef1234567890abcdef1234567890abcdef1234567890", // Mock
-          gasUsed: "150000" // Mock
+          transactionHash:
+            '0xabcdef1234567890abcdef1234567890abcdef1234567890abcdef1234567890', // Mock
+          gasUsed: '150000', // Mock
         },
-        verifiedAt: new Date().toISOString()
+        verifiedAt: new Date().toISOString(),
       };
 
       logger.apiResponse(req.method, req.originalUrl, 200, 0);
       logger.info(`Certificate verification completed: Token ID ${tokenId}`, {
         exists: verificationResult.exists,
         isActive: verificationResult.isActive,
-        verified: verificationResult.verified
+        verified: verificationResult.verified,
       });
 
       res.status(200).json({
         success: true,
         message: 'Certificate verification completed',
-        data: verificationResult
+        data: verificationResult,
       });
-
     } catch (error) {
       logger.apiError(req.method, req.originalUrl, 500, error, req.ip);
       logger.error('Certificate verification failed:', error);
@@ -91,7 +102,7 @@ router.get('/:tokenId',
         success: false,
         error: 'Verification failed',
         message: error.message,
-        code: 'VERIFICATION_FAILED'
+        code: 'VERIFICATION_FAILED',
       });
     }
   }
@@ -101,10 +112,13 @@ router.get('/:tokenId',
  * Verify proof by document hash
  * GET /api/verification/hash/:hash
  */
-router.get('/hash/:hash',
+router.get(
+  '/hash/:hash',
   [
     param('hash').matches(/^0x[a-fA-F0-9]{64}$/),
-    query('network').optional().isIn(['mumbai', 'polygon', 'goerli', 'mainnet'])
+    query('network')
+      .optional()
+      .isIn(['mumbai', 'polygon', 'goerli', 'mainnet']),
   ],
   async (req, res) => {
     try {
@@ -113,17 +127,22 @@ router.get('/hash/:hash',
         return res.status(400).json({
           success: false,
           error: 'Validation failed',
-          details: errors.array()
+          details: errors.array(),
         });
       }
 
       const { hash } = req.params;
       const network = req.query.network || config.blockchain.defaultNetwork;
 
-      logger.apiRequest(req.method, req.originalUrl, req.ip, req.get('User-Agent'));
+      logger.apiRequest(
+        req.method,
+        req.originalUrl,
+        req.ip,
+        req.get('User-Agent')
+      );
       logger.info(`Verifying proof by hash: ${hash}`, {
         network,
-        ip: req.ip
+        ip: req.ip,
       });
 
       // This would typically interact with the blockchain to find token by hash
@@ -136,35 +155,37 @@ router.get('/hash/:hash',
         isActive: true,
         verified: true,
         proof: {
-          ipfsHash: "QmTestHash123456789", // Mock
-          issuer: "0x1234567890123456789012345678901234567890", // Mock
-          recipient: "0x0987654321098765432109876543210987654321", // Mock
-          issuedAt: "2025-08-03T00:00:00.000Z", // Mock
-          title: "Sample Certificate", // Mock
-          documentType: "diploma" // Mock
+          ipfsHash: 'QmTestHash123456789', // Mock
+          issuer: '0x1234567890123456789012345678901234567890', // Mock
+          recipient: '0x0987654321098765432109876543210987654321', // Mock
+          issuedAt: '2025-08-03T00:00:00.000Z', // Mock
+          title: 'Sample Certificate', // Mock
+          documentType: 'diploma', // Mock
         },
         blockchain: {
           network,
-          contractAddress: config.blockchain.networks[network]?.contractAddress || "Not deployed",
+          contractAddress:
+            config.blockchain.networks[network]?.contractAddress ||
+            'Not deployed',
           blockNumber: 12345678, // Mock
-          transactionHash: "0xabcdef1234567890abcdef1234567890abcdef1234567890abcdef1234567890" // Mock
+          transactionHash:
+            '0xabcdef1234567890abcdef1234567890abcdef1234567890abcdef1234567890', // Mock
         },
-        verifiedAt: new Date().toISOString()
+        verifiedAt: new Date().toISOString(),
       };
 
       logger.apiResponse(req.method, req.originalUrl, 200, 0);
       logger.info(`Proof verification by hash completed: ${hash}`, {
         exists: verificationResult.exists,
         tokenId: verificationResult.tokenId,
-        verified: verificationResult.verified
+        verified: verificationResult.verified,
       });
 
       res.status(200).json({
         success: true,
         message: 'Proof verification by hash completed',
-        data: verificationResult
+        data: verificationResult,
       });
-
     } catch (error) {
       logger.apiError(req.method, req.originalUrl, 500, error, req.ip);
       logger.error('Proof verification by hash failed:', error);
@@ -173,7 +194,7 @@ router.get('/hash/:hash',
         success: false,
         error: 'Hash verification failed',
         message: error.message,
-        code: 'HASH_VERIFICATION_FAILED'
+        code: 'HASH_VERIFICATION_FAILED',
       });
     }
   }
@@ -183,10 +204,9 @@ router.get('/hash/:hash',
  * Verify IPFS file integrity
  * GET /api/verification/ipfs/:hash
  */
-router.get('/ipfs/:hash',
-  [
-    param('hash').isLength({ min: 10, max: 100 })
-  ],
+router.get(
+  '/ipfs/:hash',
+  [param('hash').isLength({ min: 10, max: 100 })],
   async (req, res) => {
     try {
       const errors = validationResult(req);
@@ -194,24 +214,29 @@ router.get('/ipfs/:hash',
         return res.status(400).json({
           success: false,
           error: 'Validation failed',
-          details: errors.array()
+          details: errors.array(),
         });
       }
 
       const { hash } = req.params;
 
-      logger.apiRequest(req.method, req.originalUrl, req.ip, req.get('User-Agent'));
+      logger.apiRequest(
+        req.method,
+        req.originalUrl,
+        req.ip,
+        req.get('User-Agent')
+      );
       logger.info(`Verifying IPFS file integrity: ${hash}`, { ip: req.ip });
 
       // Check if file exists on IPFS
       const fileExists = await ipfsService.fileExists(hash);
-      
+
       if (!fileExists) {
         return res.status(404).json({
           success: false,
           error: 'File not found on IPFS',
           code: 'IPFS_FILE_NOT_FOUND',
-          hash
+          hash,
         });
       }
 
@@ -227,12 +252,13 @@ router.get('/ipfs/:hash',
           hashVerification = {
             expected: req.query.expectedHash,
             actual: actualHash,
-            matches: actualHash.toLowerCase() === req.query.expectedHash.toLowerCase()
+            matches:
+              actualHash.toLowerCase() === req.query.expectedHash.toLowerCase(),
           };
         } catch (error) {
           logger.warn(`Hash verification failed for ${hash}:`, error);
           hashVerification = {
-            error: error.message
+            error: error.message,
           };
         }
       }
@@ -246,24 +272,23 @@ router.get('/ipfs/:hash',
           `${config.ipfs.gateway}${hash}`,
           `https://ipfs.io/ipfs/${hash}`,
           `https://gateway.pinata.cloud/ipfs/${hash}`,
-          `https://cloudflare-ipfs.com/ipfs/${hash}`
+          `https://cloudflare-ipfs.com/ipfs/${hash}`,
         ],
-        verifiedAt: new Date().toISOString()
+        verifiedAt: new Date().toISOString(),
       };
 
       logger.apiResponse(req.method, req.originalUrl, 200, 0);
       logger.ipfs('verified', hash, {
         exists: fileExists,
         size: metadata.size,
-        contentType: metadata.contentType
+        contentType: metadata.contentType,
       });
 
       res.status(200).json({
         success: true,
         message: 'IPFS file verification completed',
-        data: verificationResult
+        data: verificationResult,
       });
-
     } catch (error) {
       logger.apiError(req.method, req.originalUrl, 500, error, req.ip);
       logger.error('IPFS verification failed:', error);
@@ -272,7 +297,7 @@ router.get('/ipfs/:hash',
         success: false,
         error: 'IPFS verification failed',
         message: error.message,
-        code: 'IPFS_VERIFICATION_FAILED'
+        code: 'IPFS_VERIFICATION_FAILED',
       });
     }
   }
@@ -282,12 +307,15 @@ router.get('/ipfs/:hash',
  * Verify certificate by wallet address
  * GET /api/verification/wallet/:address
  */
-router.get('/wallet/:address',
+router.get(
+  '/wallet/:address',
   [
     param('address').matches(/^0x[a-fA-F0-9]{40}$/),
-    query('network').optional().isIn(['mumbai', 'polygon', 'goerli', 'mainnet']),
+    query('network')
+      .optional()
+      .isIn(['mumbai', 'polygon', 'goerli', 'mainnet']),
     query('limit').optional().isInt({ min: 1, max: 100 }).toInt(),
-    query('offset').optional().isInt({ min: 0 }).toInt()
+    query('offset').optional().isInt({ min: 0 }).toInt(),
   ],
   async (req, res) => {
     try {
@@ -296,7 +324,7 @@ router.get('/wallet/:address',
         return res.status(400).json({
           success: false,
           error: 'Validation failed',
-          details: errors.array()
+          details: errors.array(),
         });
       }
 
@@ -305,12 +333,17 @@ router.get('/wallet/:address',
       const limit = req.query.limit || 10;
       const offset = req.query.offset || 0;
 
-      logger.apiRequest(req.method, req.originalUrl, req.ip, req.get('User-Agent'));
+      logger.apiRequest(
+        req.method,
+        req.originalUrl,
+        req.ip,
+        req.get('User-Agent')
+      );
       logger.info(`Verifying certificates for wallet: ${address}`, {
         network,
         limit,
         offset,
-        ip: req.ip
+        ip: req.ip,
       });
 
       // This would typically query the blockchain for all tokens owned by the address
@@ -318,14 +351,15 @@ router.get('/wallet/:address',
       const certificates = [
         {
           tokenId: 1,
-          documentHash: "0x1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef",
-          ipfsHash: "QmTestHash123456789",
-          title: "Computer Science Degree",
-          documentType: "diploma",
-          issuedAt: "2025-08-03T00:00:00.000Z",
-          issuer: "0x1234567890123456789012345678901234567890",
-          isActive: true
-        }
+          documentHash:
+            '0x1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef',
+          ipfsHash: 'QmTestHash123456789',
+          title: 'Computer Science Degree',
+          documentType: 'diploma',
+          issuedAt: '2025-08-03T00:00:00.000Z',
+          issuer: '0x1234567890123456789012345678901234567890',
+          isActive: true,
+        },
         // More mock certificates would be here
       ];
 
@@ -337,22 +371,21 @@ router.get('/wallet/:address',
         pagination: {
           limit,
           offset,
-          hasMore: false // Would be calculated based on actual data
+          hasMore: false, // Would be calculated based on actual data
         },
-        verifiedAt: new Date().toISOString()
+        verifiedAt: new Date().toISOString(),
       };
 
       logger.apiResponse(req.method, req.originalUrl, 200, 0);
       logger.info(`Wallet verification completed: ${address}`, {
-        certificateCount: certificates.length
+        certificateCount: certificates.length,
       });
 
       res.status(200).json({
         success: true,
         message: 'Wallet certificates verification completed',
-        data: verificationResult
+        data: verificationResult,
       });
-
     } catch (error) {
       logger.apiError(req.method, req.originalUrl, 500, error, req.ip);
       logger.error('Wallet verification failed:', error);
@@ -361,7 +394,7 @@ router.get('/wallet/:address',
         success: false,
         error: 'Wallet verification failed',
         message: error.message,
-        code: 'WALLET_VERIFICATION_FAILED'
+        code: 'WALLET_VERIFICATION_FAILED',
       });
     }
   }
@@ -371,10 +404,13 @@ router.get('/wallet/:address',
  * Batch verification of multiple items
  * POST /api/verification/batch
  */
-router.post('/batch',
+router.post(
+  '/batch',
   [
     query('type').isIn(['tokenId', 'hash', 'ipfs']),
-    query('network').optional().isIn(['mumbai', 'polygon', 'goerli', 'mainnet'])
+    query('network')
+      .optional()
+      .isIn(['mumbai', 'polygon', 'goerli', 'mainnet']),
   ],
   async (req, res) => {
     try {
@@ -383,7 +419,7 @@ router.post('/batch',
         return res.status(400).json({
           success: false,
           error: 'Validation failed',
-          details: errors.array()
+          details: errors.array(),
         });
       }
 
@@ -395,7 +431,7 @@ router.post('/batch',
         return res.status(400).json({
           success: false,
           error: 'Items array is required and must not be empty',
-          code: 'INVALID_ITEMS'
+          code: 'INVALID_ITEMS',
         });
       }
 
@@ -403,24 +439,29 @@ router.post('/batch',
         return res.status(400).json({
           success: false,
           error: 'Maximum 50 items allowed per batch',
-          code: 'TOO_MANY_ITEMS'
+          code: 'TOO_MANY_ITEMS',
         });
       }
 
-      logger.apiRequest(req.method, req.originalUrl, req.ip, req.get('User-Agent'));
+      logger.apiRequest(
+        req.method,
+        req.originalUrl,
+        req.ip,
+        req.get('User-Agent')
+      );
       logger.info(`Batch verification: ${type}`, {
         itemCount: items.length,
         network,
-        ip: req.ip
+        ip: req.ip,
       });
 
       // Process each item based on type
       const results = [];
-      
+
       for (const item of items) {
         try {
           let result;
-          
+
           switch (type) {
             case 'tokenId':
               // Mock verification result for token ID
@@ -429,10 +470,10 @@ router.post('/batch',
                 verified: true,
                 exists: true,
                 isActive: true,
-                error: null
+                error: null,
               };
               break;
-              
+
             case 'hash':
               // Mock verification result for hash
               result = {
@@ -440,10 +481,10 @@ router.post('/batch',
                 verified: true,
                 exists: true,
                 tokenId: Math.floor(Math.random() * 1000) + 1, // Mock
-                error: null
+                error: null,
               };
               break;
-              
+
             case 'ipfs':
               // Actual IPFS verification
               const exists = await ipfsService.fileExists(item);
@@ -451,40 +492,43 @@ router.post('/batch',
                 item,
                 exists,
                 verified: exists,
-                error: null
+                error: null,
               };
               break;
-              
+
             default:
               result = {
                 item,
                 verified: false,
-                error: `Unsupported verification type: ${type}`
+                error: `Unsupported verification type: ${type}`,
               };
           }
-          
+
           results.push(result);
-          
         } catch (error) {
           results.push({
             item,
             verified: false,
-            error: error.message
+            error: error.message,
           });
         }
       }
 
       const verificationSummary = {
         total: results.length,
-        verified: results.filter(r => r.verified).length,
-        failed: results.filter(r => !r.verified).length,
-        successRate: (results.filter(r => r.verified).length / results.length * 100).toFixed(2) + '%'
+        verified: results.filter((r) => r.verified).length,
+        failed: results.filter((r) => !r.verified).length,
+        successRate:
+          (
+            (results.filter((r) => r.verified).length / results.length) *
+            100
+          ).toFixed(2) + '%',
       };
 
       logger.apiResponse(req.method, req.originalUrl, 200, 0);
       logger.info(`Batch verification completed`, {
         type,
-        ...verificationSummary
+        ...verificationSummary,
       });
 
       res.status(200).json({
@@ -495,10 +539,9 @@ router.post('/batch',
           network,
           summary: verificationSummary,
           results,
-          verifiedAt: new Date().toISOString()
-        }
+          verifiedAt: new Date().toISOString(),
+        },
       });
-
     } catch (error) {
       logger.apiError(req.method, req.originalUrl, 500, error, req.ip);
       logger.error('Batch verification failed:', error);
@@ -507,7 +550,7 @@ router.post('/batch',
         success: false,
         error: 'Batch verification failed',
         message: error.message,
-        code: 'BATCH_VERIFICATION_FAILED'
+        code: 'BATCH_VERIFICATION_FAILED',
       });
     }
   }

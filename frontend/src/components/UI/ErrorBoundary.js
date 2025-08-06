@@ -18,7 +18,7 @@ class ErrorBoundary extends React.Component {
   componentDidCatch(error, errorInfo) {
     this.setState({
       error: error,
-      errorInfo: errorInfo
+      errorInfo: errorInfo,
     });
 
     // Log error to console in development
@@ -46,8 +46,18 @@ class ErrorBoundary extends React.Component {
         <div className="min-h-screen bg-gray-50 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
           <div className="sm:mx-auto sm:w-full sm:max-w-md">
             <div className="mx-auto h-16 w-16 text-error-500">
-              <svg className="w-full h-full" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.732 16.5c-.77.833.192 2.5 1.732 2.5z" />
+              <svg
+                className="w-full h-full"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.732 16.5c-.77.833.192 2.5 1.732 2.5z"
+                />
               </svg>
             </div>
             <h2 className="mt-6 text-center text-3xl font-bold text-gray-900">
@@ -67,7 +77,7 @@ class ErrorBoundary extends React.Component {
                 >
                   Reload Page
                 </button>
-                
+
                 <button
                   onClick={this.handleGoHome}
                   className="w-full flex justify-center py-2 px-4 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500"
@@ -96,7 +106,10 @@ class ErrorBoundary extends React.Component {
           <div className="mt-6 text-center">
             <p className="text-xs text-gray-500">
               If this problem persists, please contact{' '}
-              <a href="mailto:certiproofx@protonmail.me" className="text-primary-600 hover:text-primary-500">
+              <a
+                href="mailto:certiproofx@protonmail.me"
+                className="text-primary-600 hover:text-primary-500"
+              >
                 support
               </a>
             </p>

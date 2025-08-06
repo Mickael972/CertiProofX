@@ -6,27 +6,22 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { QRCodeSVG as QRCode } from 'qrcode.react';
-import { 
-  Shield, 
-  Calendar, 
-  Wallet, 
-  Hash, 
-  ExternalLink, 
-  Copy, 
+import {
+  Shield,
+  Calendar,
+  Wallet,
+  Hash,
+  ExternalLink,
+  Copy,
   CheckCircle,
   Eye,
   Sparkles,
-  Database
+  Database,
 } from 'lucide-react';
 import toast from 'react-hot-toast';
 import { useT } from '../contexts/I18nContext';
 
-const CertificateCard = ({ 
-  certificate, 
-  onVerify, 
-  onView,
-  className = "" 
-}) => {
+const CertificateCard = ({ certificate, onVerify, onView, className = '' }) => {
   const [copiedField, setCopiedField] = useState(null);
   const t = useT();
 
@@ -54,7 +49,7 @@ const CertificateCard = ({
       month: 'long',
       day: 'numeric',
       hour: '2-digit',
-      minute: '2-digit'
+      minute: '2-digit',
     });
   };
 
@@ -64,7 +59,7 @@ const CertificateCard = ({
   // Fonction pour générer les liens blockchain selon le réseau
   const getBlockExplorerUrl = (type, value) => {
     const network = certificate.network?.toLowerCase() || 'mumbai';
-    
+
     if (network.includes('mumbai')) {
       return `https://mumbai.polygonscan.com/${type}/${value}`;
     } else if (network.includes('polygon')) {
@@ -74,7 +69,7 @@ const CertificateCard = ({
     } else if (network.includes('goerli')) {
       return `https://goerli.etherscan.io/${type}/${value}`;
     }
-    
+
     // Fallback vers Polygon mainnet
     return `https://polygonscan.com/${type}/${value}`;
   };
@@ -140,7 +135,8 @@ const CertificateCard = ({
               )}
               {certificate.network && (
                 <span className="inline-flex items-center gap-1 px-3 py-1 bg-blue-500/20 text-blue-400 text-xs font-medium rounded-full border border-blue-500/30">
-                  {certificate.network.charAt(0).toUpperCase() + certificate.network.slice(1)}
+                  {certificate.network.charAt(0).toUpperCase() +
+                    certificate.network.slice(1)}
                 </span>
               )}
             </div>
@@ -152,7 +148,9 @@ const CertificateCard = ({
             <div className="space-y-2">
               <div className="flex items-center gap-2">
                 <Hash className="w-4 h-4 text-gray-400" />
-                <span className="text-sm font-medium text-gray-300">{t('certificateCard.sha256Hash')}</span>
+                <span className="text-sm font-medium text-gray-300">
+                  {t('certificateCard.sha256Hash')}
+                </span>
               </div>
               <div className="flex items-center gap-2 bg-dark-800 rounded-lg p-3 border border-gray-600">
                 <code className="flex-1 text-xs text-gray-300 font-mono break-all">
@@ -176,14 +174,18 @@ const CertificateCard = ({
             <div className="space-y-2">
               <div className="flex items-center gap-2">
                 <Wallet className="w-4 h-4 text-gray-400" />
-                <span className="text-sm font-medium text-gray-300">{t('certificateCard.owner')}</span>
+                <span className="text-sm font-medium text-gray-300">
+                  {t('certificateCard.owner')}
+                </span>
               </div>
               <div className="flex items-center gap-2 bg-dark-800 rounded-lg p-3 border border-gray-600">
                 <code className="flex-1 text-sm text-gray-300 font-mono">
                   {formatAddress(certificate.walletAddress)}
                 </code>
                 <motion.button
-                  onClick={() => copyToClipboard(certificate.walletAddress, 'Wallet')}
+                  onClick={() =>
+                    copyToClipboard(certificate.walletAddress, 'Wallet')
+                  }
                   className="p-1 hover:bg-gray-700 rounded transition-colors"
                   whileTap={{ scale: 0.95 }}
                 >
@@ -200,7 +202,9 @@ const CertificateCard = ({
             <div className="space-y-2">
               <div className="flex items-center gap-2">
                 <Calendar className="w-4 h-4 text-gray-400" />
-                <span className="text-sm font-medium text-gray-300">{t('certificateCard.createdAt')}</span>
+                <span className="text-sm font-medium text-gray-300">
+                  {t('certificateCard.createdAt')}
+                </span>
               </div>
               <div className="text-sm text-gray-400">
                 {formatDate(certificate.createdAt)}
@@ -269,10 +273,13 @@ const CertificateCard = ({
                 {t('certificateCard.viewTransaction')}
               </motion.a>
             )}
-            
+
             {certificate.contractAddress && (
               <motion.a
-                href={getBlockExplorerUrl('address', certificate.contractAddress)}
+                href={getBlockExplorerUrl(
+                  'address',
+                  certificate.contractAddress
+                )}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-full flex items-center justify-center gap-2 px-4 py-2 bg-dark-700 hover:bg-dark-600 text-gray-300 font-medium rounded-xl transition-all duration-200 border border-gray-600"

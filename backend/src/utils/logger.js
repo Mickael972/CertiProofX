@@ -22,7 +22,7 @@ const logLevels = {
   http: 3,
   verbose: 4,
   debug: 5,
-  silly: 6
+  silly: 6,
 };
 
 const logColors = {
@@ -32,7 +32,7 @@ const logColors = {
   http: 'magenta',
   verbose: 'grey',
   debug: 'white',
-  silly: 'cyan'
+  silly: 'cyan',
 };
 
 winston.addColors(logColors);
@@ -67,7 +67,7 @@ if (config.logging.console.enabled) {
       level: config.logging.level,
       format: consoleFormat,
       handleExceptions: true,
-      handleRejections: true
+      handleRejections: true,
     })
   );
 }
@@ -83,7 +83,7 @@ if (config.logging.file.enabled) {
       maxsize: config.logging.file.maxsize,
       maxFiles: config.logging.file.maxFiles,
       handleExceptions: true,
-      handleRejections: true
+      handleRejections: true,
     })
   );
 
@@ -96,7 +96,7 @@ if (config.logging.file.enabled) {
       maxsize: config.logging.file.maxsize,
       maxFiles: config.logging.file.maxFiles,
       handleExceptions: true,
-      handleRejections: true
+      handleRejections: true,
     })
   );
 
@@ -107,7 +107,7 @@ if (config.logging.file.enabled) {
       level: 'http',
       format: fileFormat,
       maxsize: config.logging.file.maxsize,
-      maxFiles: config.logging.file.maxFiles
+      maxFiles: config.logging.file.maxFiles,
     })
   );
 }
@@ -121,7 +121,7 @@ const logger = winston.createLogger({
   format: winston.format.combine(
     winston.format.timestamp(),
     winston.format.errors({ stack: true })
-  )
+  ),
 });
 
 // Add custom methods
@@ -132,14 +132,14 @@ logger.http = (message, meta = {}) => {
 logger.request = (req, res, responseTime) => {
   const { method, originalUrl, ip } = req;
   const { statusCode } = res;
-  
+
   logger.http(`${method} ${originalUrl}`, {
     method,
     url: originalUrl,
     statusCode,
     ip,
     userAgent: req.get('User-Agent'),
-    responseTime: `${responseTime}ms`
+    responseTime: `${responseTime}ms`,
   });
 };
 
@@ -165,9 +165,9 @@ logger.logError = (error, context = {}) => {
     message: error.message,
     stack: error.stack,
     name: error.name,
-    ...context
+    ...context,
   };
-  
+
   logger.error('Application Error', errorInfo);
 };
 
@@ -182,7 +182,7 @@ logger.apiRequest = (method, endpoint, ip, userAgent) => {
     method,
     endpoint,
     ip,
-    userAgent
+    userAgent,
   });
 };
 
@@ -191,7 +191,7 @@ logger.apiResponse = (method, endpoint, statusCode, responseTime) => {
     method,
     endpoint,
     statusCode,
-    responseTime: `${responseTime}ms`
+    responseTime: `${responseTime}ms`,
   });
 };
 
@@ -202,7 +202,7 @@ logger.apiError = (method, endpoint, statusCode, error, ip) => {
     statusCode,
     error: error.message,
     stack: error.stack,
-    ip
+    ip,
   });
 };
 
@@ -219,7 +219,7 @@ if (config.server.env === 'development') {
 logger.stream = {
   write: (message) => {
     logger.http(message.trim());
-  }
+  },
 };
 
 module.exports = logger;

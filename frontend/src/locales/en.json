@@ -1,7 +1,7 @@
 {
   "nav": {
     "home": "Home",
-    "upload": "Create certificate", 
+    "upload": "Create certificate",
     "mint": "Mint",
     "verify": "Verify",
     "certificates": "My certificates",
@@ -18,7 +18,7 @@
     "subtitle": "protocol",
     "description": "Certify any digital proof using blockchain, IPFS and cryptographic signatures.",
     "inspiration": "Inspired by Bitcoin's revolution of money, we revolutionize digital trust.",
-    "startMinting": "Create my first certificate", 
+    "startMinting": "Create my first certificate",
     "connectToStart": "Connect my wallet",
     "verifyCertificate": "Verify a certificate",
     "trustedBy": "Free to use • Open source • No registration required",
@@ -28,7 +28,7 @@
         "description": "SHA-256 hashing and blockchain immutability ensure your proofs cannot be tampered with."
       },
       "decentralizedStorage": {
-        "title": "Decentralized Storage", 
+        "title": "Decentralized Storage",
         "description": "Files stored on IPFS ensure permanent availability without central authority control."
       },
       "nftCertificates": {
@@ -52,7 +52,7 @@
         "description": "Each document is protected by a unique SHA-256 hash and tamper-proof cryptographic signatures, guaranteeing its integrity for eternity."
       },
       "decentralizedStorage2": {
-        "title": "IPFS decentralization", 
+        "title": "IPFS decentralization",
         "description": "Distributed storage on the global IPFS network. Your documents depend on no central authority and remain permanently accessible."
       },
       "nftOwnership": {
@@ -71,7 +71,7 @@
     "stats": {
       "certificatesMinted": "Certificates Minted",
       "documentsVerified": "Documents Verified",
-      "networksSupported": "Networks Supported", 
+      "networksSupported": "Networks Supported",
       "fileFormats": "File Formats"
     },
     "steps": {
@@ -309,7 +309,7 @@
   "footer": {
     "description": "Decentralized certification protocol for document authentication on blockchain",
     "product": "Features",
-    "resources": "Resources", 
+    "resources": "Resources",
     "legal": "Legal",
     "uploadDocuments": "Create certificate",
     "mintCertificates": "Create certificates",

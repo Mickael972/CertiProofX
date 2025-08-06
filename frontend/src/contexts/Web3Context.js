@@ -1,11 +1,17 @@
 /**
  * Web3 Context for CertiProof X Frontend
  * Author: Kai Zenjiro (0xGenesis) - certiproofx@protonmail.me
- * 
+ *
  * Manages Web3 connection, wallet state, and blockchain interactions
  */
 
-import React, { createContext, useContext, useReducer, useEffect, useCallback } from 'react';
+import React, {
+  createContext,
+  useContext,
+  useReducer,
+  useEffect,
+  useCallback,
+} from 'react';
 import detectEthereumProvider from '@metamask/detect-provider';
 import { ethers } from 'ethers';
 import toast from 'react-hot-toast';
@@ -13,24 +19,24 @@ import toast from 'react-hot-toast';
 // Contract ABI and addresses (would be imported from separate files)
 const CERTIPROOF_ABI = [
   // Main contract functions
-  "function mint(address to, string hash, string ipfsURI, string documentType, string title, bool locked) public returns (uint256)",
-  "function verifyProofByHash(string hash) public returns (bool exists, uint256 tokenId, bool isActive)",
-  "function verifyProofByTokenId(uint256 tokenId) public returns (bool isActive)",
-  "function getProofByTokenId(uint256 tokenId) public view returns (tuple(string documentHash, string ipfsURI, address issuer, uint256 timestamp, string documentType, string title, bool isLocked, bool isActive))",
-  "function tokenURI(uint256 tokenId) public view returns (string)",
-  "function totalSupply() public view returns (uint256)",
-  "function ownerOf(uint256 tokenId) public view returns (address)",
+  'function mint(address to, string hash, string ipfsURI, string documentType, string title, bool locked) public returns (uint256)',
+  'function verifyProofByHash(string hash) public returns (bool exists, uint256 tokenId, bool isActive)',
+  'function verifyProofByTokenId(uint256 tokenId) public returns (bool isActive)',
+  'function getProofByTokenId(uint256 tokenId) public view returns (tuple(string documentHash, string ipfsURI, address issuer, uint256 timestamp, string documentType, string title, bool isLocked, bool isActive))',
+  'function tokenURI(uint256 tokenId) public view returns (string)',
+  'function totalSupply() public view returns (uint256)',
+  'function ownerOf(uint256 tokenId) public view returns (address)',
   // Events
-  "event ProofMinted(uint256 indexed tokenId, string indexed documentHash, string ipfsURI, address indexed issuer, string documentType, string title)",
-  "event ProofVerified(uint256 indexed tokenId, address indexed verifier, uint256 timestamp)"
+  'event ProofMinted(uint256 indexed tokenId, string indexed documentHash, string ipfsURI, address indexed issuer, string documentType, string title)',
+  'event ProofVerified(uint256 indexed tokenId, address indexed verifier, uint256 timestamp)',
 ];
 
 // Contract addresses for different networks
 const CONTRACT_ADDRESSES = {
   80001: process.env.REACT_APP_CONTRACT_ADDRESS_MUMBAI, // Mumbai testnet
-  137: process.env.REACT_APP_CONTRACT_ADDRESS_POLYGON,   // Polygon mainnet
-  5: process.env.REACT_APP_CONTRACT_ADDRESS_GOERLI,      // Goerli testnet
-  1: process.env.REACT_APP_CONTRACT_ADDRESS_MAINNET      // Ethereum mainnet
+  137: process.env.REACT_APP_CONTRACT_ADDRESS_POLYGON, // Polygon mainnet
+  5: process.env.REACT_APP_CONTRACT_ADDRESS_GOERLI, // Goerli testnet
+  1: process.env.REACT_APP_CONTRACT_ADDRESS_MAINNET, // Ethereum mainnet
 };
 
 // Network configurations
@@ -41,7 +47,7 @@ const NETWORKS = {
     rpcUrl: 'https://rpc-mumbai.maticvigil.com',
     blockExplorer: 'https://mumbai.polygonscan.com',
     currency: { name: 'MATIC', symbol: 'MATIC', decimals: 18 },
-    testnet: true
+    testnet: true,
   },
   137: {
     name: 'Polygon',
@@ -49,7 +55,7 @@ const NETWORKS = {
     rpcUrl: 'https://polygon-rpc.com',
     blockExplorer: 'https://polygonscan.com',
     currency: { name: 'MATIC', symbol: 'MATIC', decimals: 18 },
-    testnet: false
+    testnet: false,
   },
   5: {
     name: 'Goerli',
@@ -57,7 +63,7 @@ const NETWORKS = {
     rpcUrl: 'https://goerli.infura.io/v3/' + process.env.REACT_APP_INFURA_ID,
     blockExplorer: 'https://goerli.etherscan.io',
     currency: { name: 'ETH', symbol: 'ETH', decimals: 18 },
-    testnet: true
+    testnet: true,
   },
   1: {
     name: 'Ethereum',
@@ -65,8 +71,8 @@ const NETWORKS = {
     rpcUrl: 'https://mainnet.infura.io/v3/' + process.env.REACT_APP_INFURA_ID,
     blockExplorer: 'https://etherscan.io',
     currency: { name: 'ETH', symbol: 'ETH', decimals: 18 },
-    testnet: false
-  }
+    testnet: false,
+  },
 };
 
 // Initial state
@@ -74,29 +80,29 @@ const initialState = {
   // Connection state
   isConnected: false,
   isConnecting: false,
-  
+
   // Wallet information
   account: null,
   balance: null,
-  
+
   // Network information
   chainId: null,
   network: null,
-  
+
   // Provider and contract instances
   provider: null,
   signer: null,
   contract: null,
-  
+
   // Transaction state
   transactions: [],
-  
+
   // Error state
   error: null,
-  
+
   // Support status
   isMetaMaskInstalled: false,
-  isWeb3Supported: false
+  isWeb3Supported: false,
 };
 
 // Action types
@@ -113,7 +119,7 @@ const WEB3_ACTIONS = {
   CLEAR_ERROR: 'CLEAR_ERROR',
   ADD_TRANSACTION: 'ADD_TRANSACTION',
   UPDATE_TRANSACTION: 'UPDATE_TRANSACTION',
-  SET_SUPPORT_STATUS: 'SET_SUPPORT_STATUS'
+  SET_SUPPORT_STATUS: 'SET_SUPPORT_STATUS',
 };
 
 // Reducer
@@ -121,10 +127,10 @@ const web3Reducer = (state, action) => {
   switch (action.type) {
     case WEB3_ACTIONS.SET_CONNECTING:
       return { ...state, isConnecting: action.payload, error: null };
-      
+
     case WEB3_ACTIONS.SET_CONNECTED:
       return { ...state, isConnected: true, isConnecting: false, error: null };
-      
+
     case WEB3_ACTIONS.SET_DISCONNECTED:
       return {
         ...state,
@@ -134,44 +140,55 @@ const web3Reducer = (state, action) => {
         balance: null,
         provider: null,
         signer: null,
-        contract: null
+        contract: null,
       };
-      
+
     case WEB3_ACTIONS.SET_ACCOUNT:
       return { ...state, account: action.payload };
-      
+
     case WEB3_ACTIONS.SET_BALANCE:
       return { ...state, balance: action.payload };
-      
+
     case WEB3_ACTIONS.SET_NETWORK:
-      return { ...state, chainId: action.payload.chainId, network: action.payload.network };
-      
+      return {
+        ...state,
+        chainId: action.payload.chainId,
+        network: action.payload.network,
+      };
+
     case WEB3_ACTIONS.SET_PROVIDER:
-      return { ...state, provider: action.payload.provider, signer: action.payload.signer };
-      
+      return {
+        ...state,
+        provider: action.payload.provider,
+        signer: action.payload.signer,
+      };
+
     case WEB3_ACTIONS.SET_CONTRACT:
       return { ...state, contract: action.payload };
-      
+
     case WEB3_ACTIONS.SET_ERROR:
       return { ...state, error: action.payload, isConnecting: false };
-      
+
     case WEB3_ACTIONS.CLEAR_ERROR:
       return { ...state, error: null };
-      
+
     case WEB3_ACTIONS.ADD_TRANSACTION:
-      return { ...state, transactions: [action.payload, ...state.transactions] };
-      
+      return {
+        ...state,
+        transactions: [action.payload, ...state.transactions],
+      };
+
     case WEB3_ACTIONS.UPDATE_TRANSACTION:
       return {
         ...state,
-        transactions: state.transactions.map(tx =>
+        transactions: state.transactions.map((tx) =>
           tx.hash === action.payload.hash ? { ...tx, ...action.payload } : tx
-        )
+        ),
       };
-      
+
     case WEB3_ACTIONS.SET_SUPPORT_STATUS:
       return { ...state, ...action.payload };
-      
+
     default:
       return state;
   }
@@ -192,7 +209,7 @@ export const Web3Provider = ({ children }) => {
 
     dispatch({
       type: WEB3_ACTIONS.SET_SUPPORT_STATUS,
-      payload: { isMetaMaskInstalled, isWeb3Supported }
+      payload: { isMetaMaskInstalled, isWeb3Supported },
     });
 
     return { isMetaMaskInstalled, isWeb3Supported };
@@ -204,14 +221,16 @@ export const Web3Provider = ({ children }) => {
       dispatch({ type: WEB3_ACTIONS.SET_CONNECTING, payload: true });
 
       const { isMetaMaskInstalled } = await checkWeb3Support();
-      
+
       if (!isMetaMaskInstalled) {
-        throw new Error('MetaMask not installed. Please install MetaMask to continue.');
+        throw new Error(
+          'MetaMask not installed. Please install MetaMask to continue.'
+        );
       }
 
       // Request account access
       const accounts = await window.ethereum.request({
-        method: 'eth_requestAccounts'
+        method: 'eth_requestAccounts',
       });
 
       if (accounts.length === 0) {
@@ -234,23 +253,36 @@ export const Web3Provider = ({ children }) => {
       // Create contract instance
       const contractAddress = CONTRACT_ADDRESSES[chainId];
       let contract = null;
-      
-      if (contractAddress && contractAddress !== '0x0000000000000000000000000000000000000000') {
+
+      if (
+        contractAddress &&
+        contractAddress !== '0x0000000000000000000000000000000000000000'
+      ) {
         contract = new ethers.Contract(contractAddress, CERTIPROOF_ABI, signer);
       } else {
-        throw new Error(`Contract not deployed on network ${chainId}. Please deploy the contract first.`);
+        throw new Error(
+          `Contract not deployed on network ${chainId}. Please deploy the contract first.`
+        );
       }
 
       // Update state
       dispatch({ type: WEB3_ACTIONS.SET_ACCOUNT, payload: account });
-      dispatch({ type: WEB3_ACTIONS.SET_BALANCE, payload: ethers.formatEther(balance) });
-      dispatch({ type: WEB3_ACTIONS.SET_NETWORK, payload: { chainId, network: networkConfig } });
-      dispatch({ type: WEB3_ACTIONS.SET_PROVIDER, payload: { provider, signer } });
+      dispatch({
+        type: WEB3_ACTIONS.SET_BALANCE,
+        payload: ethers.formatEther(balance),
+      });
+      dispatch({
+        type: WEB3_ACTIONS.SET_NETWORK,
+        payload: { chainId, network: networkConfig },
+      });
+      dispatch({
+        type: WEB3_ACTIONS.SET_PROVIDER,
+        payload: { provider, signer },
+      });
       dispatch({ type: WEB3_ACTIONS.SET_CONTRACT, payload: contract });
       dispatch({ type: WEB3_ACTIONS.SET_CONNECTED });
 
       toast.success('Wallet connected successfully!');
-
     } catch (error) {
       console.error('Failed to connect wallet:', error);
       dispatch({ type: WEB3_ACTIONS.SET_ERROR, payload: error.message });
@@ -268,12 +300,11 @@ export const Web3Provider = ({ children }) => {
   const switchNetwork = useCallback(async (targetChainId) => {
     try {
       const chainIdHex = `0x${targetChainId.toString(16)}`;
-      
+
       await window.ethereum.request({
         method: 'wallet_switchEthereumChain',
-        params: [{ chainId: chainIdHex }]
+        params: [{ chainId: chainIdHex }],
       });
-      
     } catch (error) {
       // If network doesn't exist, add it
       if (error.code === 4902) {
@@ -281,13 +312,15 @@ export const Web3Provider = ({ children }) => {
         if (networkConfig) {
           await window.ethereum.request({
             method: 'wallet_addEthereumChain',
-            params: [{
-              chainId: `0x${targetChainId.toString(16)}`,
-              chainName: networkConfig.displayName,
-              rpcUrls: [networkConfig.rpcUrl],
-              nativeCurrency: networkConfig.currency,
-              blockExplorerUrls: [networkConfig.blockExplorer]
-            }]
+            params: [
+              {
+                chainId: `0x${targetChainId.toString(16)}`,
+                chainName: networkConfig.displayName,
+                rpcUrls: [networkConfig.rpcUrl],
+                nativeCurrency: networkConfig.currency,
+                blockExplorerUrls: [networkConfig.blockExplorer],
+              },
+            ],
           });
         }
       } else {
@@ -303,7 +336,10 @@ export const Web3Provider = ({ children }) => {
 
   // Update transaction
   const updateTransaction = useCallback((hash, updates) => {
-    dispatch({ type: WEB3_ACTIONS.UPDATE_TRANSACTION, payload: { hash, ...updates } });
+    dispatch({
+      type: WEB3_ACTIONS.UPDATE_TRANSACTION,
+      payload: { hash, ...updates },
+    });
   }, []);
 
   // Clear error
@@ -334,7 +370,10 @@ export const Web3Provider = ({ children }) => {
       window.ethereum.on('chainChanged', handleChainChanged);
 
       return () => {
-        window.ethereum.removeListener('accountsChanged', handleAccountsChanged);
+        window.ethereum.removeListener(
+          'accountsChanged',
+          handleAccountsChanged
+        );
         window.ethereum.removeListener('chainChanged', handleChainChanged);
       };
     }
@@ -344,7 +383,7 @@ export const Web3Provider = ({ children }) => {
   useEffect(() => {
     const checkConnection = async () => {
       const { isMetaMaskInstalled } = await checkWeb3Support();
-      
+
       if (isMetaMaskInstalled && window.ethereum.selectedAddress) {
         connectWallet();
       }
@@ -356,7 +395,7 @@ export const Web3Provider = ({ children }) => {
   const value = {
     // State
     ...state,
-    
+
     // Actions
     connectWallet,
     disconnectWallet,
@@ -364,22 +403,21 @@ export const Web3Provider = ({ children }) => {
     addTransaction,
     updateTransaction,
     clearError,
-    
+
     // Utilities
     isWrongNetwork: state.chainId && !CONTRACT_ADDRESSES[state.chainId],
-    getSupportedNetworks: () => Object.keys(CONTRACT_ADDRESSES).map(id => NETWORKS[parseInt(id)]).filter(Boolean),
+    getSupportedNetworks: () =>
+      Object.keys(CONTRACT_ADDRESSES)
+        .map((id) => NETWORKS[parseInt(id)])
+        .filter(Boolean),
     getNetworkConfig: (chainId) => NETWORKS[chainId],
     getExplorerUrl: (hash, type = 'tx') => {
       if (!state.network) return '#';
       return `${state.network.blockExplorer}/${type}/${hash}`;
-    }
+    },
   };
 
-  return (
-    <Web3Context.Provider value={value}>
-      {children}
-    </Web3Context.Provider>
-  );
+  return <Web3Context.Provider value={value}>{children}</Web3Context.Provider>;
 };
 
 // Hook to use Web3 context

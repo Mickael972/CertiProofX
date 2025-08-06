@@ -28,7 +28,9 @@ const LanguageSwitcher = ({ className = '' }) => {
       >
         <div className="flex items-center space-x-2">
           <span className="text-lg">{currentLang?.flag}</span>
-          <span className={`${className?.includes('sm:hidden') ? '' : 'hidden sm:inline'}`}>
+          <span
+            className={`${className?.includes('sm:hidden') ? '' : 'hidden sm:inline'}`}
+          >
             {currentLang?.name}
           </span>
         </div>
@@ -38,15 +40,20 @@ const LanguageSwitcher = ({ className = '' }) => {
           stroke="currentColor"
           viewBox="0 0 24 24"
         >
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth="2"
+            d="M19 9l-7 7-7-7"
+          />
         </svg>
       </button>
 
       {/* Dropdown via Portal */}
-      <LanguageDropdown 
-        isOpen={isOpen} 
-        onClose={() => setIsOpen(false)} 
-        buttonRef={buttonRef} 
+      <LanguageDropdown
+        isOpen={isOpen}
+        onClose={() => setIsOpen(false)}
+        buttonRef={buttonRef}
       />
     </div>
   );

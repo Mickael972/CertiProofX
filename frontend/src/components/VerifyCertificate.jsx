@@ -5,12 +5,12 @@
 
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { 
-  Shield, 
-  Search, 
-  QrCode, 
-  CheckCircle, 
-  XCircle, 
+import {
+  Shield,
+  Search,
+  QrCode,
+  CheckCircle,
+  XCircle,
   AlertTriangle,
   Loader2,
   Copy,
@@ -19,16 +19,13 @@ import {
   User,
   Hash,
   Database,
-  Sparkles
+  Sparkles,
 } from 'lucide-react';
 import toast from 'react-hot-toast';
 import { useT } from '../contexts/I18nContext';
 import CertificateCard from './CertificateCard';
 
-const VerifyCertificate = ({ 
-  initialHash = '', 
-  onVerificationComplete 
-}) => {
+const VerifyCertificate = ({ initialHash = '', onVerificationComplete }) => {
   const t = useT();
   const [inputValue, setInputValue] = useState(initialHash);
   const [inputType, setInputType] = useState('hash');
@@ -67,15 +64,18 @@ const VerifyCertificate = ({
 
     try {
       // Simulation d'un appel API de vérification
-      await new Promise(resolve => setTimeout(resolve, 1500));
+      await new Promise((resolve) => setTimeout(resolve, 1500));
 
       // 1. D'abord, chercher dans les certificats de l'utilisateur (localStorage)
-      const savedCerts = JSON.parse(localStorage.getItem('userCertificates') || '[]');
-      const userCert = savedCerts.find(cert => 
-        cert.hash === value || 
-        cert.tokenId === value || 
-        cert.walletAddress === value ||
-        cert.id === value
+      const savedCerts = JSON.parse(
+        localStorage.getItem('userCertificates') || '[]'
+      );
+      const userCert = savedCerts.find(
+        (cert) =>
+          cert.hash === value ||
+          cert.tokenId === value ||
+          cert.walletAddress === value ||
+          cert.id === value
       );
 
       if (userCert) {
@@ -84,9 +84,9 @@ const VerifyCertificate = ({
           isValid: true,
           certificate: {
             ...userCert,
-            isVerified: true
+            isVerified: true,
           },
-          isUserCertificate: true
+          isUserCertificate: true,
         };
         setResult(userResult);
         onVerificationComplete?.(userResult);
@@ -98,7 +98,7 @@ const VerifyCertificate = ({
       const exampleCertificates = [
         {
           id: 'cert_kai_001',
-          name: 'Master\'s Degree Certificate',
+          name: "Master's Degree Certificate",
           description: 'Computer Science with Blockchain Specialization',
           hash: '0x1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef',
           walletAddress: '0x1E274F39A44f1561b3Bb21148B9881075575676D',
@@ -108,8 +108,9 @@ const VerifyCertificate = ({
           isVerified: true,
           contractAddress: '0xabcdef1234567890abcdef1234567890abcdef12',
           network: 'mumbai',
-          transactionHash: '0x1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef',
-          issuer: 'École Supérieure d\'Informatique'
+          transactionHash:
+            '0x1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef',
+          issuer: "École Supérieure d'Informatique",
         },
         {
           id: 'cert_kai_002',
@@ -123,23 +124,25 @@ const VerifyCertificate = ({
           isVerified: true,
           contractAddress: '0xabcdef1234567890abcdef1234567890abcdef12',
           network: 'mumbai',
-          transactionHash: '0x234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef',
-          issuer: 'École Supérieure d\'Informatique'
-        }
+          transactionHash:
+            '0x234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef',
+          issuer: "École Supérieure d'Informatique",
+        },
       ];
 
-      const exampleCert = exampleCertificates.find(cert => 
-        cert.hash === value || 
-        cert.tokenId === value || 
-        cert.walletAddress === value ||
-        cert.id === value
+      const exampleCert = exampleCertificates.find(
+        (cert) =>
+          cert.hash === value ||
+          cert.tokenId === value ||
+          cert.walletAddress === value ||
+          cert.id === value
       );
 
       if (exampleCert) {
         // Certificat d'exemple trouvé
         const exampleResult = {
           isValid: true,
-          certificate: exampleCert
+          certificate: exampleCert,
         };
         setResult(exampleResult);
         onVerificationComplete?.(exampleResult);
@@ -149,25 +152,30 @@ const VerifyCertificate = ({
 
       // 3. Fallback sur la simulation générique
       const isValid = !value.includes('invalid') && !value.includes('fake');
-      
+
       const mockResult = {
         isValid,
-        certificate: isValid ? {
-          id: 'cert_demo',
-          name: 'Demo Certificate',
-          description: 'Certificat de démonstration généré automatiquement',
-          hash: value.startsWith('0x') ? value : '0x1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef',
-          walletAddress: '0x1E274F39A44f1561b3Bb21148B9881075575676D',
-          createdAt: new Date().toISOString(),
-          ipfsHash: 'QmDemoHash123456789abcdef',
-          tokenId: Math.floor(Math.random() * 1000).toString(),
-          contractAddress: '0xabcdef1234567890abcdef1234567890abcdef12',
-          network: 'mumbai',
-          transactionHash: '0x34567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef',
-          issuer: 'CertiProof X Demo',
-          isVerified: true
-        } : null,
-        error: !isValid ? t('verify.notFound') : undefined
+        certificate: isValid
+          ? {
+              id: 'cert_demo',
+              name: 'Demo Certificate',
+              description: 'Certificat de démonstration généré automatiquement',
+              hash: value.startsWith('0x')
+                ? value
+                : '0x1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef',
+              walletAddress: '0x1E274F39A44f1561b3Bb21148B9881075575676D',
+              createdAt: new Date().toISOString(),
+              ipfsHash: 'QmDemoHash123456789abcdef',
+              tokenId: Math.floor(Math.random() * 1000).toString(),
+              contractAddress: '0xabcdef1234567890abcdef1234567890abcdef12',
+              network: 'mumbai',
+              transactionHash:
+                '0x34567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef',
+              issuer: 'CertiProof X Demo',
+              isVerified: true,
+            }
+          : null,
+        error: !isValid ? t('verify.notFound') : undefined,
       };
 
       setResult(mockResult);
@@ -182,7 +190,7 @@ const VerifyCertificate = ({
       const errorResult = {
         isValid: false,
         certificate: null,
-        error: t('verify.errorDuringVerification')
+        error: t('verify.errorDuringVerification'),
       };
       setResult(errorResult);
       onVerificationComplete?.(errorResult);
@@ -214,7 +222,7 @@ const VerifyCertificate = ({
       month: 'long',
       day: 'numeric',
       hour: '2-digit',
-      minute: '2-digit'
+      minute: '2-digit',
     });
   };
 
@@ -250,9 +258,7 @@ const VerifyCertificate = ({
             <h2 className="text-2xl font-bold text-white font-poppins">
               {t('verify.title')}
             </h2>
-            <p className="text-gray-400">
-              {t('verify.enterHashOrId')}
-            </p>
+            <p className="text-gray-400">{t('verify.enterHashOrId')}</p>
           </div>
 
           {/* Sélecteur de type */}
@@ -260,17 +266,22 @@ const VerifyCertificate = ({
             <div className="flex bg-dark-800 rounded-xl p-1 border border-gray-600">
               {[
                 { key: 'hash', label: t('verify.hashLabel'), icon: Hash },
-                { key: 'tokenId', label: t('verify.tokenIdLabel'), icon: Sparkles },
-                { key: 'address', label: t('verify.addressLabel'), icon: User }
+                {
+                  key: 'tokenId',
+                  label: t('verify.tokenIdLabel'),
+                  icon: Sparkles,
+                },
+                { key: 'address', label: t('verify.addressLabel'), icon: User },
               ].map(({ key, label, icon: Icon }) => (
                 <button
                   key={key}
                   onClick={() => setInputType(key)}
                   className={`
                     flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-all
-                    ${inputType === key 
-                      ? 'bg-primary-500 text-white shadow-lg' 
-                      : 'text-gray-400 hover:text-white hover:bg-dark-700'
+                    ${
+                      inputType === key
+                        ? 'bg-primary-500 text-white shadow-lg'
+                        : 'text-gray-400 hover:text-white hover:bg-dark-700'
                     }
                   `}
                 >
@@ -324,13 +335,18 @@ const VerifyCertificate = ({
               className={`
                 w-full flex items-center justify-center gap-3 px-6 py-3 rounded-xl
                 font-medium transition-all duration-200
-                ${isVerifying || !inputValue.trim()
-                  ? 'bg-gray-600 text-gray-400 cursor-not-allowed'
-                  : 'bg-primary-500 hover:bg-primary-600 text-white shadow-lg hover:shadow-primary-500/25'
+                ${
+                  isVerifying || !inputValue.trim()
+                    ? 'bg-gray-600 text-gray-400 cursor-not-allowed'
+                    : 'bg-primary-500 hover:bg-primary-600 text-white shadow-lg hover:shadow-primary-500/25'
                 }
               `}
-              whileHover={!isVerifying && inputValue.trim() ? { scale: 1.02 } : {}}
-              whileTap={!isVerifying && inputValue.trim() ? { scale: 0.98 } : {}}
+              whileHover={
+                !isVerifying && inputValue.trim() ? { scale: 1.02 } : {}
+              }
+              whileTap={
+                !isVerifying && inputValue.trim() ? { scale: 0.98 } : {}
+              }
             >
               {isVerifying ? (
                 <>
@@ -357,9 +373,10 @@ const VerifyCertificate = ({
             exit={{ opacity: 0, y: -20 }}
             className={`
               rounded-2xl border p-8 backdrop-blur-sm
-              ${result.isValid 
-                ? 'bg-success-500/10 border-success-500/30' 
-                : 'bg-red-500/10 border-red-500/30'
+              ${
+                result.isValid
+                  ? 'bg-success-500/10 border-success-500/30'
+                  : 'bg-red-500/10 border-red-500/30'
               }
             `}
           >
@@ -367,16 +384,19 @@ const VerifyCertificate = ({
             <motion.div
               initial={{ scale: 0 }}
               animate={{ scale: 1 }}
-              transition={{ type: "spring", stiffness: 300, damping: 20 }}
+              transition={{ type: 'spring', stiffness: 300, damping: 20 }}
               className="flex justify-center mb-6"
             >
-              <div className={`
+              <div
+                className={`
                 p-4 rounded-full
-                ${result.isValid 
-                  ? 'bg-success-500/20 border border-success-500/50' 
-                  : 'bg-red-500/20 border border-red-500/50'
+                ${
+                  result.isValid
+                    ? 'bg-success-500/20 border border-success-500/50'
+                    : 'bg-red-500/20 border border-red-500/50'
                 }
-              `}>
+              `}
+              >
                 {result.isValid ? (
                   <CheckCircle className="w-12 h-12 text-success-500" />
                 ) : (
@@ -386,17 +406,20 @@ const VerifyCertificate = ({
             </motion.div>
 
             <div className="text-center mb-8">
-              <h3 className={`
+              <h3
+                className={`
                 text-2xl font-bold font-poppins mb-2
                 ${result.isValid ? 'text-success-400' : 'text-red-400'}
-              `}>
-                {result.isValid ? t('verify.validCertificate') : t('verify.invalidCertificate')}
+              `}
+              >
+                {result.isValid
+                  ? t('verify.validCertificate')
+                  : t('verify.invalidCertificate')}
               </h3>
               <p className="text-gray-400">
-                {result.isValid 
-                  ? t('verify.certificateAuthentic') 
-                  : result.error || t('verify.certificateNotVerified')
-                }
+                {result.isValid
+                  ? t('verify.certificateAuthentic')
+                  : result.error || t('verify.certificateNotVerified')}
               </p>
             </div>
 
@@ -410,13 +433,17 @@ const VerifyCertificate = ({
               >
                 <div className="text-center mb-6">
                   <h3 className="text-xl font-semibold text-white mb-2 font-poppins">
-                    {result.isUserCertificate ? t('verify.yourCertificateTitle') : t('verify.certificateDetails')}
+                    {result.isUserCertificate
+                      ? t('verify.yourCertificateTitle')
+                      : t('verify.certificateDetails')}
                   </h3>
                   <p className="text-gray-400">
-                    {result.isUserCertificate ? t('verify.yourCertificateDesc') : t('verify.certificateAuthentic')}
+                    {result.isUserCertificate
+                      ? t('verify.yourCertificateDesc')
+                      : t('verify.certificateAuthentic')}
                   </p>
                 </div>
-                
+
                 <CertificateCard
                   certificate={result.certificate}
                   onVerify={(hash) => {

@@ -52,7 +52,7 @@
         "description": "Chaque document est protégé par un hash SHA-256 unique et des signatures cryptographiques inviolables, garantissant son intégrité pour l'éternité."
       },
       "decentralizedStorage2": {
-        "title": "Décentralisation IPFS", 
+        "title": "Décentralisation IPFS",
         "description": "Stockage distribué sur le réseau IPFS mondial. Vos documents ne dépendent d'aucune autorité centrale et restent accessibles en permanence."
       },
       "nftOwnership": {
@@ -70,12 +70,12 @@
     },
     "stats": {
       "certificatesMinted": "Certificats Créés",
-      "documentsVerified": "Documents Vérifiés", 
+      "documentsVerified": "Documents Vérifiés",
       "networksSupported": "Réseaux Supportés",
       "fileFormats": "Formats de Fichiers"
     },
     "steps": {
-      "title": "Comment ça fonctionne", 
+      "title": "Comment ça fonctionne",
       "subtitle": "Trois étapes simples pour sécuriser vos documents sur la blockchain",
       "step1": {
         "title": "Télécharger",
@@ -348,7 +348,7 @@
   "errors": {
     "networkError": "Erreur de réseau",
     "walletNotConnected": "Portefeuille non connecté",
-    "transactionFailed": "Transaction échouée", 
+    "transactionFailed": "Transaction échouée",
     "invalidFile": "Fichier invalide",
     "fileTooLarge": "Fichier trop volumineux",
     "unsupportedFormat": "Format non supporté"

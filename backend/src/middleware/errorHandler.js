@@ -1,7 +1,7 @@
 /**
  * Error handling middleware for CertiProof X Backend
  * Author: Kai Zenjiro (0xGenesis) - certiproofx@protonmail.me
- * 
+ *
  * Centralized error handling and response formatting
  */
 
@@ -22,7 +22,7 @@ const errorHandler = (error, req, res, next) => {
     userAgent: req.get('User-Agent'),
     body: req.body,
     params: req.params,
-    query: req.query
+    query: req.query,
   });
 
   // Default error response
@@ -33,7 +33,7 @@ const errorHandler = (error, req, res, next) => {
     message: 'An unexpected error occurred',
     code: 'INTERNAL_ERROR',
     timestamp: new Date().toISOString(),
-    requestId: req.id || 'unknown'
+    requestId: req.id || 'unknown',
   };
 
   // Handle specific error types
@@ -43,20 +43,16 @@ const errorHandler = (error, req, res, next) => {
     errorResponse.message = error.message;
     errorResponse.code = 'VALIDATION_ERROR';
     errorResponse.details = error.errors || error.details;
-  }
-  
-  else if (error.name === 'CastError') {
+  } else if (error.name === 'CastError') {
     statusCode = 400;
     errorResponse.error = 'Invalid data format';
     errorResponse.message = 'Invalid data format provided';
     errorResponse.code = 'CAST_ERROR';
-  }
-  
-  else if (error.name === 'MulterError') {
+  } else if (error.name === 'MulterError') {
     statusCode = 400;
     errorResponse.error = 'File upload error';
     errorResponse.code = 'UPLOAD_ERROR';
-    
+
     switch (error.code) {
       case 'LIMIT_FILE_SIZE':
         errorResponse.message = `File too large. Maximum size is ${Math.round(config.upload.maxFileSize / 1024 / 1024)}MB`;
@@ -71,50 +67,41 @@ const errorHandler = (error, req, res, next) => {
       default:
         errorResponse.message = error.message || 'File upload failed';
     }
-  }
-  
-  else if (error.name === 'JsonWebTokenError') {
+  } else if (error.name === 'JsonWebTokenError') {
     statusCode = 401;
     errorResponse.error = 'Authentication error';
     errorResponse.message = 'Invalid or expired token';
     errorResponse.code = 'AUTH_ERROR';
-  }
-  
-  else if (error.name === 'SyntaxError' && error.type === 'entity.parse.failed') {
+  } else if (
+    error.name === 'SyntaxError' &&
+    error.type === 'entity.parse.failed'
+  ) {
     statusCode = 400;
     errorResponse.error = 'Invalid JSON';
     errorResponse.message = 'Request body contains invalid JSON';
     errorResponse.code = 'JSON_PARSE_ERROR';
-  }
-  
-  else if (error.code === 'ENOENT') {
+  } else if (error.code === 'ENOENT') {
     statusCode = 404;
     errorResponse.error = 'File not found';
     errorResponse.message = 'Requested file does not exist';
     errorResponse.code = 'FILE_NOT_FOUND';
-  }
-  
-  else if (error.code === 'EACCES') {
+  } else if (error.code === 'EACCES') {
     statusCode = 403;
     errorResponse.error = 'Permission denied';
     errorResponse.message = 'Insufficient permissions to access resource';
     errorResponse.code = 'PERMISSION_DENIED';
-  }
-  
-  else if (error.code === 'ETIMEDOUT' || error.code === 'ECONNRESET') {
+  } else if (error.code === 'ETIMEDOUT' || error.code === 'ECONNRESET') {
     statusCode = 503;
     errorResponse.error = 'Service temporarily unavailable';
     errorResponse.message = 'External service timeout or connection reset';
     errorResponse.code = 'SERVICE_TIMEOUT';
-  }
-  
-  else if (error.status && error.status >= 400 && error.status < 600) {
+  } else if (error.status && error.status >= 400 && error.status < 600) {
     statusCode = error.status;
     errorResponse.error = error.name || 'HTTP Error';
     errorResponse.message = error.message || 'HTTP error occurred';
     errorResponse.code = error.code || `HTTP_${statusCode}`;
   }
-  
+
   // Custom application errors
   else if (error.isOperational) {
     statusCode = error.statusCode || 400;
@@ -131,13 +118,13 @@ const errorHandler = (error, req, res, next) => {
       cause: error.cause,
       errno: error.errno,
       syscall: error.syscall,
-      path: error.path
+      path: error.path,
     };
   }
 
   // Security headers
   res.removeHeader('X-Powered-By');
-  
+
   // CORS headers for error responses
   res.header('Access-Control-Allow-Origin', req.headers.origin || '*');
   res.header('Access-Control-Allow-Credentials', 'true');
@@ -163,15 +150,15 @@ const notFoundHandler = (req, res, next) => {
       'POST /api/certificate/generate',
       'POST /api/certificate/qr',
       'GET /api/verification/:tokenId',
-      'GET /api/metadata/:tokenId'
-    ]
+      'GET /api/metadata/:tokenId',
+    ],
   };
 
   logger.warn('404 Not Found:', {
     url: req.originalUrl,
     method: req.method,
     ip: req.ip,
-    userAgent: req.get('User-Agent')
+    userAgent: req.get('User-Agent'),
   });
 
   res.status(404).json(error);
@@ -193,12 +180,12 @@ const asyncHandler = (fn) => {
 class AppError extends Error {
   constructor(message, statusCode, code = null, isOperational = true) {
     super(message);
-    
+
     this.statusCode = statusCode;
     this.code = code || `ERROR_${statusCode}`;
     this.isOperational = isOperational;
     this.timestamp = new Date().toISOString();
-    
+
     Error.captureStackTrace(this, this.constructor);
   }
 }
@@ -211,7 +198,7 @@ const rateLimitHandler = (req, res) => {
     ip: req.ip,
     userAgent: req.get('User-Agent'),
     url: req.originalUrl,
-    method: req.method
+    method: req.method,
   });
 
   res.status(429).json({
@@ -220,7 +207,7 @@ const rateLimitHandler = (req, res) => {
     message: 'Rate limit exceeded. Please try again later.',
     code: 'RATE_LIMIT_EXCEEDED',
     retryAfter: req.rateLimit?.resetTime || 900, // 15 minutes
-    timestamp: new Date().toISOString()
+    timestamp: new Date().toISOString(),
   });
 };
 
@@ -228,11 +215,11 @@ const rateLimitHandler = (req, res) => {
  * Validation error formatter
  */
 const formatValidationErrors = (errors) => {
-  return errors.map(error => ({
+  return errors.map((error) => ({
     field: error.param || error.path,
     message: error.msg || error.message,
     value: error.value,
-    location: error.location
+    location: error.location,
   }));
 };
 
@@ -247,7 +234,7 @@ const securityErrorHandler = (error, req, res, next) => {
       ip: req.ip,
       userAgent: req.get('User-Agent'),
       url: req.originalUrl,
-      method: req.method
+      method: req.method,
     });
 
     return res.status(403).json({
@@ -255,7 +242,7 @@ const securityErrorHandler = (error, req, res, next) => {
       error: 'Security violation',
       message: 'Request blocked for security reasons',
       code: 'SECURITY_VIOLATION',
-      timestamp: new Date().toISOString()
+      timestamp: new Date().toISOString(),
     });
   }
 
@@ -269,5 +256,5 @@ module.exports = {
   AppError,
   rateLimitHandler,
   formatValidationErrors,
-  securityErrorHandler
+  securityErrorHandler,
 };

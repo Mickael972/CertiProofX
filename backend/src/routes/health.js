@@ -1,7 +1,7 @@
 /**
  * Health check routes for CertiProof X Backend
  * Author: Kai Zenjiro (0xGenesis) - certiproofx@protonmail.me
- * 
+ *
  * Provides health status and monitoring endpoints
  */
 
@@ -23,7 +23,7 @@ router.get('/', async (req, res) => {
   try {
     const uptime = Date.now() - serviceStartTime.getTime();
     const memoryUsage = process.memoryUsage();
-    
+
     // Basic health status
     const healthStatus = {
       status: 'healthy',
@@ -31,14 +31,14 @@ router.get('/', async (req, res) => {
       uptime: {
         milliseconds: uptime,
         seconds: Math.floor(uptime / 1000),
-        human: formatUptime(uptime)
+        human: formatUptime(uptime),
       },
       service: {
         name: config.app.name,
         version: config.app.version,
         environment: config.server.env,
         author: config.app.author,
-        contact: config.app.contact
+        contact: config.app.contact,
       },
       system: {
         nodeVersion: process.version,
@@ -48,21 +48,20 @@ router.get('/', async (req, res) => {
           rss: `${Math.round(memoryUsage.rss / 1024 / 1024)} MB`,
           heapTotal: `${Math.round(memoryUsage.heapTotal / 1024 / 1024)} MB`,
           heapUsed: `${Math.round(memoryUsage.heapUsed / 1024 / 1024)} MB`,
-          external: `${Math.round(memoryUsage.external / 1024 / 1024)} MB`
+          external: `${Math.round(memoryUsage.external / 1024 / 1024)} MB`,
         },
-        cpu: process.cpuUsage()
-      }
+        cpu: process.cpuUsage(),
+      },
     };
 
     res.status(200).json(healthStatus);
-
   } catch (error) {
     logger.error('Health check failed:', error);
-    
+
     res.status(503).json({
       status: 'unhealthy',
       error: error.message,
-      timestamp: new Date().toISOString()
+      timestamp: new Date().toISOString(),
     });
   }
 });
@@ -87,7 +86,7 @@ router.get('/detailed', async (req, res) => {
       ipfsStatus = {
         healthy: false,
         error: error.message,
-        provider: config.ipfs.provider
+        provider: config.ipfs.provider,
       };
     }
 
@@ -95,13 +94,13 @@ router.get('/detailed', async (req, res) => {
     const envCheck = {
       required: {
         NODE_ENV: !!process.env.NODE_ENV,
-        PORT: !!process.env.PORT
+        PORT: !!process.env.PORT,
       },
       ipfs: {},
       optional: {
         LOG_LEVEL: !!process.env.LOG_LEVEL,
-        API_KEY: !!process.env.API_KEY
-      }
+        API_KEY: !!process.env.API_KEY,
+      },
     };
 
     // Check IPFS-specific env vars
@@ -114,15 +113,18 @@ router.get('/detailed', async (req, res) => {
         envCheck.ipfs.PINATA_SECRET_KEY = !!process.env.PINATA_SECRET_KEY;
         break;
       case 'infura':
-        envCheck.ipfs.INFURA_IPFS_PROJECT_ID = !!process.env.INFURA_IPFS_PROJECT_ID;
-        envCheck.ipfs.INFURA_IPFS_PROJECT_SECRET = !!process.env.INFURA_IPFS_PROJECT_SECRET;
+        envCheck.ipfs.INFURA_IPFS_PROJECT_ID =
+          !!process.env.INFURA_IPFS_PROJECT_ID;
+        envCheck.ipfs.INFURA_IPFS_PROJECT_SECRET =
+          !!process.env.INFURA_IPFS_PROJECT_SECRET;
         break;
     }
 
     // Overall health determination
-    const isHealthy = ipfsStatus.healthy && 
-                     Object.values(envCheck.required).every(Boolean) &&
-                     Object.values(envCheck.ipfs).every(Boolean);
+    const isHealthy =
+      ipfsStatus.healthy &&
+      Object.values(envCheck.required).every(Boolean) &&
+      Object.values(envCheck.ipfs).every(Boolean);
 
     const healthStatus = {
       status: isHealthy ? 'healthy' : 'degraded',
@@ -131,7 +133,7 @@ router.get('/detailed', async (req, res) => {
         milliseconds: uptime,
         seconds: Math.floor(uptime / 1000),
         human: formatUptime(uptime),
-        startTime: serviceStartTime.toISOString()
+        startTime: serviceStartTime.toISOString(),
       },
       service: {
         name: config.app.name,
@@ -140,7 +142,7 @@ router.get('/detailed', async (req, res) => {
         author: config.app.author,
         contact: config.app.contact,
         license: config.app.license,
-        repository: config.app.repository
+        repository: config.app.repository,
       },
       system: {
         nodeVersion: process.version,
@@ -152,44 +154,46 @@ router.get('/detailed', async (req, res) => {
           heapTotal: Math.round(memoryUsage.heapTotal / 1024 / 1024),
           heapUsed: Math.round(memoryUsage.heapUsed / 1024 / 1024),
           external: Math.round(memoryUsage.external / 1024 / 1024),
-          arrayBuffers: Math.round(memoryUsage.arrayBuffers / 1024 / 1024)
+          arrayBuffers: Math.round(memoryUsage.arrayBuffers / 1024 / 1024),
         },
         cpu: process.cpuUsage(),
-        loadAverage: process.platform !== 'win32' ? require('os').loadavg() : 'N/A (Windows)'
+        loadAverage:
+          process.platform !== 'win32'
+            ? require('os').loadavg()
+            : 'N/A (Windows)',
       },
       dependencies: {
-        ipfs: ipfsStatus
+        ipfs: ipfsStatus,
       },
       configuration: {
         upload: {
           maxFileSize: `${Math.round(config.upload.maxFileSize / 1024 / 1024)} MB`,
           allowedTypes: config.upload.allowedMimeTypes.length,
-          tempDirectory: config.upload.tempDirectory
+          tempDirectory: config.upload.tempDirectory,
         },
         security: {
           apiKeyEnabled: config.security.enableApiKeyAuth,
           rateLimitEnabled: true,
-          corsEnabled: true
+          corsEnabled: true,
         },
         logging: {
           level: config.logging.level,
           fileEnabled: config.logging.file.enabled,
-          consoleEnabled: config.logging.console.enabled
-        }
+          consoleEnabled: config.logging.console.enabled,
+        },
       },
       environment: envCheck,
-      responseTime: `${Date.now() - startTime}ms`
+      responseTime: `${Date.now() - startTime}ms`,
     };
 
     res.status(isHealthy ? 200 : 503).json(healthStatus);
-
   } catch (error) {
     logger.error('Detailed health check failed:', error);
-    
+
     res.status(503).json({
       status: 'unhealthy',
       error: error.message,
-      timestamp: new Date().toISOString()
+      timestamp: new Date().toISOString(),
     });
   }
 });
@@ -202,7 +206,7 @@ router.get('/ready', async (req, res) => {
   try {
     // Check if all critical services are ready
     const ipfsReady = await checkIPFSReadiness();
-    
+
     const isReady = ipfsReady;
 
     if (isReady) {
@@ -210,26 +214,25 @@ router.get('/ready', async (req, res) => {
         status: 'ready',
         timestamp: new Date().toISOString(),
         checks: {
-          ipfs: ipfsReady
-        }
+          ipfs: ipfsReady,
+        },
       });
     } else {
       res.status(503).json({
         status: 'not ready',
         timestamp: new Date().toISOString(),
         checks: {
-          ipfs: ipfsReady
-        }
+          ipfs: ipfsReady,
+        },
       });
     }
-
   } catch (error) {
     logger.error('Readiness check failed:', error);
-    
+
     res.status(503).json({
       status: 'not ready',
       error: error.message,
-      timestamp: new Date().toISOString()
+      timestamp: new Date().toISOString(),
     });
   }
 });
@@ -243,7 +246,7 @@ router.get('/live', (req, res) => {
   res.status(200).json({
     status: 'alive',
     timestamp: new Date().toISOString(),
-    uptime: Date.now() - serviceStartTime.getTime()
+    uptime: Date.now() - serviceStartTime.getTime(),
   });
 });
 
@@ -255,7 +258,7 @@ router.get('/metrics', (req, res) => {
   try {
     const uptime = Date.now() - serviceStartTime.getTime();
     const memoryUsage = process.memoryUsage();
-    
+
     // Basic metrics in Prometheus format
     const metrics = [
       '# HELP certiproof_uptime_seconds Total uptime of the service in seconds',
@@ -272,12 +275,11 @@ router.get('/metrics', (req, res) => {
       '# HELP certiproof_info Service information',
       '# TYPE certiproof_info gauge',
       `certiproof_info{version="${config.app.version}",environment="${config.server.env}",node_version="${process.version}"} 1`,
-      ''
+      '',
     ].join('\n');
 
     res.set('Content-Type', 'text/plain; version=0.0.4; charset=utf-8');
     res.status(200).send(metrics);
-
   } catch (error) {
     logger.error('Metrics generation failed:', error);
     res.status(500).send('# Error generating metrics\n');
@@ -293,39 +295,40 @@ router.get('/info', (req, res) => {
     service: {
       name: config.app.name,
       version: config.app.version,
-      description: 'Backend API for CertiProof X - Decentralized Proof Protocol',
+      description:
+        'Backend API for CertiProof X - Decentralized Proof Protocol',
       author: config.app.author,
       contact: config.app.contact,
       license: config.app.license,
       repository: config.app.repository,
-      documentation: config.app.documentation
+      documentation: config.app.documentation,
     },
     runtime: {
       environment: config.server.env,
       nodeVersion: process.version,
       platform: process.platform,
-      architecture: process.arch
+      architecture: process.arch,
     },
     features: {
       ipfsUpload: true,
       certificateGeneration: true,
       qrCodeGeneration: true,
       verification: true,
-      metadata: true
+      metadata: true,
     },
     endpoints: {
       upload: '/api/upload',
       certificate: '/api/certificate',
       verification: '/api/verification',
       metadata: '/api/metadata',
-      health: '/api/health'
+      health: '/api/health',
     },
     support: {
       maxFileSize: `${Math.round(config.upload.maxFileSize / 1024 / 1024)} MB`,
       supportedFormats: config.upload.allowedMimeTypes,
-      ipfsProvider: config.ipfs.provider
+      ipfsProvider: config.ipfs.provider,
     },
-    timestamp: new Date().toISOString()
+    timestamp: new Date().toISOString(),
   };
 
   res.status(200).json(info);

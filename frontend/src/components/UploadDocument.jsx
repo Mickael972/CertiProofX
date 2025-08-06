@@ -6,26 +6,23 @@
 import React, { useState, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useDropzone } from 'react-dropzone';
-import { 
-  Upload, 
-  FileText, 
-  Image, 
-  File, 
-  Shield, 
+import {
+  Upload,
+  FileText,
+  Image,
+  File,
+  Shield,
   Database,
   Sparkles,
   CheckCircle,
   AlertCircle,
-  Loader2
+  Loader2,
 } from 'lucide-react';
 import toast from 'react-hot-toast';
 import CryptoJS from 'crypto-js';
 import { useT } from '../contexts/I18nContext';
 
-const UploadDocument = ({ 
-  onFileProcessed, 
-  onMintNFT 
-}) => {
+const UploadDocument = ({ onFileProcessed, onMintNFT }) => {
   const t = useT();
   const [processedFile, setProcessedFile] = useState(null);
   const [isGeneratingCertificate, setIsGeneratingCertificate] = useState(false);
@@ -46,56 +43,65 @@ const UploadDocument = ({
   }, []);
 
   // Configuration du dropzone
-  const onDrop = useCallback(async (acceptedFiles) => {
-    const file = acceptedFiles[0];
-    if (!file) return;
+  const onDrop = useCallback(
+    async (acceptedFiles) => {
+      const file = acceptedFiles[0];
+      if (!file) return;
 
-    // Validation des types de fichiers
-    const allowedTypes = [
-      'application/pdf',
-      'image/jpeg',
-      'image/jpg', 
-      'image/png',
-      'image/gif',
-      'text/plain'
-    ];
+      // Validation des types de fichiers
+      const allowedTypes = [
+        'application/pdf',
+        'image/jpeg',
+        'image/jpg',
+        'image/png',
+        'image/gif',
+        'text/plain',
+      ];
 
-    if (!allowedTypes.includes(file.type)) {
-      toast.error('Type de fichier non supporté. Utilisez PDF, PNG, JPG ou TXT.');
-      return;
-    }
+      if (!allowedTypes.includes(file.type)) {
+        toast.error(
+          'Type de fichier non supporté. Utilisez PDF, PNG, JPG ou TXT.'
+        );
+        return;
+      }
 
-    // Validation de la taille (50MB max)
-    if (file.size > 50 * 1024 * 1024) {
-      toast.error(t('upload.fileTooLarge'));
-      return;
-    }
+      // Validation de la taille (50MB max)
+      if (file.size > 50 * 1024 * 1024) {
+        toast.error(t('upload.fileTooLarge'));
+        return;
+      }
 
-    setProcessedFile({
-      file,
-      hash: '',
-      isProcessing: true,
-      isUploaded: false
-    });
+      setProcessedFile({
+        file,
+        hash: '',
+        isProcessing: true,
+        isUploaded: false,
+      });
 
-    try {
-      // Calculer le hash SHA256
-      const hash = await calculateSHA256(file);
-      
-      setProcessedFile(prev => prev ? {
-        ...prev,
-        hash,
-        isProcessing: false
-      } : null);
+      try {
+        // Calculer le hash SHA256
+        const hash = await calculateSHA256(file);
 
-      toast.success(t('upload.fileProcessedSuccess'));
-      onFileProcessed?.(file, hash);
-    } catch (error) {
-      console.error('Erreur lors du traitement du fichier:', error);
-      toast.error(t('upload.fileProcessingError'));
-      setProcessedFile(null);
-    }
-  }, [calculateSHA256, onFileProcessed]);
+        setProcessedFile((prev) =>
+          prev
+            ? {
+                ...prev,
+                hash,
+                isProcessing: false,
+              }
+            : null
+        );
+
+        toast.success(t('upload.fileProcessedSuccess'));
+        onFileProcessed?.(file, hash);
+      } catch (error) {
+        console.error('Erreur lors du traitement du fichier:', error);
+        toast.error(t('upload.fileProcessingError'));
+        setProcessedFile(null);
+      }
+    },
+    [calculateSHA256, onFileProcessed]
+  );
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     onDrop,
@@ -103,8 +109,8 @@ const UploadDocument = ({
     accept: {
       'application/pdf': ['.pdf'],
       'image/*': ['.png', '.jpg', '.jpeg', '.gif'],
-      'text/plain': ['.txt']
-    }
+      'text/plain': ['.txt'],
+    },
   });
 
   // Fonction pour générer le certificat
@@ -114,12 +120,16 @@ const UploadDocument = ({
     setIsGeneratingCertificate(true);
     try {
       // Simulation de génération de certificat
-      await new Promise(resolve => setTimeout(resolve, 2000));
-      
-      setProcessedFile(prev => prev ? {
-        ...prev,
-        isUploaded: true
-      } : null);
+      await new Promise((resolve) => setTimeout(resolve, 2000));
+
+      setProcessedFile((prev) =>
+        prev
+          ? {
+              ...prev,
+              isUploaded: true,
+            }
+          : null
+      );
 
       toast.success('Certificat généré avec succès !');
     } catch (error) {
@@ -167,16 +177,17 @@ const UploadDocument = ({
         className={`
           relative border-2 border-dashed rounded-2xl p-12 text-center cursor-pointer
           transition-all duration-300 bg-dark-900/50 backdrop-blur-sm
-          ${isDragActive 
-            ? 'border-primary-500 bg-primary-500/10 shadow-lg shadow-primary-500/25' 
-            : 'border-gray-600 hover:border-primary-500 hover:bg-primary-500/5'
+          ${
+            isDragActive
+              ? 'border-primary-500 bg-primary-500/10 shadow-lg shadow-primary-500/25'
+              : 'border-gray-600 hover:border-primary-500 hover:bg-primary-500/5'
           }
         `}
         whileHover={{ scale: 1.02 }}
         whileTap={{ scale: 0.98 }}
       >
         <input {...getInputProps()} />
-        
+
         <motion.div
           initial={{ y: 20, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
@@ -195,10 +206,12 @@ const UploadDocument = ({
               <Upload className="w-12 h-12 text-primary-500" />
             </motion.div>
           </div>
-          
+
           <div>
             <h3 className="text-xl font-bold text-white font-poppins mb-2">
-              {isDragActive ? t('upload.dropFileHere') : t('upload.uploadDocument')}
+              {isDragActive
+                ? t('upload.dropFileHere')
+                : t('upload.uploadDocument')}
             </h3>
             <p className="text-gray-400 text-sm">
               {t('upload.dragDropOrClick')}
@@ -240,9 +253,11 @@ const UploadDocument = ({
                 <div className="space-y-3">
                   <div className="flex items-center gap-2">
                     <Shield className="w-5 h-5 text-primary-500" />
-                    <span className="font-semibold text-white">{t('upload.sha256Hash')}</span>
+                    <span className="font-semibold text-white">
+                      {t('upload.sha256Hash')}
+                    </span>
                   </div>
-                  
+
                   {processedFile.isProcessing ? (
                     <div className="flex items-center gap-2 text-gray-400">
                       <Loader2 className="w-4 h-4 animate-spin" />
@@ -269,7 +284,9 @@ const UploadDocument = ({
                     className="flex items-center gap-2 bg-success-500/20 text-success-400 px-4 py-2 rounded-lg border border-success-500/30"
                   >
                     <Database className="w-4 h-4" />
-                    <span className="font-medium">{t('upload.ipfsStored')}</span>
+                    <span className="font-medium">
+                      {t('upload.ipfsStored')}
+                    </span>
                     <CheckCircle className="w-4 h-4" />
                   </motion.div>
                 )}
@@ -277,23 +294,36 @@ const UploadDocument = ({
 
               {/* Actions */}
               <div className="space-y-4">
-                <h5 className="font-semibold text-white font-poppins">{t('upload.actions')}</h5>
-                
+                <h5 className="font-semibold text-white font-poppins">
+                  {t('upload.actions')}
+                </h5>
+
                 <div className="space-y-3">
                   {/* Générer certificat */}
                   <motion.button
                     onClick={handleGenerateCertificate}
-                    disabled={processedFile.isProcessing || isGeneratingCertificate}
+                    disabled={
+                      processedFile.isProcessing || isGeneratingCertificate
+                    }
                     className={`
                       w-full flex items-center justify-center gap-3 px-6 py-3 rounded-xl
                       font-medium transition-all duration-200
-                      ${processedFile.isProcessing || isGeneratingCertificate
-                        ? 'bg-gray-600 text-gray-400 cursor-not-allowed'
-                        : 'bg-primary-500 hover:bg-primary-600 text-white shadow-lg hover:shadow-primary-500/25'
+                      ${
+                        processedFile.isProcessing || isGeneratingCertificate
+                          ? 'bg-gray-600 text-gray-400 cursor-not-allowed'
+                          : 'bg-primary-500 hover:bg-primary-600 text-white shadow-lg hover:shadow-primary-500/25'
                       }
                     `}
-                    whileHover={!processedFile.isProcessing && !isGeneratingCertificate ? { scale: 1.02 } : {}}
-                    whileTap={!processedFile.isProcessing && !isGeneratingCertificate ? { scale: 0.98 } : {}}
+                    whileHover={
+                      !processedFile.isProcessing && !isGeneratingCertificate
+                        ? { scale: 1.02 }
+                        : {}
+                    }
+                    whileTap={
+                      !processedFile.isProcessing && !isGeneratingCertificate
+                        ? { scale: 0.98 }
+                        : {}
+                    }
                   >
                     {isGeneratingCertificate ? (
                       <>
@@ -315,13 +345,22 @@ const UploadDocument = ({
                     className={`
                       w-full flex items-center justify-center gap-3 px-6 py-3 rounded-xl
                       font-medium transition-all duration-200
-                      ${!processedFile.isUploaded || isMinting
-                        ? 'bg-gray-600 text-gray-400 cursor-not-allowed'
-                        : 'bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white shadow-lg hover:shadow-purple-500/25'
+                      ${
+                        !processedFile.isUploaded || isMinting
+                          ? 'bg-gray-600 text-gray-400 cursor-not-allowed'
+                          : 'bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white shadow-lg hover:shadow-purple-500/25'
                       }
                     `}
-                    whileHover={processedFile.isUploaded && !isMinting ? { scale: 1.02 } : {}}
-                    whileTap={processedFile.isUploaded && !isMinting ? { scale: 0.98 } : {}}
+                    whileHover={
+                      processedFile.isUploaded && !isMinting
+                        ? { scale: 1.02 }
+                        : {}
+                    }
+                    whileTap={
+                      processedFile.isUploaded && !isMinting
+                        ? { scale: 0.98 }
+                        : {}
+                    }
                   >
                     {isMinting ? (
                       <>

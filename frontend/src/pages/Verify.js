@@ -16,7 +16,7 @@ const Verify = () => {
   const [searchParams] = useSearchParams();
   const hashFromQuery = searchParams.get('hash');
   const t = useT();
-  
+
   // Utiliser le hash des query params en priorité, puis tokenId des params
   const initialHashValue = hashFromQuery || tokenId;
 
@@ -34,9 +34,7 @@ const Verify = () => {
               <h1 className="text-3xl font-bold text-white mb-4 font-poppins">
                 {t('verify.title')}
               </h1>
-              <p className="text-lg text-gray-400">
-                {t('verify.subtitle')}
-              </p>
+              <p className="text-lg text-gray-400">{t('verify.subtitle')}</p>
             </div>
 
             {/* Nouveau composant VerifyCertificate */}

@@ -1,7 +1,7 @@
 /**
  * Certificate routes for CertiProof X Backend
  * Author: Kai Zenjiro (0xGenesis) - certiproofx@protonmail.me
- * 
+ *
  * Handles certificate PDF generation and QR code creation
  */
 
@@ -18,19 +18,29 @@ const router = express.Router();
  * Generate certificate PDF
  * POST /api/certificate/generate
  */
-router.post('/generate',
+router.post(
+  '/generate',
   [
     body('title').notEmpty().isString().isLength({ min: 1, max: 200 }).trim(),
-    body('documentHash').notEmpty().isString().matches(/^0x[a-fA-F0-9]{64}$/),
+    body('documentHash')
+      .notEmpty()
+      .isString()
+      .matches(/^0x[a-fA-F0-9]{64}$/),
     body('ipfsHash').notEmpty().isString().isLength({ min: 10, max: 100 }),
-    body('issuerAddress').notEmpty().isString().matches(/^0x[a-fA-F0-9]{40}$/),
-    body('recipientAddress').optional().isString().matches(/^0x[a-fA-F0-9]{40}$/),
+    body('issuerAddress')
+      .notEmpty()
+      .isString()
+      .matches(/^0x[a-fA-F0-9]{40}$/),
+    body('recipientAddress')
+      .optional()
+      .isString()
+      .matches(/^0x[a-fA-F0-9]{40}$/),
     body('tokenId').optional().isNumeric(),
     body('documentType').optional().isString().isLength({ max: 100 }).trim(),
     body('description').optional().isString().isLength({ max: 1000 }).trim(),
     body('verificationUrl').optional().isURL(),
     body('metadata').optional().isObject(),
-    body('attributes').optional().isArray()
+    body('attributes').optional().isArray(),
   ],
   async (req, res) => {
     try {
@@ -39,18 +49,23 @@ router.post('/generate',
         return res.status(400).json({
           success: false,
           error: 'Validation failed',
-          details: errors.array()
+          details: errors.array(),
         });
       }
 
       const startTime = Date.now();
       const certificateData = req.body;
 
-      logger.apiRequest(req.method, req.originalUrl, req.ip, req.get('User-Agent'));
+      logger.apiRequest(
+        req.method,
+        req.originalUrl,
+        req.ip,
+        req.get('User-Agent')
+      );
       logger.info('Generating certificate PDF', {
         title: certificateData.title,
         tokenId: certificateData.tokenId,
-        ip: req.ip
+        ip: req.ip,
       });
 
       // Validate certificate data
@@ -58,15 +73,17 @@ router.post('/generate',
 
       // Set default values
       certificateData.issuedAt = certificateData.issuedAt || new Date();
-      certificateData.documentType = certificateData.documentType || 'Digital Document';
+      certificateData.documentType =
+        certificateData.documentType || 'Digital Document';
 
       // Generate certificate PDF
-      const pdfResult = await certificateService.generateCertificatePDF(certificateData);
+      const pdfResult =
+        await certificateService.generateCertificatePDF(certificateData);
 
       // Generate metadata for the certificate
       const metadata = certificateService.generateMetadata({
         ...certificateData,
-        generatedAt: new Date().toISOString()
+        generatedAt: new Date().toISOString(),
       });
 
       const processingTime = Date.now() - startTime;
@@ -75,7 +92,7 @@ router.post('/generate',
       logger.certificate('generated', certificateData.tokenId, {
         title: certificateData.title,
         size: pdfResult.size,
-        processingTime: `${processingTime}ms`
+        processingTime: `${processingTime}ms`,
       });
 
       res.status(200).json({
@@ -86,19 +103,18 @@ router.post('/generate',
             filename: pdfResult.filename,
             size: pdfResult.size,
             hash: pdfResult.hash,
-            mimeType: pdfResult.mimeType
+            mimeType: pdfResult.mimeType,
           },
           metadata,
           processingTime: `${processingTime}ms`,
-          generatedAt: new Date().toISOString()
+          generatedAt: new Date().toISOString(),
         },
         // Include PDF as base64 for direct download
-        pdf: pdfResult.buffer.toString('base64')
+        pdf: pdfResult.buffer.toString('base64'),
       });
-
     } catch (error) {
       const processingTime = Date.now() - (req.startTime || Date.now());
-      
+
       logger.apiError(req.method, req.originalUrl, 500, error, req.ip);
       logger.error('Certificate generation failed:', error);
 
@@ -107,7 +123,7 @@ router.post('/generate',
         error: 'Certificate generation failed',
         message: error.message,
         code: 'CERTIFICATE_GENERATION_FAILED',
-        processingTime: `${processingTime}ms`
+        processingTime: `${processingTime}ms`,
       });
     }
   }
@@ -117,16 +133,26 @@ router.post('/generate',
  * Generate and upload certificate to IPFS
  * POST /api/certificate/upload
  */
-router.post('/upload',
+router.post(
+  '/upload',
   [
     body('title').notEmpty().isString().isLength({ min: 1, max: 200 }).trim(),
-    body('documentHash').notEmpty().isString().matches(/^0x[a-fA-F0-9]{64}$/),
+    body('documentHash')
+      .notEmpty()
+      .isString()
+      .matches(/^0x[a-fA-F0-9]{64}$/),
     body('ipfsHash').notEmpty().isString().isLength({ min: 10, max: 100 }),
-    body('issuerAddress').notEmpty().isString().matches(/^0x[a-fA-F0-9]{40}$/),
-    body('recipientAddress').optional().isString().matches(/^0x[a-fA-F0-9]{40}$/),
+    body('issuerAddress')
+      .notEmpty()
+      .isString()
+      .matches(/^0x[a-fA-F0-9]{40}$/),
+    body('recipientAddress')
+      .optional()
+      .isString()
+      .matches(/^0x[a-fA-F0-9]{40}$/),
     body('tokenId').optional().isNumeric(),
     body('documentType').optional().isString().isLength({ max: 100 }).trim(),
-    body('uploadToIpfs').optional().isBoolean()
+    body('uploadToIpfs').optional().isBoolean(),
   ],
   async (req, res) => {
     try {
@@ -135,7 +161,7 @@ router.post('/upload',
         return res.status(400).json({
           success: false,
           error: 'Validation failed',
-          details: errors.array()
+          details: errors.array(),
         });
       }
 
@@ -143,16 +169,22 @@ router.post('/upload',
       const certificateData = req.body;
       const uploadToIpfs = certificateData.uploadToIpfs !== false; // Default true
 
-      logger.apiRequest(req.method, req.originalUrl, req.ip, req.get('User-Agent'));
+      logger.apiRequest(
+        req.method,
+        req.originalUrl,
+        req.ip,
+        req.get('User-Agent')
+      );
       logger.info('Generating and uploading certificate', {
         title: certificateData.title,
         tokenId: certificateData.tokenId,
         uploadToIpfs,
-        ip: req.ip
+        ip: req.ip,
       });
 
       // Generate certificate PDF
-      const pdfResult = await certificateService.generateCertificatePDF(certificateData);
+      const pdfResult =
+        await certificateService.generateCertificatePDF(certificateData);
 
       // Generate metadata
       const metadata = certificateService.generateMetadata(certificateData);
@@ -168,7 +200,7 @@ router.post('/upload',
             type: 'certificate',
             title: certificateData.title,
             tokenId: certificateData.tokenId,
-            documentHash: certificateData.documentHash
+            documentHash: certificateData.documentHash,
           }
         );
 
@@ -180,7 +212,7 @@ router.post('/upload',
 
         ipfsResults = {
           pdf: pdfUpload,
-          metadata: metadataUpload
+          metadata: metadataUpload,
         };
       }
 
@@ -190,7 +222,7 @@ router.post('/upload',
       logger.certificate('uploaded', certificateData.tokenId, {
         title: certificateData.title,
         ipfsEnabled: uploadToIpfs,
-        processingTime: `${processingTime}ms`
+        processingTime: `${processingTime}ms`,
       });
 
       res.status(200).json({
@@ -201,20 +233,19 @@ router.post('/upload',
             filename: pdfResult.filename,
             size: pdfResult.size,
             hash: pdfResult.hash,
-            mimeType: pdfResult.mimeType
+            mimeType: pdfResult.mimeType,
           },
           metadata,
           ipfs: ipfsResults,
           processingTime: `${processingTime}ms`,
-          generatedAt: new Date().toISOString()
+          generatedAt: new Date().toISOString(),
         },
         // Include PDF as base64 for direct download
-        pdf: pdfResult.buffer.toString('base64')
+        pdf: pdfResult.buffer.toString('base64'),
       });
-
     } catch (error) {
       const processingTime = Date.now() - (req.startTime || Date.now());
-      
+
       logger.apiError(req.method, req.originalUrl, 500, error, req.ip);
       logger.error('Certificate upload failed:', error);
 
@@ -223,7 +254,7 @@ router.post('/upload',
         error: 'Certificate upload failed',
         message: error.message,
         code: 'CERTIFICATE_UPLOAD_FAILED',
-        processingTime: `${processingTime}ms`
+        processingTime: `${processingTime}ms`,
       });
     }
   }
@@ -233,7 +264,8 @@ router.post('/upload',
  * Generate QR code
  * POST /api/certificate/qr
  */
-router.post('/qr',
+router.post(
+  '/qr',
   [
     body('data').notEmpty().isString(),
     body('width').optional().isInt({ min: 50, max: 1000 }),
@@ -241,7 +273,7 @@ router.post('/qr',
     body('margin').optional().isInt({ min: 0, max: 10 }),
     body('errorCorrectionLevel').optional().isIn(['L', 'M', 'Q', 'H']),
     body('format').optional().isIn(['png', 'svg']),
-    body('uploadToIpfs').optional().isBoolean()
+    body('uploadToIpfs').optional().isBoolean(),
   ],
   async (req, res) => {
     try {
@@ -250,22 +282,30 @@ router.post('/qr',
         return res.status(400).json({
           success: false,
           error: 'Validation failed',
-          details: errors.array()
+          details: errors.array(),
         });
       }
 
       const startTime = Date.now();
       const { data, uploadToIpfs = false, ...options } = req.body;
 
-      logger.apiRequest(req.method, req.originalUrl, req.ip, req.get('User-Agent'));
+      logger.apiRequest(
+        req.method,
+        req.originalUrl,
+        req.ip,
+        req.get('User-Agent')
+      );
       logger.info('Generating QR code', {
         dataLength: data.length,
         uploadToIpfs,
-        ip: req.ip
+        ip: req.ip,
       });
 
       // Generate QR code
-      const qrResult = await certificateService.generateStandaloneQR(data, options);
+      const qrResult = await certificateService.generateStandaloneQR(
+        data,
+        options
+      );
 
       let ipfsResult = null;
 
@@ -277,7 +317,7 @@ router.post('/qr',
           {
             type: 'qrcode',
             data: data.substring(0, 100), // Truncate for metadata
-            generatedAt: new Date().toISOString()
+            generatedAt: new Date().toISOString(),
           }
         );
       }
@@ -288,7 +328,7 @@ router.post('/qr',
       logger.info('QR code generated successfully', {
         size: qrResult.size,
         uploadToIpfs,
-        processingTime: `${processingTime}ms`
+        processingTime: `${processingTime}ms`,
       });
 
       res.status(200).json({
@@ -300,19 +340,18 @@ router.post('/qr',
             size: qrResult.size,
             hash: qrResult.hash,
             mimeType: qrResult.mimeType,
-            data: data
+            data: data,
           },
           ipfs: ipfsResult,
           processingTime: `${processingTime}ms`,
-          generatedAt: new Date().toISOString()
+          generatedAt: new Date().toISOString(),
         },
         // Include QR code as base64 for direct display
-        image: qrResult.buffer.toString('base64')
+        image: qrResult.buffer.toString('base64'),
       });
-
     } catch (error) {
       const processingTime = Date.now() - (req.startTime || Date.now());
-      
+
       logger.apiError(req.method, req.originalUrl, 500, error, req.ip);
       logger.error('QR code generation failed:', error);
 
@@ -321,7 +360,7 @@ router.post('/qr',
         error: 'QR code generation failed',
         message: error.message,
         code: 'QR_GENERATION_FAILED',
-        processingTime: `${processingTime}ms`
+        processingTime: `${processingTime}ms`,
       });
     }
   }
@@ -331,17 +370,27 @@ router.post('/qr',
  * Generate complete certificate package (PDF + QR + Metadata)
  * POST /api/certificate/package
  */
-router.post('/package',
+router.post(
+  '/package',
   [
     body('title').notEmpty().isString().isLength({ min: 1, max: 200 }).trim(),
-    body('documentHash').notEmpty().isString().matches(/^0x[a-fA-F0-9]{64}$/),
+    body('documentHash')
+      .notEmpty()
+      .isString()
+      .matches(/^0x[a-fA-F0-9]{64}$/),
     body('ipfsHash').notEmpty().isString().isLength({ min: 10, max: 100 }),
-    body('issuerAddress').notEmpty().isString().matches(/^0x[a-fA-F0-9]{40}$/),
-    body('recipientAddress').optional().isString().matches(/^0x[a-fA-F0-9]{40}$/),
+    body('issuerAddress')
+      .notEmpty()
+      .isString()
+      .matches(/^0x[a-fA-F0-9]{40}$/),
+    body('recipientAddress')
+      .optional()
+      .isString()
+      .matches(/^0x[a-fA-F0-9]{40}$/),
     body('tokenId').optional().isNumeric(),
     body('documentType').optional().isString().isLength({ max: 100 }).trim(),
     body('verificationUrl').optional().isURL(),
-    body('uploadToIpfs').optional().isBoolean()
+    body('uploadToIpfs').optional().isBoolean(),
   ],
   async (req, res) => {
     try {
@@ -350,7 +399,7 @@ router.post('/package',
         return res.status(400).json({
           success: false,
           error: 'Validation failed',
-          details: errors.array()
+          details: errors.array(),
         });
       }
 
@@ -358,26 +407,33 @@ router.post('/package',
       const certificateData = req.body;
       const uploadToIpfs = certificateData.uploadToIpfs !== false;
 
-      logger.apiRequest(req.method, req.originalUrl, req.ip, req.get('User-Agent'));
+      logger.apiRequest(
+        req.method,
+        req.originalUrl,
+        req.ip,
+        req.get('User-Agent')
+      );
       logger.info('Generating certificate package', {
         title: certificateData.title,
         tokenId: certificateData.tokenId,
         uploadToIpfs,
-        ip: req.ip
+        ip: req.ip,
       });
 
       // Set verification URL if not provided
-      const verificationUrl = certificateData.verificationUrl || 
+      const verificationUrl =
+        certificateData.verificationUrl ||
         `https://certiproof-x.com/verify/${certificateData.tokenId || certificateData.documentHash}`;
 
       // Generate certificate PDF
       const pdfResult = await certificateService.generateCertificatePDF({
         ...certificateData,
-        verificationUrl
+        verificationUrl,
       });
 
       // Generate QR code for verification
-      const qrResult = await certificateService.generateStandaloneQR(verificationUrl);
+      const qrResult =
+        await certificateService.generateStandaloneQR(verificationUrl);
 
       // Generate metadata
       const metadata = certificateService.generateMetadata(certificateData);
@@ -390,20 +446,23 @@ router.post('/package',
           ipfsService.uploadFile(pdfResult.buffer, pdfResult.filename, {
             type: 'certificate',
             title: certificateData.title,
-            tokenId: certificateData.tokenId
+            tokenId: certificateData.tokenId,
           }),
           ipfsService.uploadFile(qrResult.buffer, qrResult.filename, {
             type: 'qrcode',
             verificationUrl,
-            tokenId: certificateData.tokenId
+            tokenId: certificateData.tokenId,
           }),
-          ipfsService.uploadMetadata(metadata, `metadata_${certificateData.tokenId || 'certificate'}.json`)
+          ipfsService.uploadMetadata(
+            metadata,
+            `metadata_${certificateData.tokenId || 'certificate'}.json`
+          ),
         ]);
 
         ipfsResults = {
           pdf: pdfUpload,
           qrcode: qrUpload,
-          metadata: metadataUpload
+          metadata: metadataUpload,
         };
       }
 
@@ -414,7 +473,7 @@ router.post('/package',
         title: certificateData.title,
         components: ['pdf', 'qr', 'metadata'],
         uploadToIpfs,
-        processingTime: `${processingTime}ms`
+        processingTime: `${processingTime}ms`,
       });
 
       res.status(200).json({
@@ -425,30 +484,29 @@ router.post('/package',
             filename: pdfResult.filename,
             size: pdfResult.size,
             hash: pdfResult.hash,
-            mimeType: pdfResult.mimeType
+            mimeType: pdfResult.mimeType,
           },
           qrcode: {
             filename: qrResult.filename,
             size: qrResult.size,
             hash: qrResult.hash,
             mimeType: qrResult.mimeType,
-            verificationUrl
+            verificationUrl,
           },
           metadata,
           ipfs: ipfsResults,
           processingTime: `${processingTime}ms`,
-          generatedAt: new Date().toISOString()
+          generatedAt: new Date().toISOString(),
         },
         // Include both PDF and QR as base64
         files: {
           pdf: pdfResult.buffer.toString('base64'),
-          qrcode: qrResult.buffer.toString('base64')
-        }
+          qrcode: qrResult.buffer.toString('base64'),
+        },
       });
-
     } catch (error) {
       const processingTime = Date.now() - (req.startTime || Date.now());
-      
+
       logger.apiError(req.method, req.originalUrl, 500, error, req.ip);
       logger.error('Certificate package generation failed:', error);
 
@@ -457,7 +515,7 @@ router.post('/package',
         error: 'Certificate package generation failed',
         message: error.message,
         code: 'PACKAGE_GENERATION_FAILED',
-        processingTime: `${processingTime}ms`
+        processingTime: `${processingTime}ms`,
       });
     }
   }
