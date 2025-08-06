@@ -196,7 +196,7 @@ const VerifyCertificate = ({ initialHash = '', onVerificationComplete }) => {
         setIsVerifying(false);
       }
     },
-    [inputValue, t]
+    [inputValue, t, onVerificationComplete]
   );
 
   // Copier dans le presse-papier
