@@ -76,7 +76,7 @@ const Footer = () => {
                 <span className="text-xl font-bold text-white font-poppins">CertiProof X</span>
               </div>
               <p className="text-sm text-gray-400 mb-4">
-                Protocole de certification décentralisé pour l'authentification de documents sur blockchain
+                {t('footer.description')}
               </p>
               <div className="flex space-x-4">
                 {socialLinks.map((item) => (
@@ -97,22 +97,22 @@ const Footer = () => {
             {/* Product links */}
             <div>
               <h3 className="text-sm font-semibold text-white tracking-wider uppercase mb-4 font-poppins">
-                Fonctionnalités
+                {t('footer.product')}
               </h3>
               <ul className="space-y-3">
                 <li>
                   <Link to="/upload" className="text-sm text-gray-400 hover:text-primary-400 transition-colors">
-                    Créer un certificat
+                    {t('footer.uploadDocuments')}
                   </Link>
                 </li>
                 <li>
                   <Link to="/verify" className="text-sm text-gray-400 hover:text-primary-400 transition-colors">
-                    Vérifier l'authenticité
+                    {t('footer.verifyProofs')}
                   </Link>
                 </li>
                 <li>
                   <Link to="/certificates" className="text-sm text-gray-400 hover:text-primary-400 transition-colors">
-                    Mes certificats
+                    {t('footer.viewCertificates')}
                   </Link>
                 </li>
               </ul>
@@ -121,7 +121,7 @@ const Footer = () => {
             {/* Resources links */}
             <div>
               <h3 className="text-sm font-semibold text-white tracking-wider uppercase mb-4 font-poppins">
-                Ressources
+                {t('footer.resources')}
               </h3>
               <ul className="space-y-3">
                 <li>
@@ -131,7 +131,7 @@ const Footer = () => {
                     rel="noopener noreferrer"
                     className="text-sm text-gray-400 hover:text-primary-400 transition-colors"
                   >
-                    Code source GitHub
+                    {t('footer.documentation')}
                   </a>
                 </li>
                 <li>
@@ -141,7 +141,7 @@ const Footer = () => {
                     rel="noopener noreferrer"
                     className="text-sm text-gray-400 hover:text-primary-400 transition-colors"
                   >
-                    Documentation technique
+                    {t('footer.apiReference')}
                   </a>
                 </li>
                 <li>
@@ -151,7 +151,7 @@ const Footer = () => {
                     rel="noopener noreferrer"
                     className="text-sm text-gray-400 hover:text-primary-400 transition-colors"
                   >
-                    Explorer Polygon Mumbai
+                    {t('footer.smartContract')}
                   </a>
                 </li>
               </ul>
@@ -160,7 +160,7 @@ const Footer = () => {
             {/* Legal links */}
             <div>
               <h3 className="text-sm font-semibold text-white tracking-wider uppercase mb-4 font-poppins">
-                Légal
+                {t('footer.legal')}
               </h3>
               <ul className="space-y-3">
                 <li>
@@ -177,12 +177,12 @@ const Footer = () => {
                 </li>
                 <li>
                   <span className="text-sm text-gray-400">
-                    Open Source
+                    {t('footer.openSource')}
                   </span>
                 </li>
                 <li>
                   <span className="text-sm text-gray-400">
-                    Décentralisé
+                    {t('footer.decentralized')}
                   </span>
                 </li>
               </ul>
@@ -194,10 +194,10 @@ const Footer = () => {
             <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
               <div className="flex flex-col md:flex-row items-center space-y-2 md:space-y-0 md:space-x-4">
                 <p className="text-sm text-gray-400">
-                  © {currentYear} CertiProof X. Tous droits réservés.
+                  © {currentYear} CertiProof X. {t('footer.allRightsReserved')}
                 </p>
                 <p className="text-sm text-gray-500">
-                  Créé par{' '}
+                  {t('footer.builtBy')}{' '}
                   <a
                     href="mailto:certiproofx@protonmail.me"
                     className="text-primary-400 hover:text-primary-300 transition-colors"
@@ -208,7 +208,7 @@ const Footer = () => {
               </div>
               
               <div className="flex items-center space-x-4">
-                <span className="text-xs text-gray-500">Propulsé par</span>
+                <span className="text-xs text-gray-500">{t('footer.poweredBy')}</span>
                 <div className="flex items-center space-x-2">
                   <span className="inline-flex items-center gap-1 px-2 py-1 bg-purple-500/20 text-purple-400 text-xs font-medium rounded border border-purple-500/30">
                     Polygon

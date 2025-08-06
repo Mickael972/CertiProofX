@@ -20,11 +20,13 @@ import {
 } from 'lucide-react';
 import toast from 'react-hot-toast';
 import CryptoJS from 'crypto-js';
+import { useT } from '../contexts/I18nContext';
 
 const UploadDocument = ({ 
   onFileProcessed, 
   onMintNFT 
 }) => {
+  const t = useT();
   const [processedFile, setProcessedFile] = useState(null);
   const [isGeneratingCertificate, setIsGeneratingCertificate] = useState(false);
   const [isMinting, setIsMinting] = useState(false);
@@ -65,7 +67,7 @@ const UploadDocument = ({
 
     // Validation de la taille (50MB max)
     if (file.size > 50 * 1024 * 1024) {
-      toast.error('Fichier trop volumineux. Taille maximale : 50MB.');
+      toast.error(t('upload.fileTooLarge'));
       return;
     }
 
@@ -86,11 +88,11 @@ const UploadDocument = ({
         isProcessing: false
       } : null);
 
-      toast.success('Fichier traité avec succès !');
+      toast.success(t('upload.fileProcessedSuccess'));
       onFileProcessed?.(file, hash);
     } catch (error) {
       console.error('Erreur lors du traitement du fichier:', error);
-      toast.error('Erreur lors du traitement du fichier.');
+      toast.error(t('upload.fileProcessingError'));
       setProcessedFile(null);
     }
   }, [calculateSHA256, onFileProcessed]);
@@ -134,9 +136,9 @@ const UploadDocument = ({
     setIsMinting(true);
     try {
       await onMintNFT?.(processedFile.file, processedFile.hash);
-      toast.success('NFT minté avec succès !');
+      toast.success(t('upload.nftMintedSuccess'));
     } catch (error) {
-      toast.error('Erreur lors du mint du NFT.');
+      toast.error(t('upload.error'));
     } finally {
       setIsMinting(false);
     }
@@ -196,13 +198,13 @@ const UploadDocument = ({
           
           <div>
             <h3 className="text-xl font-bold text-white font-poppins mb-2">
-              {isDragActive ? 'Déposez votre fichier ici' : 'Télécharger un document'}
+              {isDragActive ? t('upload.dropFileHere') : t('upload.uploadDocument')}
             </h3>
             <p className="text-gray-400 text-sm">
-              Glissez-déposez ou cliquez pour sélectionner
+              {t('upload.dragDropOrClick')}
             </p>
             <p className="text-gray-500 text-xs mt-2">
-              Formats supportés : PDF, PNG, JPG, TXT (max 50MB)
+              {t('upload.supportedFormatsDetail')}
             </p>
           </div>
         </motion.div>
@@ -238,13 +240,13 @@ const UploadDocument = ({
                 <div className="space-y-3">
                   <div className="flex items-center gap-2">
                     <Shield className="w-5 h-5 text-primary-500" />
-                    <span className="font-semibold text-white">Hash SHA256</span>
+                    <span className="font-semibold text-white">{t('upload.sha256Hash')}</span>
                   </div>
                   
                   {processedFile.isProcessing ? (
                     <div className="flex items-center gap-2 text-gray-400">
                       <Loader2 className="w-4 h-4 animate-spin" />
-                      <span>Calcul du hash en cours...</span>
+                      <span>{t('upload.calculatingHash')}</span>
                     </div>
                   ) : (
                     <motion.div
@@ -267,7 +269,7 @@ const UploadDocument = ({
                     className="flex items-center gap-2 bg-success-500/20 text-success-400 px-4 py-2 rounded-lg border border-success-500/30"
                   >
                     <Database className="w-4 h-4" />
-                    <span className="font-medium">Stocké sur IPFS</span>
+                    <span className="font-medium">{t('upload.ipfsStored')}</span>
                     <CheckCircle className="w-4 h-4" />
                   </motion.div>
                 )}
@@ -275,7 +277,7 @@ const UploadDocument = ({
 
               {/* Actions */}
               <div className="space-y-4">
-                <h5 className="font-semibold text-white font-poppins">Actions</h5>
+                <h5 className="font-semibold text-white font-poppins">{t('upload.actions')}</h5>
                 
                 <div className="space-y-3">
                   {/* Générer certificat */}
@@ -296,12 +298,12 @@ const UploadDocument = ({
                     {isGeneratingCertificate ? (
                       <>
                         <Loader2 className="w-5 h-5 animate-spin" />
-                        Génération en cours...
+                        {t('upload.generating')}
                       </>
                     ) : (
                       <>
                         <FileText className="w-5 h-5" />
-                        Générer certificat
+                        {t('upload.generateCertificate')}
                       </>
                     )}
                   </motion.button>
@@ -324,12 +326,12 @@ const UploadDocument = ({
                     {isMinting ? (
                       <>
                         <Loader2 className="w-5 h-5 animate-spin" />
-                        Mint en cours...
+                        {t('upload.minting')}
                       </>
                     ) : (
                       <>
                         <Sparkles className="w-5 h-5" />
-                        Mint NFT
+                        {t('upload.mintNFT')}
                       </>
                     )}
                   </motion.button>
@@ -338,7 +340,7 @@ const UploadDocument = ({
                 {!processedFile.isUploaded && !processedFile.isProcessing && (
                   <div className="flex items-center gap-2 text-amber-400 text-sm">
                     <AlertCircle className="w-4 h-4" />
-                    <span>Générez d'abord le certificat</span>
+                    <span>{t('upload.generateFirst')}</span>
                   </div>
                 )}
               </div>

@@ -5,13 +5,16 @@
 
 import React from 'react';
 import { Helmet } from 'react-helmet-async';
+import { useT } from '../contexts/I18nContext';
 
 const About = () => {
+  const t = useT();
+  
   return (
     <>
       <Helmet>
-        <title>About - CertiProof X</title>
-        <meta name="description" content="Learn about CertiProof X, the decentralized proof protocol" />
+        <title>{t('about.title')} - CertiProof X</title>
+        <meta name="description" content={t('about.subtitle')} />
       </Helmet>
 
       <div className="min-h-screen bg-dark-950 py-12">
@@ -19,35 +22,33 @@ const About = () => {
           <div className="max-w-4xl mx-auto">
             <div className="text-center mb-12">
               <h1 className="text-4xl font-bold text-white mb-4 font-poppins">
-                À Propos de CertiProof X
+                {t('about.title')}
               </h1>
               <p className="text-xl text-gray-300">
-                Révolutionner la confiance numérique grâce à la technologie blockchain
+                {t('about.subtitle')}
               </p>
             </div>
 
             <div className="space-y-8">
               {/* Mission */}
               <div className="bg-dark-900/80 backdrop-blur-sm rounded-2xl border border-gray-700 p-8">
-                <h2 className="text-2xl font-bold text-white mb-4 font-poppins">Notre Mission</h2>
+                <h2 className="text-2xl font-bold text-white mb-4 font-poppins">{t('about.mission.title')}</h2>
                 <p className="text-gray-300 leading-relaxed">
-                  CertiProof X vise à révolutionner la confiance numérique en fournissant un système décentralisé 
-                  et inviolable pour certifier toute preuve numérique. Inspiré par la révolution Bitcoin de la monnaie, 
-                  nous construisons l'avenir de la vérification numérique.
+                  {t('about.mission.description')}
                 </p>
               </div>
 
               {/* Technology */}
               <div className="bg-dark-900/80 backdrop-blur-sm rounded-2xl border border-gray-700 p-8">
-                <h2 className="text-2xl font-bold text-white mb-6 font-poppins">Stack Technologique</h2>
+                <h2 className="text-2xl font-bold text-white mb-6 font-poppins">{t('about.technology.title')}</h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div className="bg-dark-800/50 rounded-xl p-6 border border-gray-600/50">
-                    <h3 className="text-lg font-semibold text-primary-400 mb-2 font-poppins">🔗 Blockchain</h3>
-                    <p className="text-gray-300">Les réseaux Ethereum et Polygon garantissent l'immuabilité et la décentralisation</p>
+                    <h3 className="text-lg font-semibold text-primary-400 mb-2 font-poppins">{t('about.technology.blockchain.title')}</h3>
+                    <p className="text-gray-300">{t('about.technology.blockchain.description')}</p>
                   </div>
                   <div className="bg-dark-800/50 rounded-xl p-6 border border-gray-600/50">
-                    <h3 className="text-lg font-semibold text-primary-400 mb-2 font-poppins">🌐 IPFS</h3>
-                    <p className="text-gray-300">Stockage distribué pour une disponibilité permanente des fichiers</p>
+                    <h3 className="text-lg font-semibold text-primary-400 mb-2 font-poppins">{t('about.technology.ipfs.title')}</h3>
+                    <p className="text-gray-300">{t('about.technology.ipfs.description')}</p>
                   </div>
                   <div className="bg-dark-800/50 rounded-xl p-6 border border-gray-600/50">
                     <h3 className="text-lg font-semibold text-primary-400 mb-2 font-poppins">💎 NFTs</h3>

@@ -19,6 +19,7 @@ import {
   Database
 } from 'lucide-react';
 import toast from 'react-hot-toast';
+import { useT } from '../contexts/I18nContext';
 
 const CertificateCard = ({ 
   certificate, 
@@ -27,16 +28,17 @@ const CertificateCard = ({
   className = "" 
 }) => {
   const [copiedField, setCopiedField] = useState(null);
+  const t = useT();
 
   // Fonction pour copier dans le presse-papier
   const copyToClipboard = async (text, field) => {
     try {
       await navigator.clipboard.writeText(text);
       setCopiedField(field);
-      toast.success(`${field} copié !`);
+      toast.success(t('certificateCard.copied', { field }));
       setTimeout(() => setCopiedField(null), 2000);
     } catch (error) {
-      toast.error('Erreur lors de la copie');
+      toast.error(t('certificateCard.copyError'));
     }
   };
 
@@ -132,7 +134,7 @@ const CertificateCard = ({
             <div className="space-y-2">
               <div className="flex items-center gap-2">
                 <Hash className="w-4 h-4 text-gray-400" />
-                <span className="text-sm font-medium text-gray-300">Hash SHA256</span>
+                <span className="text-sm font-medium text-gray-300">{t('certificateCard.sha256Hash')}</span>
               </div>
               <div className="flex items-center gap-2 bg-dark-800 rounded-lg p-3 border border-gray-600">
                 <code className="flex-1 text-xs text-gray-300 font-mono break-all">
@@ -156,7 +158,7 @@ const CertificateCard = ({
             <div className="space-y-2">
               <div className="flex items-center gap-2">
                 <Wallet className="w-4 h-4 text-gray-400" />
-                <span className="text-sm font-medium text-gray-300">Propriétaire</span>
+                <span className="text-sm font-medium text-gray-300">{t('certificateCard.owner')}</span>
               </div>
               <div className="flex items-center gap-2 bg-dark-800 rounded-lg p-3 border border-gray-600">
                 <code className="flex-1 text-sm text-gray-300 font-mono">
@@ -180,7 +182,7 @@ const CertificateCard = ({
             <div className="space-y-2">
               <div className="flex items-center gap-2">
                 <Calendar className="w-4 h-4 text-gray-400" />
-                <span className="text-sm font-medium text-gray-300">Créé le</span>
+                <span className="text-sm font-medium text-gray-300">{t('certificateCard.createdAt')}</span>
               </div>
               <div className="text-sm text-gray-400">
                 {formatDate(certificate.createdAt)}
@@ -194,7 +196,7 @@ const CertificateCard = ({
           {/* QR Code */}
           <div className="space-y-3">
             <h4 className="text-sm font-medium text-gray-300 text-center">
-              QR Code de vérification
+              {t('certificateCard.verificationQRCode')}
             </h4>
             <motion.div
               whileHover={{ scale: 1.05 }}
@@ -210,7 +212,7 @@ const CertificateCard = ({
               />
             </motion.div>
             <p className="text-xs text-gray-500 text-center">
-              Scannez pour vérifier l'authenticité
+              {t('certificateCard.scanToVerify')}
             </p>
           </div>
 
@@ -223,7 +225,7 @@ const CertificateCard = ({
               whileTap={{ scale: 0.98 }}
             >
               <Shield className="w-5 h-5" />
-              Vérifier
+              {t('certificateCard.verify')}
             </motion.button>
 
             <motion.button
@@ -233,7 +235,7 @@ const CertificateCard = ({
               whileTap={{ scale: 0.98 }}
             >
               <Eye className="w-4 h-4" />
-              Voir détails
+              {t('certificateCard.viewDetails')}
             </motion.button>
 
             {certificate.contractAddress && (
@@ -246,7 +248,7 @@ const CertificateCard = ({
                 whileTap={{ scale: 0.98 }}
               >
                 <ExternalLink className="w-4 h-4" />
-                Voir sur Polygonscan
+                {t('certificateCard.viewOnPolygonscan')}
               </motion.a>
             )}
           </div>

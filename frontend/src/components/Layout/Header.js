@@ -17,9 +17,9 @@ const Header = () => {
 
   const navigation = [
     { name: t('nav.home'), href: '/', current: location.pathname === '/' },
-    { name: 'Créer un certificat', href: '/upload', current: location.pathname === '/upload' },
-    { name: 'Vérifier', href: '/verify', current: location.pathname === '/verify' },
-    { name: 'Mes certificats', href: '/certificates', current: location.pathname === '/certificates' },
+    { name: t('nav.upload'), href: '/upload', current: location.pathname === '/upload' },
+    { name: t('nav.verify'), href: '/verify', current: location.pathname === '/verify' },
+    { name: t('nav.certificates'), href: '/certificates', current: location.pathname === '/certificates' },
   ];
 
   const formatAddress = (address) => {
@@ -70,7 +70,7 @@ const Header = () => {
             {isConnected ? (
               <div className="flex items-center space-x-2 sm:space-x-3">
                 <div className="hidden lg:block bg-dark-800/50 backdrop-blur-sm px-3 py-2 rounded-lg border border-gray-600">
-                  <span className="text-sm text-gray-400">Connecté:</span>
+                  <span className="text-sm text-gray-400">{t('nav.connected')}</span>
                   <span className="ml-1 text-sm font-medium text-white font-mono">
                     {formatAddress(account)}
                   </span>
@@ -79,7 +79,7 @@ const Header = () => {
                   onClick={disconnectWallet}
                   className="bg-red-500/20 hover:bg-red-500/30 text-red-400 border border-red-500/30 hover:border-red-500/50 px-3 py-2 rounded-lg text-xs sm:text-sm font-medium transition-all"
                 >
-                  <span className="hidden sm:inline">Déconnecter</span>
+                  <span className="hidden sm:inline">{t('nav.disconnect')}</span>
                   <span className="sm:hidden">✕</span>
                 </button>
               </div>
@@ -90,7 +90,7 @@ const Header = () => {
                 className="bg-primary-500 hover:bg-primary-600 disabled:bg-gray-600 disabled:cursor-not-allowed text-white px-4 py-2 rounded-xl text-xs sm:text-sm font-medium transition-all shadow-lg hover:shadow-primary-500/25"
               >
                 <span className="hidden sm:inline">
-                  {isConnecting ? 'Connexion...' : 'Connecter MetaMask'}
+                  {isConnecting ? t('nav.connecting') : t('nav.connectMetaMask')}
                 </span>
                 <span className="sm:hidden">
                   {isConnecting ? '...' : '🦊'}
@@ -117,7 +117,7 @@ const Header = () => {
             {/* Language Switcher for Mobile */}
             <div className="px-3 py-2 mb-4">
               <div className="flex items-center justify-between">
-                <span className="text-sm font-medium text-white">Langue / Language:</span>
+                <span className="text-sm font-medium text-white">{t('nav.languageLabel')}</span>
                 <div style={{ position: 'relative', zIndex: 10001 }}>
                   <LanguageSwitcher className="sm:hidden" />
                 </div>
@@ -146,7 +146,7 @@ const Header = () => {
             {isConnected && (
                                       <div className="mt-4 pt-4">
                 <div className="px-3 py-2 bg-dark-800/50 rounded-lg mx-3">
-                  <div className="text-sm text-gray-400">Wallet connecté:</div>
+                  <div className="text-sm text-gray-400">{t('nav.connected')}</div>
                   <div className="text-sm font-medium text-white font-mono">{formatAddress(account)}</div>
                 </div>
               </div>

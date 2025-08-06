@@ -6,9 +6,11 @@
 import React, { useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { motion } from 'framer-motion';
+import { useT } from '../contexts/I18nContext';
 import CertificateCard from '../components/CertificateCard';
 
 const Certificates = () => {
+  const t = useT();
   // Données d'exemple de certificats
   const exampleCertificates = [
     {
@@ -42,8 +44,8 @@ const Certificates = () => {
   return (
     <>
       <Helmet>
-        <title>Mes Certificats - CertiProof X</title>
-        <meta name="description" content="Gérez et visualisez vos certificats blockchain" />
+        <title>{t('certificates.title')} - CertiProof X</title>
+        <meta name="description" content={t('certificates.subtitle')} />
       </Helmet>
 
       <div className="min-h-screen bg-dark-950 py-12">
@@ -55,10 +57,10 @@ const Certificates = () => {
               className="text-center mb-12"
             >
               <h1 className="text-4xl font-bold text-white mb-4 font-poppins">
-                Mes Certificats
+                {t('certificates.title')}
               </h1>
               <p className="text-lg text-gray-400">
-                Découvrez et gérez vos certificats blockchain vérifiés
+                {t('certificates.subtitle')}
               </p>
             </motion.div>
 
@@ -98,16 +100,16 @@ const Certificates = () => {
                   </svg>
                 </div>
                 <h3 className="text-xl font-semibold text-white mb-2">
-                  Aucun certificat trouvé
+                  {t('certificates.noCertificates')}
                 </h3>
                 <p className="text-gray-400 mb-6">
-                  Créez votre premier certificat pour commencer
+                  {t('certificates.createFirstCertificate')}
                 </p>
                 <a
                   href="/upload"
                   className="inline-flex items-center gap-2 px-6 py-3 bg-primary-500 hover:bg-primary-600 text-white font-medium rounded-xl transition-all shadow-lg hover:shadow-primary-500/25"
                 >
-                  Créer un certificat
+                  {t('certificates.createCertificate')}
                 </a>
               </motion.div>
             )}

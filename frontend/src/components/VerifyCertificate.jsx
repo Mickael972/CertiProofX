@@ -22,11 +22,13 @@ import {
   Sparkles
 } from 'lucide-react';
 import toast from 'react-hot-toast';
+import { useT } from '../contexts/I18nContext';
 
 const VerifyCertificate = ({ 
   initialHash = '', 
   onVerificationComplete 
 }) => {
+  const t = useT();
   const [inputValue, setInputValue] = useState(initialHash);
   const [inputType, setInputType] = useState('hash');
   const [isVerifying, setIsVerifying] = useState(false);
@@ -100,11 +102,11 @@ const VerifyCertificate = ({
       const errorResult = {
         isValid: false,
         certificate: null,
-        error: 'Erreur lors de la vérification'
+        error: t('verify.errorDuringVerification')
       };
       setResult(errorResult);
       onVerificationComplete?.(errorResult);
-      toast.error('Erreur lors de la vérification');
+      toast.error(t('verify.errorDuringVerification'));
     } finally {
       setIsVerifying(false);
     }
@@ -114,9 +116,9 @@ const VerifyCertificate = ({
   const copyToClipboard = async (text, label) => {
     try {
       await navigator.clipboard.writeText(text);
-      toast.success(`${label} copié !`);
+      toast.success(t('verify.hashCopied'));
     } catch (error) {
-      toast.error('Erreur lors de la copie');
+      toast.error(t('verify.copyError'));
     }
   };
 
@@ -139,13 +141,13 @@ const VerifyCertificate = ({
   const getInputPlaceholder = () => {
     switch (inputType) {
       case 'hash':
-        return 'Entrez le hash SHA256 du document (0x...)';
+        return t('verify.hashPlaceholder');
       case 'tokenId':
-        return 'Entrez l\'ID du token NFT';
+        return t('verify.enterTokenId');
       case 'address':
-        return 'Entrez l\'adresse du propriétaire (0x...)';
+        return t('verify.addressPlaceholder');
       default:
-        return 'Entrez le hash, token ID ou adresse à vérifier';
+        return t('verify.searchPlaceholder');
     }
   };
 
@@ -166,10 +168,10 @@ const VerifyCertificate = ({
               </div>
             </div>
             <h2 className="text-2xl font-bold text-white font-poppins">
-              Vérifier un certificat
+              {t('verify.title')}
             </h2>
             <p className="text-gray-400">
-              Entrez un hash SHA256, un ID de token NFT ou une adresse pour vérifier l'authenticité
+              {t('verify.enterHashOrId')}
             </p>
           </div>
 
@@ -177,9 +179,9 @@ const VerifyCertificate = ({
           <div className="flex justify-center">
             <div className="flex bg-dark-800 rounded-xl p-1 border border-gray-600">
               {[
-                { key: 'hash', label: 'Hash SHA256', icon: Hash },
-                { key: 'tokenId', label: 'Token ID', icon: Sparkles },
-                { key: 'address', label: 'Adresse', icon: User }
+                { key: 'hash', label: t('verify.hashLabel'), icon: Hash },
+                { key: 'tokenId', label: t('verify.tokenIdLabel'), icon: Sparkles },
+                { key: 'address', label: t('verify.addressLabel'), icon: User }
               ].map(({ key, label, icon: Icon }) => (
                 <button
                   key={key}
@@ -231,7 +233,7 @@ const VerifyCertificate = ({
               >
                 <QrCode className="w-16 h-16 text-gray-400 mx-auto mb-4" />
                 <p className="text-gray-400">
-                  Scanner QR non implémenté dans cette démo
+                  {t('verify.qrScannerNotImplemented')}
                 </p>
               </motion.div>
             )}
@@ -253,12 +255,12 @@ const VerifyCertificate = ({
               {isVerifying ? (
                 <>
                   <Loader2 className="w-5 h-5 animate-spin" />
-                  Vérification en cours...
+                  {t('verify.verifyingButton')}
                 </>
               ) : (
                 <>
                   <Search className="w-5 h-5" />
-                  Vérifier le certificat
+                  {t('verify.verifyButton')}
                 </>
               )}
             </motion.button>
@@ -308,12 +310,12 @@ const VerifyCertificate = ({
                 text-2xl font-bold font-poppins mb-2
                 ${result.isValid ? 'text-success-400' : 'text-red-400'}
               `}>
-                {result.isValid ? 'Certificat vérifié ✓' : 'Certificat non valide ✗'}
+                {result.isValid ? t('verify.validCertificate') : t('verify.invalidCertificate')}
               </h3>
               <p className="text-gray-400">
                 {result.isValid 
-                  ? 'Ce certificat est authentique et vérifié sur la blockchain' 
-                  : result.error || 'Ce certificat n\'a pas pu être vérifié'
+                  ? t('verify.certificateAuthentic') 
+                  : result.error || t('verify.certificateNotVerified')
                 }
               </p>
             </div>
@@ -342,7 +344,7 @@ const VerifyCertificate = ({
 
                     <div className="space-y-3">
                       <div className="flex items-center justify-between">
-                        <span className="text-gray-400 text-sm">Propriétaire:</span>
+                        <span className="text-gray-400 text-sm">{t('verify.owner')}:</span>
                         <div className="flex items-center gap-2">
                           <code className="text-gray-300 text-sm">
                             {formatAddress(result.certificate.walletAddress)}

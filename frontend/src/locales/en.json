@@ -1,22 +1,26 @@
 {
   "nav": {
     "home": "Home",
-    "upload": "Upload", 
+    "upload": "Create certificate", 
     "mint": "Mint",
     "verify": "Verify",
-    "certificates": "Certificates",
+    "certificates": "My certificates",
     "about": "About",
-    "connectWallet": "Connect Wallet",
-    "disconnect": "Disconnect"
+    "connectWallet": "Connect wallet",
+    "disconnect": "Disconnect",
+    "connected": "Connected:",
+    "connecting": "Connecting...",
+    "connectMetaMask": "Connect MetaMask",
+    "languageLabel": "Langue / Language:"
   },
   "home": {
-    "title": "Decentralized Proof",
-    "subtitle": "Protocol",
+    "title": "Decentralized proof",
+    "subtitle": "protocol",
     "description": "Certify any digital proof using blockchain, IPFS and cryptographic signatures.",
     "inspiration": "Inspired by Bitcoin's revolution of money, we revolutionize digital trust.",
-    "startMinting": "Start Minting Certificates",
-    "connectToStart": "Connect Wallet to Start",
-    "verifyCertificate": "Verify a Certificate",
+    "startMinting": "Create my first certificate", 
+    "connectToStart": "Connect my wallet",
+    "verifyCertificate": "Verify a certificate",
     "trustedBy": "Free to use • Open source • No registration required",
     "features": {
       "cryptographicSecurity": {
@@ -40,8 +44,28 @@
         "description": "Fully open source under MIT license, transparent and community-driven."
       },
       "instantVerification": {
-        "title": "Instant Verification",
-        "description": "QR codes and direct links enable instant proof verification anywhere."
+        "title": "Instant verification",
+        "description": "Real-time authenticity validation via QR code or hash. Truth becomes accessible to all, instantly and without intermediaries."
+      },
+      "cryptographicSecurity2": {
+        "title": "Absolute cryptographic security",
+        "description": "Each document is protected by a unique SHA-256 hash and tamper-proof cryptographic signatures, guaranteeing its integrity for eternity."
+      },
+      "decentralizedStorage2": {
+        "title": "IPFS decentralization", 
+        "description": "Distributed storage on the global IPFS network. Your documents depend on no central authority and remain permanently accessible."
+      },
+      "nftOwnership": {
+        "title": "Proven NFT ownership",
+        "description": "Automatic transformation into NFT on Polygon. Each certificate becomes a unique digital asset of which you are the indisputable owner."
+      },
+      "dataSovereignty": {
+        "title": "Data sovereignty",
+        "description": "Your personal information remains private. Only the cryptographic fingerprint is public, preserving your absolute confidentiality."
+      },
+      "openSourceRevolution": {
+        "title": "Open source revolution",
+        "description": "Fully open, auditable and transparent code. Built by the community for a new era of decentralized trust."
       }
     },
     "stats": {
@@ -52,88 +76,249 @@
     },
     "steps": {
       "title": "How it works",
-      "subtitle": "Three simple steps to certify your documents",
+      "subtitle": "Three simple steps to secure your documents on the blockchain",
       "step1": {
         "title": "Upload",
-        "description": "Upload your document to our secure platform"
+        "description": "Upload your document (PDF, image, text). The system automatically calculates its unique SHA-256 fingerprint."
       },
       "step2": {
-        "title": "Hash",
-        "description": "Automatic generation of a unique cryptographic hash"
+        "title": "Certify",
+        "description": "Generate your blockchain certificate and mint a unique NFT. Your document is stored in a decentralized manner on IPFS."
       },
       "step3": {
-        "title": "Share & Verify",
-        "description": "Share your certificate via QR code or link. Anyone can verify its authenticity instantly on the blockchain."
+        "title": "Verify",
+        "description": "Share the QR code or hash to allow anyone to instantly verify the authenticity of your document."
       }
     },
     "cta": {
-      "title": "Ready to Create Your First Certificate?",
-      "subtitle": "Join the decentralized future of digital trust. Start minting tamper-proof certificates today.",
-      "uploadFirst": "Upload Your First Document",
-      "connectWallet": "Connect Wallet",
-      "learnMore": "Learn More"
+      "title": "Ready to create your first certificate?",
+      "subtitle": "Join the revolution of decentralized trust. Secure your documents on the blockchain in just a few clicks.",
+      "uploadFirst": "Create my certificate",
+      "connectWallet": "Connect my wallet",
+      "learnMore": "Learn more"
     },
     "whyChoose": {
-      "title": "Why Choose CertiProof X?",
-      "subtitle": "Built on proven blockchain technology with a focus on security, privacy, and ease of use."
+      "title": "Revolutionizing digital trust",
+      "subtitle": "Inspired by Bitcoin's revolution of money, CertiProof X revolutionizes certification and trust in the digital world through blockchain."
     }
   },
   "upload": {
-    "title": "Upload Document",
-    "subtitle": "Select the file you want to certify",
+    "title": "Create certificate",
+    "subtitle": "Select a file to create a tamper-proof blockchain certificate",
+    "connectWalletRequired": "Please connect your wallet to upload documents",
     "dragAndDrop": "Drag & drop your files here, or click to select",
     "supportedFormats": "Supported formats: PDF, Images, Documents",
     "maxSize": "Max size: 50MB",
     "processing": "Processing...",
     "success": "File uploaded successfully!",
-    "error": "Error uploading file"
+    "error": "Error uploading file",
+    "fileTooLarge": "File too large. Maximum size: 50MB.",
+    "fileProcessedSuccess": "File processed successfully!",
+    "fileProcessingError": "Error processing file.",
+    "generateCertificate": "Generate certificate",
+    "mintNFT": "Mint NFT",
+    "certificateGenerated": "Certificate generated!",
+    "fileHash": "File hash",
+    "ipfsStored": "Stored on IPFS",
+    "selectedFile": "Selected file",
+    "dropFileHere": "Drop your file here",
+    "uploadDocument": "Upload document",
+    "dragDropOrClick": "Drag & drop or click to select",
+    "supportedFormatsDetail": "Supported formats: PDF, PNG, JPG, TXT (max 50MB)",
+    "calculatingHash": "Calculating hash...",
+    "actions": "Actions",
+    "generating": "Generating...",
+    "minting": "Minting...",
+    "nftMintedSuccess": "NFT minted successfully!",
+    "sha256Hash": "SHA256 Hash",
+    "continueToVerification": "Continue to Certificate",
+    "fileHashedLocally": "Your file will be hashed locally for security. Only the hash is stored on the blockchain.",
+    "generateFirst": "Generate certificate first",
+    "fileTypeNotSupported": "File type not supported. Please upload PDF, image, or text files.",
+    "fileSelectedSuccess": "File selected successfully!",
+    "selectFileFirst": "Please select a file first.",
+    "connectWalletFirst": "Please connect your wallet first.",
+    "fileUploadedSuccess": "File uploaded successfully!",
+    "uploadFailed": "Upload failed. Please try again.",
+    "dragDropFile": "Drag & drop your file",
+    "orClickToBrowse": "or click to browse",
+    "supportedFormats": "PDF, JPG, PNG, GIF, TXT up to 50MB",
+    "uploading": "Uploading..."
   },
   "verify": {
-    "title": "Verify Certificate",
+    "title": "Verify certificate",
     "subtitle": "Enter token ID or scan QR code",
     "tokenId": "Token ID",
     "enterTokenId": "Enter NFT token ID",
-    "scanQR": "Scan QR Code",
+    "scanQR": "Scan QR code",
     "verify": "Verify",
     "verifying": "Verifying...",
-    "valid": "Valid Certificate",
-    "invalid": "Invalid Certificate",
-    "notFound": "Certificate not found"
+    "valid": "Certificate verified successfully!",
+    "invalid": "Invalid or not found certificate",
+    "notFound": "Certificate not found",
+    "enterHashOrId": "Enter hash, token ID or address",
+    "searchPlaceholder": "0x... or token ID or address",
+    "checkingBlockchain": "Verifying on blockchain...",
+    "certificateDetails": "Certificate details",
+    "issueDate": "Issue date",
+    "documentHash": "Document hash",
+    "owner": "Owner",
+    "contractAddress": "Contract address",
+    "tokenIdLabel": "Token ID",
+    "network": "Network",
+    "validCertificate": "Valid certificate",
+    "invalidCertificate": "Invalid certificate",
+    "copyHash": "Copy hash",
+    "viewOnExplorer": "View on explorer",
+    "hashCopied": "Hash copied!",
+    "errorDuringVerification": "Error during verification",
+    "hashPlaceholder": "Enter document SHA256 hash (0x...)",
+    "addressPlaceholder": "Enter owner address (0x...)",
+    "hashLabel": "SHA256 Hash",
+    "addressLabel": "Address",
+    "copyError": "Error copying",
+    "qrScannerNotImplemented": "QR scanner not implemented in this demo",
+    "verifyButton": "Verify certificate",
+    "verifyingButton": "Verifying...",
+    "certificateAuthentic": "This certificate is authentic and verified on the blockchain",
+    "certificateNotVerified": "This certificate could not be verified",
+    "owner": "Owner",
+    "enterTokenId": "Enter NFT token ID",
+    "searchPlaceholder": "Enter hash, token ID or address to verify",
+    "enterHashOrId": "Enter a SHA256 hash, NFT token ID or address to verify authenticity",
+    "tokenIdLabel": "Token ID"
   },
   "mint": {
-    "title": "Mint Certificate",
-    "subtitle": "This page is under development. The minting functionality will be available soon.",
-    "comingSoon": "Coming Soon",
-    "inDevelopment": "The certificate minting interface is being developed."
+    "title": "Create Certificate",
+    "subtitle": "Transform your documents into secure and verifiable NFT certificates on the blockchain",
+    "connectWalletFirst": "Connect Your Wallet",
+    "connectWalletDescription": "To create NFT certificates, you must first connect your crypto wallet.",
+    "connectWallet": "Connect Wallet",
+    "selectDocument": "Select Document",
+    "dragDropFiles": "Drag and drop your files here, or click to select",
+    "supportedFormats": "Supported formats: PDF, Images, Office Documents (Max 50MB)",
+    "removeFile": "Remove file",
+    "certificateDetails": "Certificate Details",
+    "titlePlaceholder": "Enter certificate title",
+    "documentType": "Document Type",
+    "description": "Description",
+    "descriptionPlaceholder": "Optional certificate description",
+    "recipient": "Recipient",
+    "optional": "optional",
+    "recipientPlaceholder": "Recipient address (default: your address)",
+    "recipientHint": "Leave empty to create the certificate in your name",
+    "types": {
+      "certificate": "Certificate",
+      "diploma": "Diploma",
+      "license": "License",
+      "proof": "Proof",
+      "document": "Document",
+      "other": "Other"
+    },
+    "reset": "Reset",
+    "mintCertificate": "Create Certificate",
+    "minting": "Creating...",
+    "networkInfo": "Network Information",
+    "network": "Network",
+    "account": "Account",
+    "contract": "Contract",
+    "progress": "Progress",
+    "steps": {
+      "upload": "File upload",
+      "hash": "Hash generation",
+      "ipfs": "IPFS storage",
+      "mint": "NFT creation",
+      "success": "Success!"
+    },
+    "waitingForConfirmation": "Waiting for transaction confirmation...",
+    "successfullyMinted": "Certificate created successfully!",
+    "mintingFailed": "Error creating certificate",
+    "mintSuccess": "Certificate Created!",
+    "tokenId": "Token ID",
+    "transaction": "Transaction",
+    "verifyCertificate": "Verify Certificate",
+    "mintAnother": "Create Another Certificate",
+    "pleaseSelectFile": "Please select a file",
+    "pleaseConnectWallet": "Please connect your wallet",
+    "contractNotAvailable": "Contract not available on this network",
+    "fileTooLarge": "File too large (max 50MB)",
+    "fileTypeNotAllowed": "File type not allowed"
   },
   "certificates": {
-    "title": "My Certificates",
-    "subtitle": "Manage all your NFT certificates",
+    "title": "My certificates",
+    "subtitle": "Discover and manage your verified blockchain certificates",
     "noCertificates": "No certificates found",
-    "loading": "Loading certificates..."
+    "loading": "Loading certificates...",
+    "createFirstCertificate": "Create your first certificate to get started",
+    "createCertificate": "Create certificate"
+  },
+  "certificateCard": {
+    "copied": "{{field}} copied!",
+    "copyError": "Error copying",
+    "sha256Hash": "SHA256 Hash",
+    "owner": "Owner",
+    "createdAt": "Created on",
+    "verificationQRCode": "Verification QR Code",
+    "scanToVerify": "Scan to verify authenticity",
+    "verify": "Verify",
+    "viewDetails": "View details",
+    "viewOnPolygonscan": "View on Polygonscan"
   },
   "about": {
     "title": "About CertiProof X",
-    "subtitle": "Revolutionizing digital trust with blockchain"
+    "subtitle": "Revolutionizing digital trust through blockchain technology",
+    "mission": {
+      "title": "Our mission",
+      "description": "CertiProof X aims to revolutionize digital trust by providing a decentralized and tamper-proof system for certifying any digital proof. Inspired by Bitcoin's revolution of money, we are building the future of digital verification."
+    },
+    "technology": {
+      "title": "Technology stack",
+      "blockchain": {
+        "title": "🔗 Blockchain",
+        "description": "Ethereum and Polygon networks ensure immutability and decentralization"
+      },
+      "ipfs": {
+        "title": "🌐 IPFS",
+        "description": "Distributed storage for permanent file availability"
+      },
+      "crypto": {
+        "title": "🔐 Cryptography",
+        "description": "SHA-256 hashing and digital signatures for maximum security"
+      },
+      "nft": {
+        "title": "🖼️ NFT",
+        "description": "Certificates as ERC-721 tokens for ownership and transferability"
+      },
+      "react": {
+        "title": "⚛️ React",
+        "description": "Modern and responsive user interface with Tailwind CSS"
+      },
+      "wallet": {
+        "title": "🦊 Web3 Integration",
+        "description": "MetaMask connection and full integration with the Web3 ecosystem"
+      }
+    }
   },
   "footer": {
-    "description": "Decentralized Proof Protocol for certifying digital proofs using blockchain, IPFS and cryptographic signatures.",
-    "product": "Product",
+    "description": "Decentralized certification protocol for document authentication on blockchain",
+    "product": "Features",
     "resources": "Resources", 
     "legal": "Legal",
-    "uploadDocuments": "Upload Documents",
-    "mintCertificates": "Mint Certificates",
-    "verifyProofs": "Verify Proofs",
-    "viewCertificates": "View Certificates",
-    "documentation": "Documentation",
-    "apiReference": "API Reference",
-    "smartContract": "Smart Contract",
-    "privacyPolicy": "Privacy Policy",
-    "termsOfService": "Terms of Service",
+    "uploadDocuments": "Create certificate",
+    "mintCertificates": "Create certificates",
+    "verifyProofs": "Verify authenticity",
+    "viewCertificates": "My certificates",
+    "documentation": "GitHub source code",
+    "apiReference": "Technical documentation",
+    "smartContract": "Polygon Mumbai explorer",
+    "privacyPolicy": "Privacy policy",
+    "termsOfService": "Terms of service",
     "mitLicense": "MIT License",
     "allRightsReserved": "All rights reserved.",
     "builtBy": "Built by",
-    "poweredBy": "Powered by"
+    "poweredBy": "Powered by",
+    "openSource": "Open Source",
+    "decentralized": "Decentralized"
   },
   "common": {
     "loading": "Loading...",

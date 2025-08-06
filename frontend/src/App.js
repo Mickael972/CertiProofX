@@ -20,7 +20,6 @@ import { I18nProvider } from './contexts/I18nContext';
 
 // Lazy load pages for better performance
 const Home = lazy(() => import('./pages/Home'));
-const Upload = lazy(() => import('./pages/Upload'));
 const Mint = lazy(() => import('./pages/Mint'));
 const Verify = lazy(() => import('./pages/Verify'));
 const Certificates = lazy(() => import('./pages/Certificates'));
@@ -97,7 +96,7 @@ function App() {
                     <Routes>
                       {/* Public routes */}
                       <Route path="/" element={<Home />} />
-                      <Route path="/upload" element={<Upload />} />
+                      <Route path="/upload" element={<Mint />} />
                       <Route path="/mint" element={<Mint />} />
                       <Route path="/verify" element={<Verify />} />
                       <Route path="/verify/:tokenId" element={<Verify />} />
