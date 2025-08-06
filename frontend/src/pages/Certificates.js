@@ -3,7 +3,7 @@
  * Author: Kai Zenjiro (0xGenesis) - certiproofx@protonmail.me
  */
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { motion } from 'framer-motion';
 import { useT } from '../contexts/I18nContext';
@@ -11,6 +11,15 @@ import CertificateCard from '../components/CertificateCard';
 
 const Certificates = () => {
   const t = useT();
+  
+  // Charger les certificats du localStorage + données d'exemple
+  const [userCertificates, setUserCertificates] = useState([]);
+  
+  useEffect(() => {
+    const savedCerts = JSON.parse(localStorage.getItem('userCertificates') || '[]');
+    setUserCertificates(savedCerts);
+  }, []);
+  
   // Données d'exemple de certificats
   const exampleCertificates = [
     {
@@ -66,6 +75,29 @@ const Certificates = () => {
 
             {/* Grille de certificats */}
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+              {/* Certificats utilisateur en premier */}
+              {userCertificates.map((certificate, index) => (
+                <motion.div
+                  key={certificate.id}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: index * 0.1 }}
+                >
+                  <CertificateCard
+                    certificate={certificate}
+                    onVerify={(hash) => {
+                      console.log('Verifying certificate:', hash);
+                      // Utiliser query param pour que VerifyCertificate puisse chercher dans localStorage
+                      window.location.href = `/verify?hash=${hash}`;
+                    }}
+                    onView={(cert) => {
+                      console.log('Viewing certificate details:', cert);
+                    }}
+                  />
+                </motion.div>
+              ))}
+              
+              {/* Puis les certificats d'exemple */}
               {exampleCertificates.map((certificate, index) => (
                 <motion.div
                   key={certificate.id}
@@ -77,7 +109,8 @@ const Certificates = () => {
                     certificate={certificate}
                     onVerify={(hash) => {
                       console.log('Verifying certificate:', hash);
-                      window.location.href = `/verify/${hash}`;
+                      // Utiliser query param pour que VerifyCertificate puisse chercher dans localStorage
+                      window.location.href = `/verify?hash=${hash}`;
                     }}
                     onView={(cert) => {
                       console.log('Viewing certificate details:', cert);
@@ -88,7 +121,7 @@ const Certificates = () => {
             </div>
 
             {/* Message si aucun certificat */}
-            {exampleCertificates.length === 0 && (
+            {userCertificates.length === 0 && exampleCertificates.length === 0 && (
               <motion.div
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}

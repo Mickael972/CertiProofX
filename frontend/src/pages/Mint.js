@@ -20,6 +20,8 @@ const Mint = () => {
     network 
   } = useWeb3();
 
+
+
   // Form state
   const [formData, setFormData] = useState({
     title: '',
@@ -246,14 +248,38 @@ const Mint = () => {
       }
 
       setMintResult({
+        // NFT/Blockchain Data
         tokenId,
         transactionHash: receipt.hash,
+        contractAddress: contract.target || contract.address,
+        networkName: network?.name || 'Unknown',
+        blockNumber: receipt.blockNumber,
+        
+        // Document Data
         fileHash,
         ipfsHash,
-        recipient: formData.recipient || account,
-        title: formData.title,
+        ipfsUrl: `ipfs://${ipfsHash}`,
+        
+        // Certificate Metadata (compatible avec CertificateCard)
+        id: `cert_${Date.now()}`,
+        name: formData.title,              // title → name pour CertificateCard
+        title: formData.title,             // garde title aussi
+        description: formData.description,
         documentType: formData.documentType,
-        networkName: network?.name || 'Unknown'
+        
+        // User Data
+        recipient: formData.recipient || account,
+        walletAddress: formData.recipient || account, // recipient → walletAddress pour CertificateCard
+        issuer: account,
+        
+        // Timestamps
+        createdAt: new Date().toISOString(),
+        mintedAt: new Date().toISOString(),
+        
+        // Status
+        isVerified: true,
+        isActive: true,
+        network: network?.name?.toLowerCase() || 'unknown'
       });
 
       updateStep(4, 'completed');
@@ -618,6 +644,20 @@ const Mint = () => {
                           className="w-full px-4 py-2 bg-success-600 text-white rounded-md hover:bg-success-700 transition-colors text-sm"
                         >
                           {t('mint.verifyCertificate')}
+                        </button>
+                        <button
+                          onClick={() => {
+                            // Sauvegarder le certificat dans localStorage pour l'afficher dans /certificates
+                            const savedCerts = JSON.parse(localStorage.getItem('userCertificates') || '[]');
+                            savedCerts.unshift(mintResult); // Ajouter en premier
+                            localStorage.setItem('userCertificates', JSON.stringify(savedCerts));
+                            
+                            // Naviguer vers la page certificats
+                            window.location.href = '/certificates';
+                          }}
+                          className="w-full px-4 py-2 bg-primary-600 text-white rounded-md hover:bg-primary-700 transition-colors text-sm"
+                        >
+                          {t('mint.viewCertificate')}
                         </button>
                         <button
                           onClick={resetForm}

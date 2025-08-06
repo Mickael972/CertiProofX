@@ -19,8 +19,7 @@
     "lint": "eslint src/ --ext .js",
     "lint:fix": "eslint src/ --ext .js --fix",
     "format": "prettier --write src/**/*.js",
-    "docker:build": "docker build -t certiproof-x-backend .",
-    "docker:run": "docker run -p 3001:3001 certiproof-x-backend"
+
   },
   "dependencies": {
     "express": "^4.21.1",

@@ -61,6 +61,24 @@ const CertificateCard = ({
   // URL pour le QR code (lien de vérification)
   const verificationUrl = `${window.location.origin}/verify/${certificate.hash}`;
 
+  // Fonction pour générer les liens blockchain selon le réseau
+  const getBlockExplorerUrl = (type, value) => {
+    const network = certificate.network?.toLowerCase() || 'mumbai';
+    
+    if (network.includes('mumbai')) {
+      return `https://mumbai.polygonscan.com/${type}/${value}`;
+    } else if (network.includes('polygon')) {
+      return `https://polygonscan.com/${type}/${value}`;
+    } else if (network.includes('ethereum')) {
+      return `https://etherscan.io/${type}/${value}`;
+    } else if (network.includes('goerli')) {
+      return `https://goerli.etherscan.io/${type}/${value}`;
+    }
+    
+    // Fallback vers Polygon mainnet
+    return `https://polygonscan.com/${type}/${value}`;
+  };
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -238,9 +256,23 @@ const CertificateCard = ({
               {t('certificateCard.viewDetails')}
             </motion.button>
 
+            {certificate.transactionHash && (
+              <motion.a
+                href={getBlockExplorerUrl('tx', certificate.transactionHash)}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-full flex items-center justify-center gap-2 px-4 py-2 bg-dark-700 hover:bg-dark-600 text-gray-300 font-medium rounded-xl transition-all duration-200 border border-gray-600"
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+              >
+                <ExternalLink className="w-4 h-4" />
+                {t('certificateCard.viewTransaction')}
+              </motion.a>
+            )}
+            
             {certificate.contractAddress && (
               <motion.a
-                href={`https://mumbai.polygonscan.com/address/${certificate.contractAddress}`}
+                href={getBlockExplorerUrl('address', certificate.contractAddress)}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-full flex items-center justify-center gap-2 px-4 py-2 bg-dark-700 hover:bg-dark-600 text-gray-300 font-medium rounded-xl transition-all duration-200 border border-gray-600"

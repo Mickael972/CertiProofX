@@ -4,7 +4,7 @@
  */
 
 import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useSearchParams } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import toast from 'react-hot-toast';
 import { useT } from '../contexts/I18nContext';
@@ -13,7 +13,12 @@ import VerifyCertificate from '../components/VerifyCertificate';
 
 const Verify = () => {
   const { tokenId } = useParams();
+  const [searchParams] = useSearchParams();
+  const hashFromQuery = searchParams.get('hash');
   const t = useT();
+  
+  // Utiliser le hash des query params en priorité, puis tokenId des params
+  const initialHashValue = hashFromQuery || tokenId;
 
   return (
     <>
@@ -36,7 +41,7 @@ const Verify = () => {
 
             {/* Nouveau composant VerifyCertificate */}
             <VerifyCertificate
-              initialHash={tokenId}
+              initialHash={initialHashValue}
               onVerificationComplete={(result) => {
                 console.log('Verification completed:', result);
                 if (result.isValid) {

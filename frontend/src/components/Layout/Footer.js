@@ -146,7 +146,7 @@ const Footer = () => {
                 </li>
                 <li>
                   <a
-                    href="https://mumbai.polygonscan.com"
+                    href="https://polygonscan.com"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="text-sm text-gray-400 hover:text-primary-400 transition-colors"

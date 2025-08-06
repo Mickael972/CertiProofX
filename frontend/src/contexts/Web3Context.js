@@ -235,8 +235,10 @@ export const Web3Provider = ({ children }) => {
       const contractAddress = CONTRACT_ADDRESSES[chainId];
       let contract = null;
       
-      if (contractAddress) {
+      if (contractAddress && contractAddress !== '0x0000000000000000000000000000000000000000') {
         contract = new ethers.Contract(contractAddress, CERTIPROOF_ABI, signer);
+      } else {
+        throw new Error(`Contract not deployed on network ${chainId}. Please deploy the contract first.`);
       }
 
       // Update state

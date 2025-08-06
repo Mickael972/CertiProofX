@@ -186,7 +186,12 @@
     "enterTokenId": "Enter NFT token ID",
     "searchPlaceholder": "Enter hash, token ID or address to verify",
     "enterHashOrId": "Enter a SHA256 hash, NFT token ID or address to verify authenticity",
-    "tokenIdLabel": "Token ID"
+    "tokenIdLabel": "Token ID",
+    "viewOnIPFS": "View on IPFS",
+    "pleaseEnterValue": "Please enter a value to verify",
+    "yourCertificateVerified": "Your certificate has been successfully verified!",
+    "yourCertificateTitle": "Your NFT Certificate",
+    "yourCertificateDesc": "This is your NFT certificate that you created. It is authentic and verified on the blockchain."
   },
   "mint": {
     "title": "Create Certificate",
@@ -237,6 +242,7 @@
     "tokenId": "Token ID",
     "transaction": "Transaction",
     "verifyCertificate": "Verify Certificate",
+    "viewCertificate": "View Certificate",
     "mintAnother": "Create Another Certificate",
     "pleaseSelectFile": "Please select a file",
     "pleaseConnectWallet": "Please connect your wallet",
@@ -262,7 +268,8 @@
     "scanToVerify": "Scan to verify authenticity",
     "verify": "Verify",
     "viewDetails": "View details",
-    "viewOnPolygonscan": "View on Polygonscan"
+    "viewOnPolygonscan": "View on Polygonscan",
+    "viewTransaction": "View transaction"
   },
   "about": {
     "title": "About CertiProof X",
