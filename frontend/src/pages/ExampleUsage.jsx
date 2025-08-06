@@ -103,11 +103,11 @@ const ExampleUsage = () => {
               <UploadDocument
                 onFileProcessed={(file, hash) => {
                   // eslint-disable-next-line no-console
-                  console.log('File processed:', file.name, hash)
+                  console.log('File processed:', file.name, hash);
                 }}
                 onMintNFT={(file, hash) => {
                   // eslint-disable-next-line no-console
-                  console.log('Minting NFT for:', file.name, hash)
+                  console.log('Minting NFT for:', file.name, hash);
                 }}
               />
             </div>
@@ -129,11 +129,11 @@ const ExampleUsage = () => {
                   certificate={exampleCertificate}
                   onVerify={(hash) => {
                     // eslint-disable-next-line no-console
-                    console.log('Verifying:', hash)
+                    console.log('Verifying:', hash);
                   }}
                   onView={(cert) => {
                     // eslint-disable-next-line no-console
-                    console.log('Viewing:', cert)
+                    console.log('Viewing:', cert);
                   }}
                 />
               </div>
@@ -154,7 +154,7 @@ const ExampleUsage = () => {
               <VerifyCertificate
                 onVerificationComplete={(result) => {
                   // eslint-disable-next-line no-console
-                  console.log('Verification result:', result)
+                  console.log('Verification result:', result);
                 }}
               />
             </div>
