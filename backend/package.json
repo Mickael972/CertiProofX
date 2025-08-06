@@ -19,6 +19,7 @@
     "lint": "eslint src/ --ext .js",
     "lint:fix": "eslint src/ --ext .js --fix",
     "format": "prettier --write src/**/*.js",
+    "test:coverage": "jest --coverage"
 
   },
   "dependencies": {
@@ -50,7 +51,8 @@
     "eslint": "^9.15.0",
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-prettier": "^5.2.1",
-    "prettier": "^3.4.1"
+    "prettier": "^3.4.1",
+    "@testing-library/jest-dom": "^6.4.2"
   },
   "jest": {
     "testEnvironment": "node",
