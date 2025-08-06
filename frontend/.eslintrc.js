@@ -24,6 +24,7 @@ module.exports = {
     'prettier/prettier': 'error',
     'no-unused-vars': 'warn',
     'no-console': 'warn',
+    'react-hooks/exhaustive-deps': 'warn',
   },
   settings: {
     react: {

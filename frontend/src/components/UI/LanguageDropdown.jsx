@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useRef, useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import { useTranslation } from '../../contexts/I18nContext';
 
@@ -7,6 +7,7 @@ const LanguageDropdown = ({ isOpen, onClose, buttonRef }) => {
   const dropdownRef = useRef(null);
 
   const handleLanguageChange = (langCode) => {
+    // eslint-disable-next-line no-console
     console.log('Changing language to:', langCode);
     changeLanguage(langCode);
     onClose();

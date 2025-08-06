@@ -88,7 +88,7 @@ const appReducer = (state, action) => {
       };
 
     case APP_ACTIONS.CLEAR_ERROR: {
-      const { [action.payload]: removed, ...remainingErrors } = state.errors;
+      const { [action.payload]: _removed, ...remainingErrors } = state.errors;
       return { ...state, errors: remainingErrors };
     }
 
@@ -188,6 +188,7 @@ export const AppProvider = ({ children }) => {
         }
       }
     } catch (error) {
+      // eslint-disable-next-line no-console
       console.warn('Failed to load saved state:', error);
     }
   }, []);
@@ -205,6 +206,7 @@ export const AppProvider = ({ children }) => {
 
       localStorage.setItem('certiproof-x-state', JSON.stringify(stateToSave));
     } catch (error) {
+      // eslint-disable-next-line no-console
       console.warn('Failed to save state:', error);
     }
   }, [

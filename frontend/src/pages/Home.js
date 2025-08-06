@@ -13,6 +13,7 @@ const Home = () => {
   const { isConnected, connectWallet } = useWeb3();
   const t = useT();
 
+  // eslint-disable-next-line no-unused-vars
   const features = [
     {
       icon: (

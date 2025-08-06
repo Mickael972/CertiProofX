@@ -3,7 +3,7 @@
  * Author: Kai Zenjiro (0xGenesis) - certiproofx@protonmail.me
  */
 
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef } from 'react';
 import { useTranslation } from '../../contexts/I18nContext';
 import LanguageDropdown from './LanguageDropdown';
 
@@ -20,6 +20,7 @@ const LanguageSwitcher = ({ className = '' }) => {
       <button
         ref={buttonRef}
         onClick={() => {
+          // eslint-disable-next-line no-console
           console.log('Language button clicked, isOpen:', !isOpen);
           setIsOpen(!isOpen);
         }}

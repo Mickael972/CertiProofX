@@ -7,7 +7,7 @@ import React, { useState, useRef, useCallback } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { useT } from '../contexts/I18nContext';
 import { useWeb3 } from '../contexts/Web3Context';
-import { ethers } from 'ethers';
+// import { ethers } from 'ethers';
 import toast from 'react-hot-toast';
 
 const Mint = () => {
@@ -286,6 +286,7 @@ const Mint = () => {
       updateStep(4, 'completed');
       toast.success(t('mint.successfullyMinted'), { id: 'mint-tx' });
     } catch (error) {
+      // eslint-disable-next-line no-console
       console.error('Minting failed:', error);
       toast.error(error.message || t('mint.mintingFailed'), { id: 'mint-tx' });
 
