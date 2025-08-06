@@ -47,7 +47,7 @@ const VerifyCertificate = ({ initialHash = '', onVerificationComplete }) => {
   };
 
   // Fonction de vérification
-  const handleVerification = async (value = inputValue) => {
+  const handleVerification = useCallback(async (value = inputValue) => {
     if (!value.trim()) {
       toast.error(t('verify.pleaseEnterValue'));
       return;
@@ -193,7 +193,7 @@ const VerifyCertificate = ({ initialHash = '', onVerificationComplete }) => {
     } finally {
       setIsVerifying(false);
     }
-  };
+  }, [inputValue, t]);
 
   // Copier dans le presse-papier
   // eslint-disable-next-line no-unused-vars

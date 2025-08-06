@@ -29,17 +29,18 @@ class ErrorBoundary extends React.Component {
     // In production, send to error reporting service
     if (process.env.NODE_ENV === 'production') {
       // Example: Sentry.captureException(error, { extra: errorInfo });
-      // Error captured in production
+      // eslint-disable-next-line no-console
+      console.log('Error captured in production');
     }
   }
 
-  handleReload = () => {
+  handleReload() {
     window.location.reload();
-  };
+  }
 
-  handleGoHome = () => {
+  handleGoHome() {
     window.location.href = '/';
-  };
+  }
 
   render() {
     if (this.state.hasError) {
