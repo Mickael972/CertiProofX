@@ -74,8 +74,8 @@ const About = () => {
                       🔐 Cryptographie
                     </h3>
                     <p className="text-gray-300">
-                      Hashage SHA-256 pour la vérification de l&apos;intégrité des
-                      documents
+                      Hashage SHA-256 pour la vérification de l&apos;intégrité
+                      des documents
                     </p>
                   </div>
                 </div>
