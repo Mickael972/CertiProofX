@@ -23,6 +23,7 @@ class ErrorBoundary extends React.Component {
 
     // Log error to console in development
     if (process.env.NODE_ENV === 'development') {
+      // eslint-disable-next-line no-console
       console.error('Error Boundary caught an error:', error, errorInfo);
     }
 
